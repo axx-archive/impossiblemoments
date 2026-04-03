@@ -2731,6 +2731,7 @@
 
     function tryPassword() {
       if (pwInput.value === PASS) {
+        sessionStorage.setItem('site_authed', '1');
         gate.classList.add('hidden');
         setTimeout(() => gate.style.display = 'none', 600);
       } else {
@@ -2740,8 +2741,12 @@
       }
     }
 
-    pwBtn.addEventListener('click', tryPassword);
-    pwInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryPassword(); });
+    if (sessionStorage.getItem('site_authed') === '1') {
+      gate.style.display = 'none';
+    } else {
+      pwBtn.addEventListener('click', tryPassword);
+      pwInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryPassword(); });
+    }
   </script>
 </body>
 </html>
