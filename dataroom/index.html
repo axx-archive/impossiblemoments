@@ -673,22 +673,9 @@
 
     /* ========== FAQ ========== */
 
-    .dr-faq {
-      padding: 4rem max(30px, 4vw) 6rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .dr-faq .dr-section-label {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 500;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: var(--cream-dim);
-      margin-bottom: 0.5rem;
-    }
-    .dr-faq .dr-section-title {
-      margin-bottom: 2.5rem;
+    .dr-faq-inline {
+      margin-top: 4rem;
+      max-width: 700px;
     }
     .dr-faq-list {
       display: flex;
@@ -913,6 +900,59 @@
         </div>
         <div class="dr-empty-text">No documents available yet</div>
       </div>
+
+      <!-- FAQ (inline in browser) -->
+      <div class="dr-faq-inline" id="drFaqInline">
+        <div class="dr-section-label" style="margin-top: 4rem;">Frequently Asked</div>
+        <div class="dr-section-title">Questions</div>
+        <div class="dr-faq-list">
+          <div class="dr-faq-item">
+            <button class="dr-faq-question">
+              <span>What is One Night Entertainment?</span>
+              <span class="dr-faq-arrow">+</span>
+            </button>
+            <div class="dr-faq-answer">
+              One Night Entertainment is an experiential entertainment company creating impossible, once-in-a-lifetime live moments. We combine cutting-edge technology with world-class talent to produce shows that redefine what's possible in live entertainment.
+            </div>
+          </div>
+          <div class="dr-faq-item">
+            <button class="dr-faq-question">
+              <span>What is the investment structure?</span>
+              <span class="dr-faq-arrow">+</span>
+            </button>
+            <div class="dr-faq-answer">
+              Please refer to the investment documents available in the data room above. For specific questions about terms, structure, or allocation, please contact our team directly at aj@onenightentertainment.com.
+            </div>
+          </div>
+          <div class="dr-faq-item">
+            <button class="dr-faq-question">
+              <span>What is the timeline for the first show?</span>
+              <span class="dr-faq-arrow">+</span>
+            </button>
+            <div class="dr-faq-answer">
+              Our first production is currently in active development with a targeted launch in 2027. Detailed timelines and milestones are outlined in the investor materials above.
+            </div>
+          </div>
+          <div class="dr-faq-item">
+            <button class="dr-faq-question">
+              <span>Who is on the leadership team?</span>
+              <span class="dr-faq-arrow">+</span>
+            </button>
+            <div class="dr-faq-answer">
+              One Night Entertainment is led by a team with deep experience across entertainment, technology, and live events. Full bios and backgrounds are included in the investor deck available in the documents section.
+            </div>
+          </div>
+          <div class="dr-faq-item">
+            <button class="dr-faq-question">
+              <span>How can I get in touch with the team?</span>
+              <span class="dr-faq-arrow">+</span>
+            </button>
+            <div class="dr-faq-answer">
+              For investor inquiries, please reach out to aj@onenightentertainment.com. We're happy to schedule a call to walk through the opportunity in more detail.
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Preview Panel -->
@@ -948,66 +988,6 @@
       </div>
     </aside>
   </main>
-
-  <!-- FAQ Section -->
-  <section class="dr-faq" id="drFaq" style="display: none;">
-    <div class="dr-faq-inner">
-      <div class="dr-section-label">Frequently Asked</div>
-      <div class="dr-section-title">Questions</div>
-
-      <div class="dr-faq-list">
-        <div class="dr-faq-item">
-          <button class="dr-faq-question">
-            <span>What is One Night Entertainment?</span>
-            <span class="dr-faq-arrow">+</span>
-          </button>
-          <div class="dr-faq-answer">
-            One Night Entertainment is an experiential entertainment company creating impossible, once-in-a-lifetime live moments. We combine cutting-edge technology with world-class talent to produce shows that redefine what's possible in live entertainment.
-          </div>
-        </div>
-
-        <div class="dr-faq-item">
-          <button class="dr-faq-question">
-            <span>What is the investment structure?</span>
-            <span class="dr-faq-arrow">+</span>
-          </button>
-          <div class="dr-faq-answer">
-            Please refer to the investment documents available in the data room above. For specific questions about terms, structure, or allocation, please contact our team directly at aj@onenightentertainment.com.
-          </div>
-        </div>
-
-        <div class="dr-faq-item">
-          <button class="dr-faq-question">
-            <span>What is the timeline for the first show?</span>
-            <span class="dr-faq-arrow">+</span>
-          </button>
-          <div class="dr-faq-answer">
-            Our first production is currently in active development with a targeted launch in 2027. Detailed timelines and milestones are outlined in the investor materials above.
-          </div>
-        </div>
-
-        <div class="dr-faq-item">
-          <button class="dr-faq-question">
-            <span>Who is on the leadership team?</span>
-            <span class="dr-faq-arrow">+</span>
-          </button>
-          <div class="dr-faq-answer">
-            One Night Entertainment is led by a team with deep experience across entertainment, technology, and live events. Full bios and backgrounds are included in the investor deck available in the documents section.
-          </div>
-        </div>
-
-        <div class="dr-faq-item">
-          <button class="dr-faq-question">
-            <span>How can I get in touch with the team?</span>
-            <span class="dr-faq-arrow">+</span>
-          </button>
-          <div class="dr-faq-answer">
-            For investor inquiries, please reach out to aj@onenightentertainment.com. We're happy to schedule a call to walk through the opportunity in more detail.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <div class="dr-back" id="drBack" style="display: none;">
     <a href="/">Back to One Night Entertainment</a>
@@ -1186,7 +1166,6 @@
       emailGate.classList.add('hidden');
       drHeader.style.display = 'flex';
       drBack.style.display = 'block';
-      document.getElementById('drFaq').style.display = 'block';
       drMain.classList.add('visible');
       userEmailEl.textContent = currentInvestor.email;
 
