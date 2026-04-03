@@ -153,32 +153,6 @@
       display: none;
     }
 
-    @media (max-width: 768px) {
-      body { cursor: default; overflow: hidden; }
-      .cursor { display: none; }
-
-      .mobile-gate {
-        display: flex;
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        background: var(--black-warm);
-        align-items: center;
-        justify-content: center;
-      }
-
-      .mobile-gate-text {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 1rem;
-        font-weight: 300;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--amber-light);
-        text-align: center;
-        padding: 2rem;
-      }
-    }
-
     /* ========== EASTER EGG ========== */
 
     @keyframes eggPulse {
@@ -1832,9 +1806,6 @@
       box-shadow: 0 0 8px rgba(196,148,60,0.5);
     }
 
-    @media (max-width: 768px) {
-      .partner-credentials { flex-direction: column; gap: 2rem; align-items: center; }
-    }
 
     /* ========== VENTURES ========== */
 
@@ -2364,13 +2335,103 @@
     /* ========== RESPONSIVE ========== */
 
     @media (max-width: 768px) {
-      .taxonomy-grid { grid-template-columns: 1fr; gap: 0; }
-      .shows-grid { grid-template-columns: 1fr; }
-      .genesis-stats { flex-direction: column; gap: 2rem; align-items: center; }
+      /* -- Base -- */
+      body { cursor: default; overflow-x: hidden; }
+      .cursor { display: none; }
+      .mobile-gate { display: none !important; }
+
+      /* -- Hero -- */
+      .hero { padding: 0 1.5rem; }
+      .hero-night { font-size: clamp(3.5rem, 18vw, 6rem); }
+      .hero-ent { font-size: 0.55rem; letter-spacing: 0.5em; text-indent: 0.5em; margin-top: 0.8rem; }
+      .hero-tagline { bottom: 100px; font-size: 0.6rem; letter-spacing: 0.2em; padding: 0 1.5rem; }
+      .golden-circle { width: min(320px, 80vw); height: min(320px, 80vw); }
+      .scroll-indicator { bottom: 24px; }
+      .scroll-indicator span { font-size: 0.5rem; }
+
+      /* -- Taxonomy: horizontal swipe carousel -- */
+      .taxonomy { padding: 80px 1.5rem; min-height: auto; }
+      .taxonomy .section-headline { font-size: 1.6rem; margin-bottom: 1rem; }
+      .taxonomy-unclaimed { font-size: 1.2rem; margin-bottom: 2rem; }
+      .taxonomy-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 0;
+        padding-bottom: 1rem;
+        scrollbar-width: none;
+      }
+      .taxonomy-grid::-webkit-scrollbar { display: none; }
+      .taxonomy-card {
+        min-width: 80vw;
+        scroll-snap-align: center;
+        flex-shrink: 0;
+        padding: 2rem 1.8rem;
+      }
+      .taxonomy-card .example { font-size: 1.4rem; }
+      .taxonomy-card p { font-size: 1rem; }
+
+      /* -- Genesis -- */
+      .genesis { padding: 80px 1.5rem; min-height: auto; }
+      .genesis .section-headline { font-size: 1.6rem; }
+      .genesis-body { font-size: 1.1rem; line-height: 1.7; margin-bottom: 2.5rem; }
+      .genesis-stats { flex-direction: column; gap: 2rem; align-items: center; margin-bottom: 2.5rem; }
+      .genesis-stat .number { font-size: 2.4rem; }
+      .genesis-stat .label { font-size: 0.65rem; }
+      .genesis-question { padding: 1.5rem 1.5rem; }
+      .genesis-question-big { font-size: 1.1rem !important; }
+
+      /* -- Partner -- */
+      .partner { padding: 80px 1.5rem; min-height: auto; }
+      .partner-name { font-size: 1.8rem; }
+      .partner-desc { font-size: 1.05rem; }
+      .partner-credentials { flex-direction: column; gap: 2rem; align-items: center; }
+
+      /* -- Vegas/Land -- */
+      .vegas-section { padding: 80px 1.5rem; min-height: auto; }
+      .vegas-section .section-headline { white-space: normal; font-size: 1.6rem; }
+      .land-stats { gap: 2rem; }
+      .land-stat-num { font-size: 1.4rem; }
+      .land-viewer { margin-top: 2rem; }
+
+      /* -- Shows: stacked, no flip -- */
+      .shows { padding: 80px 1.5rem; min-height: auto; }
+      .shows .section-headline { font-size: 1.6rem; }
+      .shows-subtitle { font-size: 1rem; margin-bottom: 2rem; }
+      .shows-grid { grid-template-columns: 1fr; gap: 2px; }
+      .show-card-visual { height: 280px; }
+      .show-card-visual .big-text { font-size: 3.5rem; }
+      .show-card-info { padding: 1.8rem 1.5rem 2rem; }
+      .show-card-name { font-size: 2.2rem; }
+      .show-card-stat { font-size: 0.6rem; }
+      .show-card-desc { font-size: 0.95rem; }
+      /* Disable flip on mobile — show front only */
+      .show-card-flip.flipped .show-card-flip-inner { transform: none; }
+      .show-card-back { display: none; }
+
+      /* -- Introducing -- */
+      .introducing { padding: 80px 1.5rem; min-height: 100vh; }
+      .introducing-circle { width: min(300px, 75vw); height: min(300px, 75vw); }
+      .introducing-title { font-size: clamp(3rem, 14vw, 5rem); }
+      .introducing-sub { font-size: 0.65rem; letter-spacing: 0.4em; text-indent: 0.4em; }
+      .introducing-timeline { padding: 0 1rem; }
+      .introducing-sig { height: 50px; }
+      .timeline-line { display: none; }
+      .introducing-closer { bottom: 5%; }
+      .introducing-closer-card { padding: 1rem 2rem; }
+      .introducing-closer-text { font-size: 0.9rem; }
+
+      /* -- Misc -- */
+      .section-headline { font-size: 1.6rem; }
+      .section-label { font-size: 0.55rem; letter-spacing: 0.3em; }
       .direction-grid { grid-template-columns: 1fr; }
       .color-swatches { flex-wrap: wrap; }
-      .show-card-visual .big-text { font-size: 4rem; }
       .motif-row { flex-direction: column; text-align: center; }
+
+      /* -- Password gate -- */
+      .password-gate-input { width: 240px; font-size: 0.8rem; }
+      .password-gate-btn { padding: 0.5rem 2rem; }
     }
   </style>
 </head>
@@ -2384,10 +2445,6 @@
     </div>
   </div>
 
-  <!-- Mobile Gate -->
-  <div class="mobile-gate">
-    <div class="mobile-gate-text">Check this out on Desktop.</div>
-  </div>
 
   <!-- Overlays -->
   <div class="grain"></div>
