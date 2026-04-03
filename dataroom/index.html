@@ -827,6 +827,144 @@
       color: var(--amber-light);
     }
 
+    /* ========== CONFIDENTIAL BADGE ========== */
+
+    .dr-confidential {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.5rem;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid rgba(196,148,60,0.15);
+      padding: 0.35rem 0.8rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+    }
+    .dr-confidential::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--amber);
+      animation: confPulse 2s ease-in-out infinite;
+    }
+    @keyframes confPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 4px rgba(196,148,60,0.4); }
+      50% { opacity: 0.4; box-shadow: 0 0 8px rgba(196,148,60,0.2); }
+    }
+
+    /* ========== GOLDEN RING (gate) ========== */
+
+    .gate-ring {
+      width: 80px;
+      height: 80px;
+      border: 1px solid rgba(196,148,60,0.2);
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      position: relative;
+      animation: ringBreath 4s ease-in-out infinite;
+    }
+    .gate-ring::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 1px solid rgba(196,148,60,0.06);
+      border-radius: 50%;
+    }
+    .gate-ring::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(196,148,60,0.1);
+      border-radius: 50%;
+    }
+    @keyframes ringBreath {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(196,148,60,0.08), 0 0 60px rgba(196,148,60,0.03);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(196,148,60,0.12), 0 0 80px rgba(196,148,60,0.05);
+        transform: scale(1.02);
+      }
+    }
+
+    /* ========== SHIMMER SCAN ON CARDS ========== */
+
+    .dr-file-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(196,148,60,0.04) 40%,
+        rgba(196,148,60,0.08) 50%,
+        rgba(196,148,60,0.04) 60%,
+        transparent 100%
+      );
+      transition: left 0.6s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .dr-file-card:hover::after {
+      left: 120%;
+    }
+
+    /* ========== STAGGERED REVEAL ========== */
+
+    .dr-reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .dr-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .dr-reveal-d1 { transition-delay: 0.1s; }
+    .dr-reveal-d2 { transition-delay: 0.2s; }
+    .dr-reveal-d3 { transition-delay: 0.35s; }
+    .dr-reveal-d4 { transition-delay: 0.5s; }
+
+    /* ========== AMBIENT PARTICLES ========== */
+
+    .dr-ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .dr-particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--amber);
+      border-radius: 50%;
+      opacity: 0;
+      animation: particleFloat linear infinite;
+    }
+    @keyframes particleFloat {
+      0% {
+        opacity: 0;
+        transform: translateY(0) translateX(0);
+      }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.1; }
+      100% {
+        opacity: 0;
+        transform: translateY(-100vh) translateX(30px);
+      }
+    }
+
     /* ========== ANIMATIONS ========== */
 
     @keyframes fadeUp {
@@ -915,9 +1053,13 @@
   <div class="grain"></div>
   <div class="vignette"></div>
 
+  <!-- Ambient Particles -->
+  <div class="dr-ambient" id="drAmbient"></div>
+
   <!-- Password Gate -->
   <div class="gate" id="passwordGate">
     <div class="gate-inner">
+      <div class="gate-ring"></div>
       <div class="gate-title">Data Room</div>
       <div class="gate-subtitle">One Night Entertainment</div>
       <input type="text" class="gate-input" id="passwordInput" placeholder="Enter password" autocomplete="off">
@@ -929,6 +1071,7 @@
   <!-- Email Gate -->
   <div class="gate hidden" id="emailGate">
     <div class="gate-inner fade-up">
+      <div class="gate-ring"></div>
       <div class="gate-title">Welcome</div>
       <div class="gate-subtitle">Enter your email to continue</div>
       <input type="email" class="gate-input gate-input-email" id="emailInput" placeholder="you@company.com" autocomplete="email">
@@ -950,14 +1093,15 @@
   <!-- Main App -->
   <main class="dr-main" id="drMain">
     <div class="dr-browser" id="drBrowser">
-      <div class="dr-section-label">Investor Materials</div>
-      <div class="dr-section-title">Documents</div>
+      <div class="dr-confidential dr-reveal dr-reveal-d1">Confidential</div>
+      <div class="dr-section-label dr-reveal dr-reveal-d2">Investor Materials</div>
+      <div class="dr-section-title dr-reveal dr-reveal-d2">Documents</div>
 
       <div id="fileLoading" class="dr-loading">
         <div class="dr-spinner"></div>
       </div>
 
-      <div id="fileGrid" class="dr-file-grid" style="display: none;"></div>
+      <div id="fileGrid" class="dr-file-grid dr-reveal dr-reveal-d3" style="display: none;"></div>
 
       <div id="fileEmpty" class="dr-empty" style="display: none;">
         <div class="dr-empty-icon">
@@ -967,7 +1111,7 @@
       </div>
 
       <!-- FAQ (inline in browser) -->
-      <div class="dr-faq-inline" id="drFaqInline">
+      <div class="dr-faq-inline dr-reveal dr-reveal-d4" id="drFaqInline">
         <div class="dr-section-label" style="margin-top: 4rem;">Frequently Asked</div>
         <div class="dr-section-title">Questions</div>
         <div class="dr-faq-list">
@@ -1248,6 +1392,7 @@
       } catch (e) {}
 
       await loadFiles();
+      setTimeout(triggerReveal, 100);
     }
 
     async function loadFiles() {
@@ -1456,6 +1601,29 @@
         closePanel();
       }
     });
+
+    // ========== AMBIENT PARTICLES ==========
+    (function() {
+      var ambient = document.getElementById('drAmbient');
+      for (var i = 0; i < 20; i++) {
+        var p = document.createElement('div');
+        p.className = 'dr-particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = (60 + Math.random() * 40) + '%';
+        p.style.animationDuration = (12 + Math.random() * 20) + 's';
+        p.style.animationDelay = (Math.random() * 15) + 's';
+        p.style.width = (1 + Math.random() * 2) + 'px';
+        p.style.height = p.style.width;
+        ambient.appendChild(p);
+      }
+    })();
+
+    // ========== STAGGER REVEAL ==========
+    function triggerReveal() {
+      document.querySelectorAll('.dr-reveal').forEach(function(el) {
+        el.classList.add('visible');
+      });
+    }
 
     // ========== FAQ ==========
     document.querySelectorAll('.dr-faq-question').forEach(function(btn) {
