@@ -2413,16 +2413,16 @@
       .show-card-flip::after {
         content: 'Tap to flip';
         position: absolute;
-        bottom: 12px;
+        top: 14px;
         right: 16px;
         font-family: 'Plus Jakarta Sans', sans-serif;
-        font-size: 0.55rem;
+        font-size: 0.6rem;
+        font-weight: 700;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: var(--cream-dim);
-        opacity: 0.5;
+        color: #fff;
         z-index: 10;
-        transition: opacity 0.3s;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.5);
       }
       .show-card-flip.flipped::after { content: 'Tap to flip back'; }
 
