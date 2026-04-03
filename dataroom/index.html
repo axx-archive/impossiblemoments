@@ -109,9 +109,11 @@
     .gate-title {
       font-family: 'Bodoni Moda', serif;
       font-weight: 700;
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: 3rem;
+      font-style: normal;
       letter-spacing: 0.03em;
       color: var(--amber-pale);
+      text-transform: uppercase;
     }
     .gate-subtitle {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -232,6 +234,25 @@
     .dr-logout-btn:hover {
       border-color: var(--amber);
       color: var(--amber-light);
+    }
+    .dr-admin-btn {
+      background: none;
+      border: 1px solid rgba(196,148,60,0.25);
+      padding: 0.4rem 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.3s, background 0.3s;
+      display: none;
+    }
+    .dr-admin-btn:hover {
+      border-color: var(--amber);
+      background: rgba(196,148,60,0.08);
     }
 
     /* ========== MAIN LAYOUT ========== */
@@ -719,6 +740,7 @@
     <a href="/" class="dr-logo">ONE NIGHT <span>Data Room</span></a>
     <div class="dr-header-right">
       <div class="dr-user-email" id="userEmail"></div>
+      <a class="dr-admin-btn" id="adminBtn" href="/dataroom/admin.html">Admin</a>
       <button class="dr-logout-btn" id="logoutBtn">Sign Out</button>
     </div>
   </header>
@@ -941,6 +963,18 @@
       drBack.style.display = 'block';
       drMain.classList.add('visible');
       userEmailEl.textContent = currentInvestor.email;
+
+      // Check if user is an admin — show admin button
+      try {
+        var adminCheck = await sb
+          .from('admins')
+          .select('id')
+          .eq('email', currentInvestor.email)
+          .maybeSingle();
+        if (adminCheck.data) {
+          document.getElementById('adminBtn').style.display = 'inline-block';
+        }
+      } catch (e) {}
 
       await loadFiles();
     }
