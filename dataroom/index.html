@@ -86,7 +86,9 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: var(--black-warm);
+      background:
+        radial-gradient(ellipse 40% 35% at 50% 45%, rgba(196,148,60,0.04) 0%, transparent 70%),
+        var(--black-warm);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -114,6 +116,9 @@
       letter-spacing: 0.03em;
       color: var(--amber-pale);
       text-transform: uppercase;
+      text-shadow:
+        0 0 30px rgba(196,148,60,0.2),
+        0 0 60px rgba(196,148,60,0.08);
     }
     .gate-subtitle {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -299,6 +304,7 @@
       font-size: clamp(1.8rem, 3vw, 2.4rem);
       color: var(--amber-pale);
       margin-bottom: 2.5rem;
+      text-shadow: 0 0 40px rgba(196,148,60,0.15);
     }
 
     .dr-file-grid {
@@ -307,6 +313,15 @@
       gap: 1px;
       background: rgba(196,148,60,0.08);
       border: 1px solid rgba(196,148,60,0.08);
+      position: relative;
+    }
+    .dr-file-grid::before {
+      content: '';
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(ellipse 50% 40% at 30% 40%, rgba(196,148,60,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     .dr-file-card {
@@ -446,13 +461,14 @@
       bottom: 0;
       width: 420px;
       background: var(--black-warm);
-      border-left: 1px solid rgba(196,148,60,0.1);
+      border-left: 1px solid rgba(196,148,60,0.12);
       z-index: 95;
       display: flex;
       flex-direction: column;
       transform: translateX(100%);
       transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
       overflow-y: auto;
+      box-shadow: -30px 0 80px rgba(0,0,0,0.4), -5px 0 30px rgba(196,148,60,0.03);
     }
     .dr-panel.open {
       transform: translateX(0);
@@ -461,7 +477,7 @@
       .dr-panel {
         width: 100%;
         max-width: 480px;
-        box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+        box-shadow: -30px 0 80px rgba(0,0,0,0.6);
       }
     }
 
@@ -478,16 +494,22 @@
     }
     .dr-panel-close {
       background: none;
-      border: none;
+      border: 1px solid rgba(196,148,60,0.15);
       color: var(--cream-dim);
       cursor: pointer;
-      padding: 0.3rem;
-      font-size: 1.2rem;
-      transition: color 0.3s;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
       line-height: 1;
     }
     .dr-panel-close:hover {
       color: var(--amber-light);
+      border-color: var(--amber);
+      background: rgba(196,148,60,0.06);
     }
     .dr-panel-label {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -499,18 +521,28 @@
     }
 
     .dr-panel-preview {
-      padding: 2rem;
+      padding: 3rem 2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 240px;
-      background: rgba(196,148,60,0.02);
-      border-bottom: 1px solid rgba(196,148,60,0.06);
+      min-height: 260px;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(196,148,60,0.06) 0%, transparent 70%),
+        linear-gradient(180deg, rgba(196,148,60,0.02) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(196,148,60,0.08);
+      position: relative;
+    }
+    .dr-panel-preview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 60%, rgba(196,148,60,0.04) 0%, transparent 50%);
+      pointer-events: none;
     }
     .dr-panel-preview-icon {
       width: 120px;
       height: 140px;
-      border: 1px solid rgba(196,148,60,0.15);
+      border: 1px solid rgba(196,148,60,0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -521,6 +553,11 @@
       text-transform: uppercase;
       color: var(--amber);
       position: relative;
+      background: linear-gradient(145deg, rgba(196,148,60,0.04) 0%, transparent 60%);
+      box-shadow:
+        0 4px 24px rgba(0,0,0,0.3),
+        0 0 40px rgba(196,148,60,0.04),
+        inset 0 1px 0 rgba(196,148,60,0.08);
     }
     .dr-panel-preview-icon::after {
       content: '';
@@ -529,13 +566,17 @@
       right: 0;
       width: 24px;
       height: 24px;
-      background: linear-gradient(135deg, transparent 50%, rgba(196,148,60,0.1) 50%);
+      background: linear-gradient(135deg, var(--black-warm) 50%, rgba(196,148,60,0.15) 50%);
+      border-bottom: 1px solid rgba(196,148,60,0.12);
+      border-left: 1px solid rgba(196,148,60,0.12);
     }
 
     .dr-panel-preview img {
       max-width: 100%;
       max-height: 300px;
       object-fit: contain;
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
     }
 
     .dr-panel-body {
@@ -546,10 +587,10 @@
       gap: 1.5rem;
     }
     .dr-panel-filename {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--cream);
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--amber-pale);
       letter-spacing: 0.02em;
     }
     .dr-panel-description {
@@ -557,13 +598,19 @@
       font-size: 1.1rem;
       font-weight: 300;
       color: var(--cream-dim);
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+
+    .dr-panel-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(196,148,60,0.15) 0%, rgba(196,148,60,0.03) 100%);
     }
 
     .dr-panel-meta {
       display: flex;
       flex-direction: column;
       gap: 0.8rem;
+      padding-top: 0.3rem;
     }
     .dr-panel-meta-row {
       display: flex;
@@ -590,9 +637,9 @@
       align-items: center;
       justify-content: center;
       gap: 0.8rem;
-      background: rgba(196,148,60,0.08);
+      background: linear-gradient(135deg, rgba(196,148,60,0.1) 0%, rgba(196,148,60,0.05) 100%);
       border: 1px solid rgba(196,148,60,0.25);
-      padding: 1rem 2rem;
+      padding: 1.1rem 2rem;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.7rem;
       font-weight: 500;
@@ -600,19 +647,37 @@
       text-transform: uppercase;
       color: var(--amber-light);
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      transition: all 0.3s ease;
       text-decoration: none;
       margin-top: auto;
+      position: relative;
+      overflow: hidden;
+    }
+    .dr-download-btn::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(196,148,60,0.2), transparent 60%);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     .dr-download-btn:hover {
-      background: rgba(196,148,60,0.15);
-      border-color: var(--amber);
-      box-shadow: 0 0 30px rgba(196,148,60,0.15);
+      background: linear-gradient(135deg, rgba(196,148,60,0.18) 0%, rgba(196,148,60,0.08) 100%);
+      border-color: rgba(196,148,60,0.4);
+      box-shadow:
+        0 0 20px rgba(196,148,60,0.12),
+        0 0 50px rgba(196,148,60,0.06),
+        inset 0 0 20px rgba(196,148,60,0.03);
+      color: var(--amber-pale);
+    }
+    .dr-download-btn:hover::before {
+      opacity: 1;
     }
     .dr-download-btn svg {
       width: 14px;
       height: 14px;
-      stroke: var(--amber-light);
+      stroke: currentColor;
       fill: none;
       stroke-width: 2;
     }
@@ -967,6 +1032,7 @@
       <div class="dr-panel-body">
         <div class="dr-panel-filename" id="panelFilename"></div>
         <div class="dr-panel-description" id="panelDescription"></div>
+        <div class="dr-panel-divider"></div>
         <div class="dr-panel-meta">
           <div class="dr-panel-meta-row">
             <span class="dr-panel-meta-label">Type</span>
