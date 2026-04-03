@@ -671,6 +671,85 @@
       to { transform: rotate(360deg); }
     }
 
+    /* ========== FAQ ========== */
+
+    .dr-faq {
+      padding: 4rem max(30px, 4vw) 6rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .dr-faq .dr-section-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 0.5rem;
+    }
+    .dr-faq .dr-section-title {
+      margin-bottom: 2.5rem;
+    }
+    .dr-faq-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .dr-faq-item {
+      border-top: 1px solid rgba(196,148,60,0.1);
+    }
+    .dr-faq-item:last-child {
+      border-bottom: 1px solid rgba(196,148,60,0.1);
+    }
+    .dr-faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: none;
+      border: none;
+      padding: 1.3rem 0;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--cream);
+      transition: color 0.3s;
+    }
+    .dr-faq-question:hover {
+      color: var(--amber-pale);
+    }
+    .dr-faq-arrow {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--amber);
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .dr-faq-item.open .dr-faq-arrow {
+      transform: rotate(45deg);
+    }
+    .dr-faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0 0;
+    }
+    .dr-faq-item.open .dr-faq-answer {
+      max-height: 300px;
+      padding: 0 0 1.3rem 0;
+    }
+    .dr-faq-answer {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.7;
+    }
+
     /* ========== BACK LINK ========== */
 
     .dr-back {
@@ -870,6 +949,66 @@
     </aside>
   </main>
 
+  <!-- FAQ Section -->
+  <section class="dr-faq" id="drFaq" style="display: none;">
+    <div class="dr-faq-inner">
+      <div class="dr-section-label">Frequently Asked</div>
+      <div class="dr-section-title">Questions</div>
+
+      <div class="dr-faq-list">
+        <div class="dr-faq-item">
+          <button class="dr-faq-question">
+            <span>What is One Night Entertainment?</span>
+            <span class="dr-faq-arrow">+</span>
+          </button>
+          <div class="dr-faq-answer">
+            One Night Entertainment is an experiential entertainment company creating impossible, once-in-a-lifetime live moments. We combine cutting-edge technology with world-class talent to produce shows that redefine what's possible in live entertainment.
+          </div>
+        </div>
+
+        <div class="dr-faq-item">
+          <button class="dr-faq-question">
+            <span>What is the investment structure?</span>
+            <span class="dr-faq-arrow">+</span>
+          </button>
+          <div class="dr-faq-answer">
+            Please refer to the investment documents available in the data room above. For specific questions about terms, structure, or allocation, please contact our team directly at aj@onenightentertainment.com.
+          </div>
+        </div>
+
+        <div class="dr-faq-item">
+          <button class="dr-faq-question">
+            <span>What is the timeline for the first show?</span>
+            <span class="dr-faq-arrow">+</span>
+          </button>
+          <div class="dr-faq-answer">
+            Our first production is currently in active development with a targeted launch in 2027. Detailed timelines and milestones are outlined in the investor materials above.
+          </div>
+        </div>
+
+        <div class="dr-faq-item">
+          <button class="dr-faq-question">
+            <span>Who is on the leadership team?</span>
+            <span class="dr-faq-arrow">+</span>
+          </button>
+          <div class="dr-faq-answer">
+            One Night Entertainment is led by a team with deep experience across entertainment, technology, and live events. Full bios and backgrounds are included in the investor deck available in the documents section.
+          </div>
+        </div>
+
+        <div class="dr-faq-item">
+          <button class="dr-faq-question">
+            <span>How can I get in touch with the team?</span>
+            <span class="dr-faq-arrow">+</span>
+          </button>
+          <div class="dr-faq-answer">
+            For investor inquiries, please reach out to aj@onenightentertainment.com. We're happy to schedule a call to walk through the opportunity in more detail.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="dr-back" id="drBack" style="display: none;">
     <a href="/">Back to One Night Entertainment</a>
   </div>
@@ -1047,6 +1186,7 @@
       emailGate.classList.add('hidden');
       drHeader.style.display = 'flex';
       drBack.style.display = 'block';
+      document.getElementById('drFaq').style.display = 'block';
       drMain.classList.add('visible');
       userEmailEl.textContent = currentInvestor.email;
 
@@ -1270,6 +1410,18 @@
       if (e.key === 'Escape' && drPanel.classList.contains('open')) {
         closePanel();
       }
+    });
+
+    // ========== FAQ ==========
+    document.querySelectorAll('.dr-faq-question').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var item = btn.closest('.dr-faq-item');
+        var isOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.dr-faq-item').forEach(function(i) { i.classList.remove('open'); });
+        // Toggle clicked
+        if (!isOpen) item.classList.add('open');
+      });
     });
   </script>
 </body>
