@@ -2349,28 +2349,20 @@
       .scroll-indicator { bottom: 24px; }
       .scroll-indicator span { font-size: 0.5rem; }
 
-      /* -- Taxonomy: horizontal swipe carousel -- */
-      .taxonomy { padding: 80px 1.5rem; min-height: auto; }
+      /* -- Taxonomy: vertical stack on mobile -- */
+      .taxonomy { padding: 60px 1.5rem; min-height: auto; }
       .taxonomy .section-headline { font-size: 1.6rem; margin-bottom: 1rem; }
       .taxonomy-unclaimed { font-size: 1.2rem; margin-bottom: 2rem; }
       .taxonomy-grid {
         display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        gap: 0;
-        padding-bottom: 1rem;
-        scrollbar-width: none;
+        flex-direction: column;
+        gap: 1px;
       }
-      .taxonomy-grid::-webkit-scrollbar { display: none; }
       .taxonomy-card {
-        min-width: 80vw;
-        scroll-snap-align: center;
-        flex-shrink: 0;
-        padding: 2rem 1.8rem;
+        padding: 1.8rem 1.5rem;
       }
       .taxonomy-card .example { font-size: 1.4rem; }
-      .taxonomy-card p { font-size: 1rem; }
+      .taxonomy-card p { font-size: 1rem; line-height: 1.6; }
 
       /* -- Genesis -- */
       .genesis { padding: 80px 1.5rem; min-height: auto; }
@@ -2382,42 +2374,64 @@
       .genesis-question { padding: 1.5rem 1.5rem; }
       .genesis-question-big { font-size: 1.1rem !important; }
 
-      /* -- Partner -- */
+      /* -- Partner / Infrastructure -- */
       .partner { padding: 80px 1.5rem; min-height: auto; }
+      .partner .section-headline { white-space: normal !important; font-size: 1.6rem; }
       .partner-name { font-size: 1.8rem; }
       .partner-desc { font-size: 1.05rem; }
       .partner-credentials { flex-direction: column; gap: 2rem; align-items: center; }
+      .infra-grid { grid-template-columns: 1fr; }
+      .infra-card { padding: 2rem 1.5rem; }
+      .infra-card .infra-name { font-size: 1.4rem; }
+      .infra-card p { font-size: 1rem; }
 
       /* -- Vegas/Land -- */
       .vegas-section { padding: 80px 1.5rem; min-height: auto; }
-      .vegas-section .section-headline { white-space: normal; font-size: 1.6rem; }
+      .vegas-section .section-headline { white-space: normal !important; font-size: 1.6rem; }
       .land-stats { gap: 2rem; }
       .land-stat-num { font-size: 1.4rem; }
       .land-viewer { margin-top: 2rem; }
 
-      /* -- Shows: stacked, no flip -- */
+      /* -- Shows: stacked, tap-to-flip -- */
       .shows { padding: 80px 1.5rem; min-height: auto; }
       .shows .section-headline { font-size: 1.6rem; }
       .shows-subtitle { font-size: 1rem; margin-bottom: 2rem; }
-      .shows-grid { grid-template-columns: 1fr; gap: 2px; }
+      .shows-grid { grid-template-columns: 1fr; gap: 1.5rem; }
       .show-card-visual { height: 280px; }
       .show-card-visual .big-text { font-size: 3.5rem; }
       .show-card-info { padding: 1.8rem 1.5rem 2rem; }
       .show-card-name { font-size: 2.2rem; }
       .show-card-stat { font-size: 0.6rem; }
       .show-card-desc { font-size: 0.95rem; }
-      /* Disable flip on mobile — show front only */
-      .show-card-flip.flipped .show-card-flip-inner { transform: none; }
-      .show-card-back { display: none; }
+      /* Mobile flip */
+      .show-card-flip { cursor: pointer; position: relative; }
+      .show-card-back { border-radius: 4px; }
+      .show-card-back-content { padding: 2rem 1.5rem; }
+      .show-card-back-headline { font-size: 1.8rem; margin-bottom: 1.2rem; }
+      .show-card-back-list { gap: 0.8rem; }
+      .show-card-back-list li { font-size: 1rem; }
+      .show-card-flip::after {
+        content: 'Tap to flip';
+        position: absolute;
+        bottom: 12px;
+        right: 16px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 0.55rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--cream-dim);
+        opacity: 0.5;
+        z-index: 10;
+        transition: opacity 0.3s;
+      }
+      .show-card-flip.flipped::after { content: 'Tap to flip back'; }
 
       /* -- Introducing -- */
       .introducing { padding: 80px 1.5rem; min-height: 100vh; }
       .introducing-circle { width: min(300px, 75vw); height: min(300px, 75vw); }
       .introducing-title { font-size: clamp(3rem, 14vw, 5rem); }
       .introducing-sub { font-size: 0.65rem; letter-spacing: 0.4em; text-indent: 0.4em; }
-      .introducing-timeline { padding: 0 1rem; }
-      .introducing-sig { height: 50px; }
-      .timeline-line { display: none; }
+      .introducing-timeline { display: none; }
       .introducing-closer { bottom: 5%; }
       .introducing-closer-card { padding: 1rem 2rem; }
       .introducing-closer-text { font-size: 0.9rem; }
@@ -2767,18 +2781,32 @@
 
     reveals.forEach(el => observer.observe(el));
 
-    // Show card flip: hovering/clicking one card flips the OTHER
+    // Show card flip
     const britneyFlip = document.getElementById('britneyFlip');
     const nashvilleFlip = document.getElementById('nashvilleFlip');
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     if (britneyFlip && nashvilleFlip) {
-      britneyFlip.addEventListener('mouseenter', () => nashvilleFlip.classList.add('flipped'));
-      britneyFlip.addEventListener('mouseleave', () => nashvilleFlip.classList.remove('flipped'));
-      nashvilleFlip.addEventListener('mouseenter', () => britneyFlip.classList.add('flipped'));
-      nashvilleFlip.addEventListener('mouseleave', () => britneyFlip.classList.remove('flipped'));
+      if (isMobile) {
+        // Mobile: swap back panels so each card shows its own "Why X?" on flip
+        const britneyBack = britneyFlip.querySelector('.show-card-back');
+        const nashvilleBack = nashvilleFlip.querySelector('.show-card-back');
+        britneyFlip.querySelector('.show-card-flip-inner').appendChild(nashvilleBack);
+        nashvilleFlip.querySelector('.show-card-flip-inner').appendChild(britneyBack);
 
-      britneyFlip.addEventListener('click', () => nashvilleFlip.classList.toggle('flipped'));
-      nashvilleFlip.addEventListener('click', () => britneyFlip.classList.toggle('flipped'));
+        // Tap toggles own card
+        britneyFlip.addEventListener('click', () => britneyFlip.classList.toggle('flipped'));
+        nashvilleFlip.addEventListener('click', () => nashvilleFlip.classList.toggle('flipped'));
+      } else {
+        // Desktop: hovering one card flips the OTHER
+        britneyFlip.addEventListener('mouseenter', () => nashvilleFlip.classList.add('flipped'));
+        britneyFlip.addEventListener('mouseleave', () => nashvilleFlip.classList.remove('flipped'));
+        nashvilleFlip.addEventListener('mouseenter', () => britneyFlip.classList.add('flipped'));
+        nashvilleFlip.addEventListener('mouseleave', () => britneyFlip.classList.remove('flipped'));
+
+        britneyFlip.addEventListener('click', () => nashvilleFlip.classList.toggle('flipped'));
+        nashvilleFlip.addEventListener('click', () => britneyFlip.classList.toggle('flipped'));
+      }
     }
     // Password Gate
     const gate = document.getElementById('passwordGate');
