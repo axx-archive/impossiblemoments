@@ -398,6 +398,23 @@
       color: var(--cream-dim);
     }
 
+    .edit-btn {
+      background: none;
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 0.3rem 0.6rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+      margin-right: 0.4rem;
+    }
+    .edit-btn:hover {
+      background: rgba(196,148,60,0.08);
+      border-color: var(--amber);
+    }
     .delete-btn {
       background: none;
       border: 1px solid rgba(196,60,60,0.2);
@@ -731,6 +748,13 @@
         tr.appendChild(tdDate);
 
         var tdAction = document.createElement('td');
+        tdAction.style.whiteSpace = 'nowrap';
+        var editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', function() { editFile(file); });
+        tdAction.appendChild(editBtn);
+        tdAction.appendChild(document.createTextNode(' '));
         var delBtn = document.createElement('button');
         delBtn.className = 'delete-btn';
         delBtn.textContent = 'Delete';
@@ -915,6 +939,31 @@
     });
 
     // ========== DELETE FILE ==========
+    // ========== EDIT FILE ==========
+    function editFile(file) {
+      var newName = prompt('Display Name:', file.name);
+      if (newName === null) return;
+      var newDesc = prompt('Description:', file.description || '');
+      if (newDesc === null) return;
+      var newOrder = prompt('Display Order:', file.display_order || 0);
+      if (newOrder === null) return;
+
+      sb.rpc('admin_update_file', {
+        admin_email: adminEmail,
+        admin_password: adminPassword,
+        target_file_id: file.id,
+        new_name: newName || file.name,
+        new_description: newDesc,
+        new_display_order: parseInt(newOrder) || 0
+      }).then(function(result) {
+        if (result.error) {
+          alert('Failed to update: ' + result.error.message);
+        } else {
+          loadFiles();
+        }
+      });
+    }
+
     async function deleteFile(file) {
       if (!confirm('Delete "' + file.name + '"? This cannot be undone.')) return;
 
