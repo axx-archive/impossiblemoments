@@ -843,30 +843,6 @@
       line-height: 1.7;
     }
 
-    /* ========== BACK LINK ========== */
-
-    .dr-back {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      text-align: center;
-      white-space: nowrap;
-    }
-    .dr-back a {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.6rem;
-      font-weight: 400;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--cream-dim);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .dr-back a:hover {
-      color: var(--amber-light);
-    }
 
     /* ========== CONFIDENTIAL BADGE ========== */
 
@@ -1075,11 +1051,6 @@
         padding-right: 1rem;
       }
 
-      /* Hide back link when panel is open */
-      .dr-back {
-        bottom: 1.5rem;
-      }
-
       .gate-input, .gate-input-email {
         width: 260px;
       }
@@ -1128,6 +1099,7 @@
     <div class="dr-header-right">
       <div class="dr-user-email" id="userEmail"></div>
       <a class="dr-admin-btn" id="adminBtn" href="/dataroom/admin.html">Admin</a>
+      <a class="dr-logout-btn" href="/">Back to Website</a>
       <button class="dr-logout-btn" id="logoutBtn">Sign Out</button>
     </div>
   </header>
@@ -1354,9 +1326,6 @@
     </aside>
   </main>
 
-  <div class="dr-back" id="drBack" style="display: none;">
-    <a href="/">Back to One Night Entertainment</a>
-  </div>
 
   <script>
     // ========== CONFIG ==========
@@ -1424,7 +1393,6 @@
 
     const drHeader = document.getElementById('drHeader');
     const drMain = document.getElementById('drMain');
-    const drBack = document.getElementById('drBack');
     const userEmailEl = document.getElementById('userEmail');
     const logoutBtn = document.getElementById('logoutBtn');
 
@@ -1530,7 +1498,6 @@
     async function showDataRoom() {
       emailGate.classList.add('hidden');
       drHeader.style.display = 'flex';
-      drBack.style.display = 'block';
       drMain.classList.add('visible');
       userEmailEl.textContent = currentInvestor.email;
 
@@ -1689,13 +1656,11 @@
 
       drPanel.classList.add('open');
       drBrowser.classList.add('panel-open');
-      drBack.style.display = 'none';
     }
 
     function closePanel() {
       drPanel.classList.remove('open');
       drBrowser.classList.remove('panel-open');
-      drBack.style.display = 'block';
       document.querySelectorAll('.dr-file-card').forEach(function(c) { c.classList.remove('active'); });
       selectedFile = null;
     }
@@ -1742,7 +1707,6 @@
       sessionStorage.removeItem('dr_authed');
       currentInvestor = null;
       drHeader.style.display = 'none';
-      drBack.style.display = 'none';
       drMain.classList.remove('visible');
       closePanel();
       emailGate.classList.remove('hidden');
