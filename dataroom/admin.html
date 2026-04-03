@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Room — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    :root {
+      --black: #080604;
+      --black-warm: #0F0C08;
+      --amber: #C4943C;
+      --amber-light: #D4A853;
+      --amber-pale: #F0DEB4;
+      --cream: #EDE4D4;
+      --cream-dim: #A89A86;
+      --warm-gray: #2A2420;
+      --warm-gray-mid: #4A3F36;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scrollbar-width: thin;
+      scrollbar-color: var(--amber) var(--black);
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+    }
+
+    /* ========== GATE ========== */
+
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--black-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .gate-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .gate-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: var(--amber-pale);
+    }
+    .gate-subtitle {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-top: -0.5rem;
+    }
+    .gate-input {
+      background: transparent;
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.8rem 1.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--cream);
+      text-align: center;
+      outline: none;
+      width: 300px;
+      transition: border-color 0.3s;
+    }
+    .gate-input:focus { border-color: var(--amber); }
+    .gate-input.error {
+      border-color: #c44;
+      animation: shake 0.4s ease;
+    }
+    .gate-btn {
+      background: rgba(196,148,60,0.08);
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.6rem 2.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .gate-btn:hover {
+      background: rgba(196,148,60,0.15);
+      border-color: var(--amber);
+    }
+    .gate-error-msg {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: #c44;
+      min-height: 1em;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    /* ========== LAYOUT ========== */
+
+    .admin-header {
+      padding: 1.5rem max(30px, 4vw);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(196,148,60,0.08);
+    }
+    .admin-logo {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--amber-pale);
+      text-decoration: none;
+    }
+    .admin-logo span {
+      font-weight: 400;
+      color: var(--cream-dim);
+      font-size: 0.85rem;
+      margin-left: 0.5rem;
+    }
+
+    .admin-body {
+      padding: 2rem max(30px, 4vw) 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: none;
+    }
+    .admin-body.visible { display: block; }
+
+    /* ========== TABS ========== */
+
+    .admin-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(196,148,60,0.1);
+    }
+    .admin-tab {
+      background: none;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      cursor: pointer;
+      transition: color 0.3s;
+      position: relative;
+    }
+    .admin-tab::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--amber);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .admin-tab:hover { color: var(--cream); }
+    .admin-tab.active {
+      color: var(--amber-pale);
+    }
+    .admin-tab.active::after {
+      transform: scaleX(1);
+    }
+
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    /* ========== SECTION TITLES ========== */
+
+    .section-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      color: var(--amber-pale);
+      margin-bottom: 2rem;
+    }
+
+    /* ========== UPLOAD FORM ========== */
+
+    .upload-form {
+      background: var(--black-warm);
+      border: 1px solid rgba(196,148,60,0.1);
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+    }
+    .upload-form-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .form-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+    }
+    .form-input, .form-textarea {
+      background: transparent;
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 0.6rem 0.8rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8rem;
+      color: var(--cream);
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--amber);
+    }
+    .form-textarea {
+      resize: vertical;
+      min-height: 60px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+    }
+    .form-file-input {
+      display: none;
+    }
+    .form-file-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.8rem 1.2rem;
+      border: 1px dashed rgba(196,148,60,0.25);
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--cream-dim);
+    }
+    .form-file-label:hover {
+      border-color: var(--amber);
+      background: rgba(196,148,60,0.04);
+    }
+    .form-file-label svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--amber);
+      fill: none;
+      stroke-width: 1.5;
+    }
+    .form-file-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--amber-light);
+      margin-top: 0.3rem;
+    }
+    .upload-btn {
+      background: rgba(196,148,60,0.1);
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.7rem 2rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+      margin-top: 0.5rem;
+    }
+    .upload-btn:hover {
+      background: rgba(196,148,60,0.18);
+      border-color: var(--amber);
+    }
+    .upload-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .upload-status {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--amber-light);
+      margin-top: 0.8rem;
+      min-height: 1em;
+    }
+
+    /* ========== TABLE ========== */
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .admin-table th {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      text-align: left;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid rgba(196,148,60,0.12);
+    }
+    .admin-table td {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.75rem;
+      color: var(--cream);
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid rgba(196,148,60,0.06);
+      vertical-align: middle;
+    }
+    .admin-table tr:hover td {
+      background: rgba(196,148,60,0.03);
+    }
+    .table-email {
+      color: var(--amber-light);
+    }
+    .table-count {
+      font-weight: 600;
+      color: var(--amber);
+    }
+    .table-date {
+      color: var(--cream-dim);
+      font-size: 0.65rem;
+    }
+    .table-empty {
+      text-align: center;
+      padding: 3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--cream-dim);
+    }
+
+    .delete-btn {
+      background: none;
+      border: 1px solid rgba(196,60,60,0.2);
+      padding: 0.3rem 0.6rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c44;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .delete-btn:hover {
+      background: rgba(196,60,60,0.1);
+      border-color: #c44;
+    }
+
+    /* ========== LOADING ========== */
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgba(196,148,60,0.15);
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ========== RESPONSIVE ========== */
+
+    @media (max-width: 768px) {
+      .form-row { flex-direction: column; }
+      .admin-table { font-size: 0.65rem; }
+      .admin-table th, .admin-table td { padding: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Admin Gate -->
+  <div class="gate" id="adminGate">
+    <div class="gate-inner">
+      <div class="gate-title">Admin</div>
+      <div class="gate-subtitle">Data Room Management</div>
+      <input type="email" class="gate-input" id="adminEmailInput" placeholder="admin@email.com" autocomplete="email" style="margin-bottom: -0.5rem;">
+      <input type="password" class="gate-input" id="adminPwInput" placeholder="Password" autocomplete="off">
+      <button class="gate-btn" id="adminPwBtn">Enter</button>
+      <div class="gate-error-msg" id="adminPwError"></div>
+    </div>
+  </div>
+
+  <header class="admin-header" id="adminHeader" style="display: none;">
+    <a href="/dataroom/" class="admin-logo">ONE NIGHT <span>Admin</span></a>
+  </header>
+
+  <main class="admin-body" id="adminBody">
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="files">Files</button>
+      <button class="admin-tab" data-tab="investors">Investors</button>
+      <button class="admin-tab" data-tab="downloads">Downloads</button>
+    </div>
+
+    <!-- FILES TAB -->
+    <div class="admin-panel active" id="tab-files">
+      <div class="upload-form">
+        <div class="upload-form-title">Upload New File</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Display Name</label>
+            <input type="text" class="form-input" id="fileName" placeholder="e.g. Investor Deck Q1 2026">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Display Order</label>
+            <input type="number" class="form-input" id="fileOrder" placeholder="0" value="0">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="fileDesc" placeholder="Brief description of this document"></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label class="form-label">File</label>
+          <input type="file" class="form-file-input" id="fileInput">
+          <label class="form-file-label" for="fileInput">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Choose file
+          </label>
+          <div class="form-file-name" id="fileSelectedName"></div>
+        </div>
+        <button class="upload-btn" id="uploadBtn">Upload File</button>
+        <div class="upload-status" id="uploadStatus"></div>
+      </div>
+
+      <div class="section-label">Current Files</div>
+      <div id="filesLoading" class="loading"><div class="spinner"></div></div>
+      <table class="admin-table" id="filesTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Type</th>
+            <th>Size</th>
+            <th>Uploaded</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="filesBody"></tbody>
+      </table>
+      <div id="filesEmpty" class="table-empty" style="display: none;">No files uploaded yet</div>
+    </div>
+
+    <!-- INVESTORS TAB -->
+    <div class="admin-panel" id="tab-investors">
+      <div class="section-label">Registered Investors</div>
+      <div id="investorsLoading" class="loading"><div class="spinner"></div></div>
+      <table class="admin-table" id="investorsTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Downloads</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody id="investorsBody"></tbody>
+      </table>
+      <div id="investorsEmpty" class="table-empty" style="display: none;">No investors registered yet</div>
+    </div>
+
+    <!-- DOWNLOADS TAB -->
+    <div class="admin-panel" id="tab-downloads">
+      <div class="section-label">Download History</div>
+      <div id="downloadsLoading" class="loading"><div class="spinner"></div></div>
+      <table class="admin-table" id="downloadsTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>Investor</th>
+            <th>File</th>
+            <th>Downloaded</th>
+          </tr>
+        </thead>
+        <tbody id="downloadsBody"></tbody>
+      </table>
+      <div id="downloadsEmpty" class="table-empty" style="display: none;">No downloads recorded yet</div>
+    </div>
+  </main>
+
+  <script>
+    // ========== CONFIG ==========
+    var SUPABASE_URL = 'https://qbnhjklajnmjfsqfzlna.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFibmhqa2xham5tamZzcWZ6bG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNDA4NjksImV4cCI6MjA5MDgxNjg2OX0.ocF4YeJ6IB-gZv3C67T8vV_GCcXGGm5COBG1D-DVLlI';
+    var STORAGE_BUCKET = 'dataroom-files';
+
+    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    var adminEmail = '';
+    var adminPassword = '';
+
+    // ========== ADMIN GATE ==========
+    var adminGate = document.getElementById('adminGate');
+    var adminEmailInput = document.getElementById('adminEmailInput');
+    var adminPwInput = document.getElementById('adminPwInput');
+    var adminPwBtn = document.getElementById('adminPwBtn');
+    var adminPwError = document.getElementById('adminPwError');
+    var adminHeader = document.getElementById('adminHeader');
+    var adminBody = document.getElementById('adminBody');
+
+    async function checkAdminPw() {
+      var email = adminEmailInput.value.trim().toLowerCase();
+      var pw = adminPwInput.value.trim();
+
+      if (!email || !pw) {
+        adminPwError.textContent = 'Enter email and password';
+        return;
+      }
+
+      adminPwBtn.textContent = 'Verifying...';
+      adminPwBtn.disabled = true;
+
+      try {
+        var result = await sb.rpc('admin_auth', { admin_email: email, admin_password: pw });
+        if (result.error) throw result.error;
+
+        if (result.data === true) {
+          adminEmail = email;
+          adminPassword = pw;
+          adminGate.classList.add('hidden');
+          adminHeader.style.display = 'flex';
+          adminBody.classList.add('visible');
+          loadAllData();
+        } else {
+          adminPwInput.classList.add('error');
+          adminPwError.textContent = 'Invalid credentials';
+          setTimeout(function() {
+            adminPwInput.classList.remove('error');
+            adminPwError.textContent = '';
+          }, 1500);
+        }
+      } catch (err) {
+        adminPwError.textContent = 'Authentication failed';
+      }
+
+      adminPwBtn.textContent = 'Enter';
+      adminPwBtn.disabled = false;
+    }
+
+    adminPwBtn.addEventListener('click', checkAdminPw);
+    adminPwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') checkAdminPw(); });
+    adminEmailInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') adminPwInput.focus(); });
+    adminEmailInput.focus();
+
+    // ========== TABS ==========
+    document.querySelectorAll('.admin-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.admin-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.admin-panel').forEach(function(p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+      });
+    });
+
+    // ========== HELPERS ==========
+    function formatBytes(bytes) {
+      if (!bytes) return '\u2014';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '\u2014';
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+    }
+
+    function formatShortDate(dateStr) {
+      if (!dateStr) return '\u2014';
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+    }
+
+    // ========== LOAD DATA ==========
+    async function loadAllData() {
+      loadFiles();
+      loadInvestors();
+      loadDownloads();
+    }
+
+    // --- FILES ---
+    async function loadFiles() {
+      var filesLoading = document.getElementById('filesLoading');
+      var filesTable = document.getElementById('filesTable');
+      var filesBody = document.getElementById('filesBody');
+      var filesEmpty = document.getElementById('filesEmpty');
+
+      filesLoading.style.display = 'flex';
+      filesTable.style.display = 'none';
+      filesEmpty.style.display = 'none';
+
+      var result = await sb.from('files').select('*').order('display_order').order('uploaded_at', { ascending: false });
+
+      filesLoading.style.display = 'none';
+
+      if (!result.data || result.data.length === 0) {
+        filesEmpty.style.display = 'block';
+        return;
+      }
+
+      filesBody.replaceChildren();
+      result.data.forEach(function(file) {
+        var tr = document.createElement('tr');
+
+        var tdOrder = document.createElement('td');
+        tdOrder.textContent = file.display_order || 0;
+        tr.appendChild(tdOrder);
+
+        var tdName = document.createElement('td');
+        tdName.textContent = file.name;
+        tdName.style.fontWeight = '500';
+        tr.appendChild(tdName);
+
+        var tdDesc = document.createElement('td');
+        tdDesc.textContent = file.description || '\u2014';
+        tdDesc.style.color = 'var(--cream-dim)';
+        tdDesc.style.maxWidth = '250px';
+        tr.appendChild(tdDesc);
+
+        var tdType = document.createElement('td');
+        tdType.textContent = file.file_type || '\u2014';
+        tr.appendChild(tdType);
+
+        var tdSize = document.createElement('td');
+        tdSize.textContent = formatBytes(file.file_size);
+        tr.appendChild(tdSize);
+
+        var tdDate = document.createElement('td');
+        tdDate.className = 'table-date';
+        tdDate.textContent = formatShortDate(file.uploaded_at);
+        tr.appendChild(tdDate);
+
+        var tdAction = document.createElement('td');
+        var delBtn = document.createElement('button');
+        delBtn.className = 'delete-btn';
+        delBtn.textContent = 'Delete';
+        delBtn.addEventListener('click', function() { deleteFile(file); });
+        tdAction.appendChild(delBtn);
+        tr.appendChild(tdAction);
+
+        filesBody.appendChild(tr);
+      });
+
+      filesTable.style.display = 'table';
+    }
+
+    // --- INVESTORS ---
+    async function loadInvestors() {
+      var loading = document.getElementById('investorsLoading');
+      var table = document.getElementById('investorsTable');
+      var body = document.getElementById('investorsBody');
+      var empty = document.getElementById('investorsEmpty');
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      var result = await sb.rpc('admin_get_investors', { admin_email: adminEmail, admin_password: adminPassword });
+
+      loading.style.display = 'none';
+
+      if (!result.data || result.data.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      body.replaceChildren();
+      result.data.forEach(function(inv) {
+        var tr = document.createElement('tr');
+
+        var tdEmail = document.createElement('td');
+        tdEmail.className = 'table-email';
+        tdEmail.textContent = inv.email;
+        tr.appendChild(tdEmail);
+
+        var tdCount = document.createElement('td');
+        tdCount.className = 'table-count';
+        tdCount.textContent = inv.download_count;
+        tr.appendChild(tdCount);
+
+        var tdDate = document.createElement('td');
+        tdDate.className = 'table-date';
+        tdDate.textContent = formatShortDate(inv.created_at);
+        tr.appendChild(tdDate);
+
+        body.appendChild(tr);
+      });
+
+      table.style.display = 'table';
+    }
+
+    // --- DOWNLOADS ---
+    async function loadDownloads() {
+      var loading = document.getElementById('downloadsLoading');
+      var table = document.getElementById('downloadsTable');
+      var body = document.getElementById('downloadsBody');
+      var empty = document.getElementById('downloadsEmpty');
+
+      loading.style.display = 'flex';
+      table.style.display = 'none';
+      empty.style.display = 'none';
+
+      var result = await sb.rpc('admin_get_downloads', { admin_email: adminEmail, admin_password: adminPassword });
+
+      loading.style.display = 'none';
+
+      if (!result.data || result.data.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+
+      body.replaceChildren();
+      result.data.forEach(function(dl) {
+        var tr = document.createElement('tr');
+
+        var tdEmail = document.createElement('td');
+        tdEmail.className = 'table-email';
+        tdEmail.textContent = dl.investor_email;
+        tr.appendChild(tdEmail);
+
+        var tdFile = document.createElement('td');
+        tdFile.textContent = dl.file_name;
+        tr.appendChild(tdFile);
+
+        var tdDate = document.createElement('td');
+        tdDate.className = 'table-date';
+        tdDate.textContent = formatDate(dl.downloaded_at);
+        tr.appendChild(tdDate);
+
+        body.appendChild(tr);
+      });
+
+      table.style.display = 'table';
+    }
+
+    // ========== FILE UPLOAD ==========
+    var fileInput = document.getElementById('fileInput');
+    var fileSelectedName = document.getElementById('fileSelectedName');
+    var uploadBtn = document.getElementById('uploadBtn');
+    var uploadStatus = document.getElementById('uploadStatus');
+
+    fileInput.addEventListener('change', function() {
+      if (fileInput.files.length > 0) {
+        fileSelectedName.textContent = fileInput.files[0].name;
+      } else {
+        fileSelectedName.textContent = '';
+      }
+    });
+
+    uploadBtn.addEventListener('click', async function() {
+      var displayName = document.getElementById('fileName').value.trim();
+      var description = document.getElementById('fileDesc').value.trim();
+      var order = parseInt(document.getElementById('fileOrder').value) || 0;
+      var file = fileInput.files[0];
+
+      if (!file) {
+        uploadStatus.textContent = 'Please select a file';
+        uploadStatus.style.color = '#c44';
+        return;
+      }
+      if (!displayName) {
+        displayName = file.name;
+      }
+
+      uploadBtn.disabled = true;
+      uploadStatus.textContent = 'Uploading...';
+      uploadStatus.style.color = 'var(--amber-light)';
+
+      // Generate unique path
+      var timestamp = Date.now();
+      var safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+      var filePath = timestamp + '_' + safeName;
+
+      try {
+        // Upload to storage
+        var uploadResult = await sb.storage.from(STORAGE_BUCKET).upload(filePath, file);
+        if (uploadResult.error) throw uploadResult.error;
+
+        // Get file extension
+        var ext = file.name.split('.').pop().toUpperCase();
+
+        // Create file record via admin RPC
+        var rpcResult = await sb.rpc('admin_add_file', {
+          admin_email: adminEmail,
+          admin_password: adminPassword,
+          file_name: displayName,
+          file_description: description || null,
+          file_path_val: filePath,
+          file_type_val: ext,
+          file_size_val: file.size,
+          display_order_val: order
+        });
+
+        if (rpcResult.error) throw rpcResult.error;
+
+        uploadStatus.textContent = 'Uploaded successfully!';
+        uploadStatus.style.color = '#4c4';
+
+        // Reset form
+        document.getElementById('fileName').value = '';
+        document.getElementById('fileDesc').value = '';
+        document.getElementById('fileOrder').value = '0';
+        fileInput.value = '';
+        fileSelectedName.textContent = '';
+
+        // Reload files
+        loadFiles();
+      } catch (err) {
+        console.error('Upload error:', err);
+        uploadStatus.textContent = 'Upload failed: ' + (err.message || 'Unknown error');
+        uploadStatus.style.color = '#c44';
+      }
+
+      uploadBtn.disabled = false;
+    });
+
+    // ========== DELETE FILE ==========
+    async function deleteFile(file) {
+      if (!confirm('Delete "' + file.name + '"? This cannot be undone.')) return;
+
+      try {
+        // Delete from storage
+        await sb.storage.from(STORAGE_BUCKET).remove([file.file_path]);
+
+        // Delete record via RPC
+        var result = await sb.rpc('admin_delete_file', {
+          admin_email: adminEmail,
+          admin_password: adminPassword,
+          target_file_id: file.id
+        });
+
+        if (result.error) throw result.error;
+
+        loadFiles();
+      } catch (err) {
+        console.error('Delete error:', err);
+        alert('Failed to delete file');
+      }
+    }
+  </script>
+</body>
+</html>

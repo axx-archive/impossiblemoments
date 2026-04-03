@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Night Entertainment — Data Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <style>
+    :root {
+      --black: #080604;
+      --black-warm: #0F0C08;
+      --amber: #C4943C;
+      --amber-light: #D4A853;
+      --amber-pale: #F0DEB4;
+      --cream: #EDE4D4;
+      --cream-dim: #A89A86;
+      --burgundy: #5C2232;
+      --burgundy-deep: #3D1520;
+      --warm-gray: #2A2420;
+      --warm-gray-mid: #4A3F36;
+      --neon-tube: #FFF5E8;
+      --neon-bloom: rgba(255, 245, 232, 0.7);
+      --neon-amber: #D4A040;
+      --neon-amber-mid: rgba(196, 148, 60, 0.7);
+      --neon-amber-far: rgba(196, 148, 60, 0.35);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--amber) var(--black);
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ========== OVERLAYS ========== */
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10000;
+      overflow: hidden;
+    }
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: -200%;
+      width: 400%;
+      height: 400%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.032;
+      animation: grainDrift 6s steps(8) infinite;
+    }
+    @keyframes grainDrift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-150px, -100px); }
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 0%, rgba(8,6,4,0.4) 60%, rgba(8,6,4,0.85) 100%);
+    }
+
+    /* ========== GATE SCREENS ========== */
+
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--black-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    .gate.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .gate-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 420px;
+      padding: 2rem;
+    }
+    .gate-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.03em;
+      color: var(--amber-pale);
+    }
+    .gate-subtitle {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-top: -0.5rem;
+    }
+    .gate-input {
+      background: transparent;
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.8rem 1.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--cream);
+      text-align: center;
+      outline: none;
+      width: 300px;
+      transition: border-color 0.3s;
+    }
+    .gate-input:focus {
+      border-color: var(--amber);
+    }
+    .gate-input.error {
+      border-color: #c44;
+      animation: shake 0.4s ease;
+    }
+    .gate-input-email {
+      letter-spacing: 0.05em;
+      width: 340px;
+    }
+    .gate-btn {
+      background: rgba(196,148,60,0.08);
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.6rem 2.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .gate-btn:hover {
+      background: rgba(196,148,60,0.15);
+      border-color: var(--amber);
+    }
+    .gate-error-msg {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: #c44;
+      letter-spacing: 0.1em;
+      min-height: 1em;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    /* ========== HEADER ========== */
+
+    .dr-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.5rem max(30px, 4vw);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, var(--black-warm) 0%, transparent 100%);
+    }
+    .dr-logo {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--amber-pale);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .dr-logo span {
+      font-weight: 400;
+      color: var(--cream-dim);
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+    }
+    .dr-header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .dr-user-email {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--cream-dim);
+    }
+    .dr-logout-btn {
+      background: none;
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 0.4rem 1rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      cursor: pointer;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .dr-logout-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber-light);
+    }
+
+    /* ========== MAIN LAYOUT ========== */
+
+    .dr-main {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 80px;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    .dr-main.visible {
+      opacity: 1;
+    }
+
+    /* ========== FILE BROWSER ========== */
+
+    .dr-browser {
+      flex: 1;
+      padding: 2rem max(30px, 4vw) 3rem;
+      transition: padding-right 0.4s ease;
+    }
+    .dr-browser.panel-open {
+      padding-right: calc(420px + 2rem);
+    }
+    @media (max-width: 1100px) {
+      .dr-browser.panel-open {
+        padding-right: max(30px, 4vw);
+      }
+    }
+
+    .dr-section-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 0.5rem;
+    }
+    .dr-section-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: var(--amber-pale);
+      margin-bottom: 2.5rem;
+    }
+
+    .dr-file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      background: rgba(196,148,60,0.08);
+      border: 1px solid rgba(196,148,60,0.08);
+    }
+
+    .dr-file-card {
+      background: var(--black-warm);
+      padding: 1.8rem 1.5rem;
+      cursor: pointer;
+      position: relative;
+      transition: background 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .dr-file-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(196,148,60,0.04), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .dr-file-card:hover {
+      background: rgba(15,12,8,0.9);
+      box-shadow: 0 0 40px rgba(196,148,60,0.08), inset 0 0 30px rgba(196,148,60,0.03);
+    }
+    .dr-file-card:hover::before {
+      opacity: 1;
+    }
+    .dr-file-card.active {
+      background: rgba(196,148,60,0.06);
+      box-shadow: inset 0 0 0 1px rgba(196,148,60,0.2);
+    }
+
+    .dr-file-icon {
+      width: 48px;
+      height: 48px;
+      border: 1px solid rgba(196,148,60,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      position: relative;
+      overflow: hidden;
+    }
+    .dr-file-icon::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      background: linear-gradient(135deg, transparent 50%, rgba(196,148,60,0.1) 50%);
+    }
+
+    .dr-file-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dr-file-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .dr-file-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--cream);
+      line-height: 1.4;
+    }
+    .dr-file-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .dr-file-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-top: auto;
+    }
+    .dr-file-type-badge {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      background: rgba(196,148,60,0.08);
+      border: 1px solid rgba(196,148,60,0.12);
+      padding: 0.2rem 0.5rem;
+    }
+    .dr-file-size {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      color: var(--cream-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ========== PREVIEW PANEL ========== */
+
+    .dr-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      background: var(--black-warm);
+      border-left: 1px solid rgba(196,148,60,0.1);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow-y: auto;
+    }
+    .dr-panel.open {
+      transform: translateX(0);
+    }
+    @media (max-width: 1100px) {
+      .dr-panel {
+        width: 100%;
+        max-width: 480px;
+        box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+      }
+    }
+
+    .dr-panel-header {
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(196,148,60,0.08);
+      position: sticky;
+      top: 0;
+      background: var(--black-warm);
+      z-index: 1;
+    }
+    .dr-panel-close {
+      background: none;
+      border: none;
+      color: var(--cream-dim);
+      cursor: pointer;
+      padding: 0.3rem;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+      line-height: 1;
+    }
+    .dr-panel-close:hover {
+      color: var(--amber-light);
+    }
+    .dr-panel-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+    }
+
+    .dr-panel-preview {
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 240px;
+      background: rgba(196,148,60,0.02);
+      border-bottom: 1px solid rgba(196,148,60,0.06);
+    }
+    .dr-panel-preview-icon {
+      width: 120px;
+      height: 140px;
+      border: 1px solid rgba(196,148,60,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      position: relative;
+    }
+    .dr-panel-preview-icon::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, transparent 50%, rgba(196,148,60,0.1) 50%);
+    }
+
+    .dr-panel-preview img {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+    }
+
+    .dr-panel-body {
+      padding: 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .dr-panel-filename {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+    }
+    .dr-panel-description {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--cream-dim);
+      line-height: 1.6;
+    }
+
+    .dr-panel-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .dr-panel-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dr-panel-meta-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+    }
+    .dr-panel-meta-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      color: var(--cream);
+      letter-spacing: 0.05em;
+    }
+
+    .dr-download-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      background: rgba(196,148,60,0.08);
+      border: 1px solid rgba(196,148,60,0.25);
+      padding: 1rem 2rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+      text-decoration: none;
+      margin-top: auto;
+    }
+    .dr-download-btn:hover {
+      background: rgba(196,148,60,0.15);
+      border-color: var(--amber);
+      box-shadow: 0 0 30px rgba(196,148,60,0.15);
+    }
+    .dr-download-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--amber-light);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ========== EMPTY STATE ========== */
+
+    .dr-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem;
+      text-align: center;
+      gap: 1rem;
+    }
+    .dr-empty-icon {
+      width: 64px;
+      height: 64px;
+      border: 1px solid rgba(196,148,60,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    .dr-empty-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--cream-dim);
+      fill: none;
+      stroke-width: 1.5;
+    }
+    .dr-empty-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 300;
+      color: var(--cream-dim);
+    }
+
+    /* ========== LOADING ========== */
+
+    .dr-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem;
+    }
+    .dr-spinner {
+      width: 24px;
+      height: 24px;
+      border: 1px solid rgba(196,148,60,0.15);
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ========== BACK LINK ========== */
+
+    .dr-back {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+    .dr-back a {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .dr-back a:hover {
+      color: var(--amber-light);
+    }
+
+    /* ========== ANIMATIONS ========== */
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up {
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    /* ========== MOBILE ========== */
+
+    @media (max-width: 768px) {
+      .dr-file-grid {
+        grid-template-columns: 1fr;
+      }
+      .dr-panel {
+        width: 100%;
+        max-width: 100%;
+      }
+      .dr-browser.panel-open {
+        padding-right: max(30px, 4vw);
+      }
+      .gate-input, .gate-input-email {
+        width: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Overlays -->
+  <div class="grain"></div>
+  <div class="vignette"></div>
+
+  <!-- Password Gate -->
+  <div class="gate" id="passwordGate">
+    <div class="gate-inner">
+      <div class="gate-title">Data Room</div>
+      <div class="gate-subtitle">One Night Entertainment</div>
+      <input type="password" class="gate-input" id="passwordInput" placeholder="Enter password" autocomplete="off">
+      <button class="gate-btn" id="passwordBtn">Enter</button>
+      <div class="gate-error-msg" id="passwordError"></div>
+    </div>
+  </div>
+
+  <!-- Email Gate -->
+  <div class="gate hidden" id="emailGate">
+    <div class="gate-inner fade-up">
+      <div class="gate-title">Welcome</div>
+      <div class="gate-subtitle">Enter your email to continue</div>
+      <input type="email" class="gate-input gate-input-email" id="emailInput" placeholder="you@company.com" autocomplete="email">
+      <button class="gate-btn" id="emailBtn">Continue</button>
+      <div class="gate-error-msg" id="emailError"></div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="dr-header" style="display: none;" id="drHeader">
+    <a href="/" class="dr-logo">ONE NIGHT <span>Data Room</span></a>
+    <div class="dr-header-right">
+      <div class="dr-user-email" id="userEmail"></div>
+      <button class="dr-logout-btn" id="logoutBtn">Sign Out</button>
+    </div>
+  </header>
+
+  <!-- Main App -->
+  <main class="dr-main" id="drMain">
+    <div class="dr-browser" id="drBrowser">
+      <div class="dr-section-label">Investor Materials</div>
+      <div class="dr-section-title">Documents</div>
+
+      <div id="fileLoading" class="dr-loading">
+        <div class="dr-spinner"></div>
+      </div>
+
+      <div id="fileGrid" class="dr-file-grid" style="display: none;"></div>
+
+      <div id="fileEmpty" class="dr-empty" style="display: none;">
+        <div class="dr-empty-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="dr-empty-text">No documents available yet</div>
+      </div>
+    </div>
+
+    <!-- Preview Panel -->
+    <aside class="dr-panel" id="drPanel">
+      <div class="dr-panel-header">
+        <div class="dr-panel-label">Preview</div>
+        <button class="dr-panel-close" id="panelClose">&times;</button>
+      </div>
+      <div class="dr-panel-preview" id="panelPreview">
+        <div class="dr-panel-preview-icon" id="panelPreviewIcon">PDF</div>
+      </div>
+      <div class="dr-panel-body">
+        <div class="dr-panel-filename" id="panelFilename"></div>
+        <div class="dr-panel-description" id="panelDescription"></div>
+        <div class="dr-panel-meta">
+          <div class="dr-panel-meta-row">
+            <span class="dr-panel-meta-label">Type</span>
+            <span class="dr-panel-meta-value" id="panelType"></span>
+          </div>
+          <div class="dr-panel-meta-row">
+            <span class="dr-panel-meta-label">Size</span>
+            <span class="dr-panel-meta-value" id="panelSize"></span>
+          </div>
+          <div class="dr-panel-meta-row">
+            <span class="dr-panel-meta-label">Uploaded</span>
+            <span class="dr-panel-meta-value" id="panelDate"></span>
+          </div>
+        </div>
+        <a class="dr-download-btn" id="downloadBtn" href="#" download>
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+    </aside>
+  </main>
+
+  <div class="dr-back" id="drBack" style="display: none;">
+    <a href="/">Back to One Night Entertainment</a>
+  </div>
+
+  <script>
+    // ========== CONFIG ==========
+    const SUPABASE_URL = 'https://qbnhjklajnmjfsqfzlna.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFibmhqa2xham5tamZzcWZ6bG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNDA4NjksImV4cCI6MjA5MDgxNjg2OX0.ocF4YeJ6IB-gZv3C67T8vV_GCcXGGm5COBG1D-DVLlI';
+    const DATA_ROOM_PASSWORD = 'Impossible2026';
+    const STORAGE_BUCKET = 'dataroom-files';
+
+    let sb;
+    try {
+      sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch(e) {
+      console.warn('Supabase not configured yet');
+    }
+
+    let currentInvestor = null;
+    let currentFiles = [];
+    let selectedFile = null;
+
+    // ========== HELPERS ==========
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.textContent;
+    }
+
+    function getFileExtension(name) {
+      const ext = name.split('.').pop().toUpperCase();
+      return ext.length <= 5 ? ext : 'FILE';
+    }
+
+    function formatFileSize(bytes) {
+      if (!bytes) return '\u2014';
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / 1048576).toFixed(1) + ' MB';
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '\u2014';
+      return new Date(dateStr).toLocaleDateString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric'
+      });
+    }
+
+    function isImageFile(name) {
+      return /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(name);
+    }
+
+    function getFileUrl(filePath) {
+      const { data } = sb.storage.from(STORAGE_BUCKET).getPublicUrl(filePath);
+      return data.publicUrl;
+    }
+
+    // ========== DOM ==========
+    const passwordGate = document.getElementById('passwordGate');
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordBtn = document.getElementById('passwordBtn');
+    const passwordError = document.getElementById('passwordError');
+
+    const emailGate = document.getElementById('emailGate');
+    const emailInput = document.getElementById('emailInput');
+    const emailBtn = document.getElementById('emailBtn');
+    const emailError = document.getElementById('emailError');
+
+    const drHeader = document.getElementById('drHeader');
+    const drMain = document.getElementById('drMain');
+    const drBack = document.getElementById('drBack');
+    const userEmailEl = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    const fileLoading = document.getElementById('fileLoading');
+    const fileGrid = document.getElementById('fileGrid');
+    const fileEmpty = document.getElementById('fileEmpty');
+    const drBrowser = document.getElementById('drBrowser');
+
+    const drPanel = document.getElementById('drPanel');
+    const panelClose = document.getElementById('panelClose');
+    const panelPreview = document.getElementById('panelPreview');
+    const panelPreviewIcon = document.getElementById('panelPreviewIcon');
+    const panelFilename = document.getElementById('panelFilename');
+    const panelDescription = document.getElementById('panelDescription');
+    const panelType = document.getElementById('panelType');
+    const panelSize = document.getElementById('panelSize');
+    const panelDate = document.getElementById('panelDate');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    // ========== PASSWORD GATE ==========
+    function checkPassword() {
+      const pw = passwordInput.value.trim();
+      if (pw === DATA_ROOM_PASSWORD) {
+        passwordGate.classList.add('hidden');
+        const storedEmail = sessionStorage.getItem('dr_email');
+        if (storedEmail) {
+          currentInvestor = { email: storedEmail, id: sessionStorage.getItem('dr_investor_id') };
+          showDataRoom();
+        } else {
+          emailGate.classList.remove('hidden');
+          setTimeout(function() { emailInput.focus(); }, 400);
+        }
+      } else {
+        passwordInput.classList.add('error');
+        passwordError.textContent = 'Invalid password';
+        setTimeout(function() {
+          passwordInput.classList.remove('error');
+          passwordError.textContent = '';
+        }, 1500);
+      }
+    }
+
+    passwordBtn.addEventListener('click', checkPassword);
+    passwordInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPassword(); });
+    passwordInput.focus();
+
+    // ========== EMAIL GATE ==========
+    async function submitEmail() {
+      var email = emailInput.value.trim().toLowerCase();
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        emailInput.classList.add('error');
+        emailError.textContent = 'Please enter a valid email';
+        setTimeout(function() {
+          emailInput.classList.remove('error');
+          emailError.textContent = '';
+        }, 1500);
+        return;
+      }
+
+      emailBtn.textContent = 'Loading...';
+      emailBtn.disabled = true;
+
+      try {
+        var result = await sb
+          .from('investors')
+          .upsert({ email: email }, { onConflict: 'email' })
+          .select()
+          .single();
+
+        if (result.error) throw result.error;
+
+        currentInvestor = result.data;
+        sessionStorage.setItem('dr_email', result.data.email);
+        sessionStorage.setItem('dr_investor_id', result.data.id);
+        showDataRoom();
+      } catch (err) {
+        console.error('Email submit error:', err);
+        emailError.textContent = 'Something went wrong. Please try again.';
+        emailBtn.textContent = 'Continue';
+        emailBtn.disabled = false;
+      }
+    }
+
+    emailBtn.addEventListener('click', submitEmail);
+    emailInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') submitEmail(); });
+
+    // ========== DATA ROOM ==========
+    async function showDataRoom() {
+      emailGate.classList.add('hidden');
+      drHeader.style.display = 'flex';
+      drBack.style.display = 'block';
+      drMain.classList.add('visible');
+      userEmailEl.textContent = currentInvestor.email;
+
+      await loadFiles();
+    }
+
+    async function loadFiles() {
+      fileLoading.style.display = 'flex';
+      fileGrid.style.display = 'none';
+      fileEmpty.style.display = 'none';
+
+      try {
+        var result = await sb
+          .from('files')
+          .select('*')
+          .order('display_order', { ascending: true })
+          .order('uploaded_at', { ascending: false });
+
+        if (result.error) throw result.error;
+
+        currentFiles = result.data || [];
+
+        if (currentFiles.length === 0) {
+          fileLoading.style.display = 'none';
+          fileEmpty.style.display = 'flex';
+          return;
+        }
+
+        renderFiles();
+      } catch (err) {
+        console.error('Load files error:', err);
+        fileLoading.style.display = 'none';
+        fileEmpty.style.display = 'flex';
+      }
+    }
+
+    function createFileCard(file, index) {
+      var ext = getFileExtension(file.name);
+      var fileUrl = getFileUrl(file.file_path);
+      var isImage = isImageFile(file.name);
+
+      var card = document.createElement('div');
+      card.className = 'dr-file-card';
+      card.style.opacity = '0';
+      card.style.animation = 'fadeUp 0.4s ease ' + (index * 0.05) + 's forwards';
+
+      // Icon
+      var icon = document.createElement('div');
+      icon.className = 'dr-file-icon';
+      if (isImage) {
+        var img = document.createElement('img');
+        img.src = fileUrl;
+        img.alt = escapeHtml(file.name);
+        icon.appendChild(img);
+      } else {
+        icon.textContent = ext;
+      }
+      card.appendChild(icon);
+
+      // Info
+      var info = document.createElement('div');
+      info.className = 'dr-file-info';
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'dr-file-name';
+      nameEl.textContent = file.name;
+      info.appendChild(nameEl);
+
+      if (file.description) {
+        var descEl = document.createElement('div');
+        descEl.className = 'dr-file-desc';
+        descEl.textContent = file.description;
+        info.appendChild(descEl);
+      }
+      card.appendChild(info);
+
+      // Meta
+      var meta = document.createElement('div');
+      meta.className = 'dr-file-meta';
+
+      var badge = document.createElement('span');
+      badge.className = 'dr-file-type-badge';
+      badge.textContent = ext;
+      meta.appendChild(badge);
+
+      var size = document.createElement('span');
+      size.className = 'dr-file-size';
+      size.textContent = formatFileSize(file.file_size);
+      meta.appendChild(size);
+
+      card.appendChild(meta);
+
+      card.addEventListener('click', function() { openPanel(file); });
+      return card;
+    }
+
+    function renderFiles() {
+      fileGrid.replaceChildren();
+
+      currentFiles.forEach(function(file, index) {
+        fileGrid.appendChild(createFileCard(file, index));
+      });
+
+      fileLoading.style.display = 'none';
+      fileGrid.style.display = 'grid';
+    }
+
+    // ========== PANEL ==========
+    function openPanel(file) {
+      selectedFile = file;
+      var ext = getFileExtension(file.name);
+      var fileUrl = getFileUrl(file.file_path);
+      var isImage = isImageFile(file.name);
+
+      // Update active state
+      var cards = document.querySelectorAll('.dr-file-card');
+      cards.forEach(function(c, i) {
+        c.classList.toggle('active', currentFiles[i] && currentFiles[i].id === file.id);
+      });
+
+      // Preview - clear and rebuild safely
+      panelPreview.replaceChildren();
+      if (isImage) {
+        var img = document.createElement('img');
+        img.src = fileUrl;
+        img.alt = escapeHtml(file.name);
+        panelPreview.appendChild(img);
+      } else {
+        var iconEl = document.createElement('div');
+        iconEl.className = 'dr-panel-preview-icon';
+        iconEl.textContent = ext;
+        panelPreview.appendChild(iconEl);
+      }
+
+      panelFilename.textContent = file.name;
+      panelDescription.textContent = file.description || 'No description';
+      panelType.textContent = ext;
+      panelSize.textContent = formatFileSize(file.file_size);
+      panelDate.textContent = formatDate(file.uploaded_at);
+
+      downloadBtn.href = fileUrl;
+      downloadBtn.setAttribute('download', file.name);
+
+      drPanel.classList.add('open');
+      drBrowser.classList.add('panel-open');
+    }
+
+    function closePanel() {
+      drPanel.classList.remove('open');
+      drBrowser.classList.remove('panel-open');
+      document.querySelectorAll('.dr-file-card').forEach(function(c) { c.classList.remove('active'); });
+      selectedFile = null;
+    }
+
+    panelClose.addEventListener('click', closePanel);
+
+    // ========== DOWNLOAD TRACKING ==========
+    downloadBtn.addEventListener('click', async function() {
+      if (!selectedFile || !currentInvestor) return;
+
+      try {
+        await sb.from('downloads').insert({
+          investor_id: currentInvestor.id,
+          file_id: selectedFile.id
+        });
+      } catch (err) {
+        console.error('Download tracking error:', err);
+      }
+    });
+
+    // ========== LOGOUT ==========
+    logoutBtn.addEventListener('click', function() {
+      sessionStorage.removeItem('dr_email');
+      sessionStorage.removeItem('dr_investor_id');
+      currentInvestor = null;
+      drHeader.style.display = 'none';
+      drBack.style.display = 'none';
+      drMain.classList.remove('visible');
+      closePanel();
+      emailGate.classList.remove('hidden');
+      emailInput.value = '';
+      emailInput.focus();
+    });
+
+    // ========== KEYBOARD ==========
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drPanel.classList.contains('open')) {
+        closePanel();
+      }
+    });
+  </script>
+</body>
+</html>

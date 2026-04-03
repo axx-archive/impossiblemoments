@@ -1,0 +1,2747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Night Entertainment — Impossible Moments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #080604;
+      --black-warm: #0F0C08;
+      --amber: #C4943C;
+      --amber-light: #D4A853;
+      --amber-pale: #F0DEB4;
+      --cream: #EDE4D4;
+      --cream-dim: #A89A86;
+      --burgundy: #5C2232;
+      --burgundy-deep: #3D1520;
+      --warm-gray: #2A2420;
+      --warm-gray-mid: #4A3F36;
+
+      --neon-tube: #FFF5E8;
+      --neon-bloom: rgba(255, 245, 232, 0.7);
+      --neon-amber: #D4A040;
+      --neon-amber-mid: rgba(196, 148, 60, 0.7);
+      --neon-amber-far: rgba(196, 148, 60, 0.35);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--amber) var(--black);
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
+
+    body {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ========== OVERLAYS ========== */
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10000;
+      overflow: hidden;
+    }
+    .grain::after {
+      content: '';
+      position: absolute;
+      inset: -200%;
+      width: 400%;
+      height: 400%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.032;
+      animation: grainDrift 6s steps(8) infinite;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 0%, rgba(8,6,4,0.4) 60%, rgba(8,6,4,0.85) 100%);
+    }
+
+
+    .password-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--black-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease;
+    }
+    .password-gate.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .password-gate-inner {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .password-gate-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 3rem;
+      letter-spacing: 0.03em;
+      color: var(--amber-pale);
+      margin-bottom: 1rem;
+    }
+    .password-gate-input {
+      background: transparent;
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.8rem 1.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--cream);
+      text-align: center;
+      outline: none;
+      width: 260px;
+      transition: border-color 0.3s;
+    }
+    .password-gate-input:focus {
+      border-color: var(--amber);
+    }
+    .password-gate-input.error {
+      border-color: #c44;
+      animation: shake 0.4s ease;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+    .password-gate-btn {
+      background: rgba(196,148,60,0.08);
+      border: 1px solid rgba(196,148,60,0.3);
+      padding: 0.6rem 2.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .password-gate-btn:hover {
+      background: rgba(196,148,60,0.15);
+      border-color: var(--amber);
+    }
+
+    .mobile-gate {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body { cursor: default; overflow: hidden; }
+      .cursor { display: none; }
+
+      .mobile-gate {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: var(--black-warm);
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-gate-text {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 1rem;
+        font-weight: 300;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--amber-light);
+        text-align: center;
+        padding: 2rem;
+      }
+    }
+
+    /* ========== EASTER EGG ========== */
+
+    @keyframes eggPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.2; }
+    }
+
+    @keyframes neonBreathPink {
+      0%, 100% {
+        text-shadow:
+          0 0 5px #FFE0F5,
+          0 0 12px #FFE0F5,
+          0 0 22px #FFE0F5,
+          0 0 45px #D06CC0,
+          0 0 85px #D06CC0,
+          0 0 130px rgba(208,108,192,0.7),
+          0 0 200px rgba(208,108,192,0.4),
+          0 0 300px rgba(208,108,192,0.2);
+      }
+      50% {
+        text-shadow:
+          0 0 3px #FFE0F5,
+          0 0 8px rgba(255,224,245,0.8),
+          0 0 16px rgba(255,224,245,0.5),
+          0 0 35px rgba(208,108,192,0.6),
+          0 0 65px rgba(208,108,192,0.35),
+          0 0 100px rgba(208,108,192,0.4),
+          0 0 160px rgba(208,108,192,0.2),
+          0 0 240px rgba(208,108,192,0.1);
+      }
+    }
+
+    /* ========== BRITNEY MODE ========== */
+
+
+    @keyframes pinkFire {
+      0%, 100% {
+        box-shadow:
+          0 0 20px rgba(208,108,192,0.4),
+          0 0 40px rgba(208,108,192,0.3),
+          0 0 80px rgba(208,108,192,0.2),
+          0 0 120px rgba(255,100,200,0.15),
+          0 0 200px rgba(255,100,200,0.1),
+          inset 0 0 30px rgba(208,108,192,0.1);
+      }
+      25% {
+        box-shadow:
+          0 0 25px rgba(255,100,200,0.5),
+          0 0 50px rgba(208,108,192,0.35),
+          0 0 90px rgba(255,80,180,0.25),
+          0 0 140px rgba(255,100,200,0.2),
+          0 0 220px rgba(255,100,200,0.12),
+          inset 0 0 40px rgba(208,108,192,0.15);
+      }
+      50% {
+        box-shadow:
+          0 0 18px rgba(208,108,192,0.35),
+          0 0 35px rgba(255,100,200,0.3),
+          0 0 70px rgba(208,108,192,0.2),
+          0 0 110px rgba(255,80,180,0.18),
+          0 0 180px rgba(255,100,200,0.08),
+          inset 0 0 25px rgba(208,108,192,0.08);
+      }
+      75% {
+        box-shadow:
+          0 0 28px rgba(255,80,180,0.45),
+          0 0 55px rgba(208,108,192,0.35),
+          0 0 100px rgba(255,100,200,0.25),
+          0 0 150px rgba(255,100,200,0.18),
+          0 0 240px rgba(255,80,180,0.1),
+          inset 0 0 35px rgba(208,108,192,0.12);
+      }
+    }
+
+    /* ========== CASH MODE ========== */
+
+    @keyframes neonBreathWhite {
+      0%, 100% {
+        text-shadow:
+          0 0 5px #FFFFFF,
+          0 0 12px #FFFFFF,
+          0 0 22px #FFFFFF,
+          0 0 45px rgba(255,255,255,0.7),
+          0 0 85px rgba(255,255,255,0.5),
+          0 0 130px rgba(255,255,255,0.3),
+          0 0 200px rgba(255,255,255,0.15),
+          0 0 300px rgba(255,255,255,0.08);
+      }
+      50% {
+        text-shadow:
+          0 0 3px #FFFFFF,
+          0 0 8px rgba(255,255,255,0.8),
+          0 0 16px rgba(255,255,255,0.5),
+          0 0 35px rgba(255,255,255,0.5),
+          0 0 65px rgba(255,255,255,0.3),
+          0 0 100px rgba(255,255,255,0.2),
+          0 0 160px rgba(255,255,255,0.1),
+          0 0 240px rgba(255,255,255,0.05);
+      }
+    }
+
+
+    @keyframes whiteFire {
+      0%, 100% {
+        box-shadow:
+          0 0 20px rgba(255,255,255,0.3),
+          0 0 40px rgba(255,255,255,0.2),
+          0 0 80px rgba(255,255,255,0.12),
+          0 0 120px rgba(255,255,255,0.08),
+          0 0 200px rgba(255,255,255,0.05),
+          inset 0 0 30px rgba(255,255,255,0.06);
+      }
+      25% {
+        box-shadow:
+          0 0 25px rgba(255,255,255,0.4),
+          0 0 50px rgba(255,255,255,0.28),
+          0 0 90px rgba(255,255,255,0.18),
+          0 0 140px rgba(255,255,255,0.12),
+          0 0 220px rgba(255,255,255,0.07),
+          inset 0 0 40px rgba(255,255,255,0.1);
+      }
+      50% {
+        box-shadow:
+          0 0 18px rgba(255,255,255,0.25),
+          0 0 35px rgba(255,255,255,0.2),
+          0 0 70px rgba(255,255,255,0.12),
+          0 0 110px rgba(255,255,255,0.1),
+          0 0 180px rgba(255,255,255,0.04),
+          inset 0 0 25px rgba(255,255,255,0.05);
+      }
+      75% {
+        box-shadow:
+          0 0 28px rgba(255,255,255,0.38),
+          0 0 55px rgba(255,255,255,0.25),
+          0 0 100px rgba(255,255,255,0.16),
+          0 0 150px rgba(255,255,255,0.1),
+          0 0 240px rgba(255,255,255,0.06),
+          inset 0 0 35px rgba(255,255,255,0.08);
+      }
+    }
+
+    /* ========== SECTION BASE ========== */
+
+    section {
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 2rem;
+    }
+
+    .section-headline {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.2;
+      color: var(--cream);
+      max-width: 960px;
+    }
+
+    .section-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--cream-dim);
+      max-width: 720px;
+    }
+
+    /* ========== HERO ========== */
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-ambient {
+      display: none;
+    }
+
+    .golden-circle {
+      position: absolute;
+      width: min(520px, 72vw);
+      height: min(520px, 72vw);
+      border-radius: 50%;
+      border: 1px solid rgba(196,148,60,0.35);
+      box-shadow:
+        0 0 20px rgba(196,148,60,0.25),
+        0 0 40px rgba(196,148,60,0.18),
+        0 0 80px rgba(196,148,60,0.12),
+        0 0 120px rgba(196,148,60,0.08),
+        0 0 200px rgba(196,148,60,0.05),
+        inset 0 0 30px rgba(196,148,60,0.06);
+      animation: amberFire 6s ease-in-out infinite, fadeIn 1.5s ease 0.2s both;
+    }
+
+    @keyframes amberFire {
+      0%, 100% {
+        box-shadow:
+          0 0 20px rgba(196,148,60,0.25),
+          0 0 40px rgba(196,148,60,0.18),
+          0 0 80px rgba(196,148,60,0.12),
+          0 0 120px rgba(196,148,60,0.08),
+          0 0 200px rgba(196,148,60,0.05),
+          inset 0 0 30px rgba(196,148,60,0.06);
+      }
+      25% {
+        box-shadow:
+          0 0 25px rgba(218,165,50,0.35),
+          0 0 50px rgba(196,148,60,0.25),
+          0 0 90px rgba(218,165,50,0.18),
+          0 0 140px rgba(196,148,60,0.12),
+          0 0 220px rgba(196,148,60,0.07),
+          inset 0 0 40px rgba(196,148,60,0.1);
+      }
+      50% {
+        box-shadow:
+          0 0 18px rgba(196,148,60,0.2),
+          0 0 35px rgba(218,165,50,0.2),
+          0 0 70px rgba(196,148,60,0.12),
+          0 0 110px rgba(218,165,50,0.1),
+          0 0 180px rgba(196,148,60,0.04),
+          inset 0 0 25px rgba(196,148,60,0.05);
+      }
+      75% {
+        box-shadow:
+          0 0 28px rgba(218,165,50,0.32),
+          0 0 55px rgba(196,148,60,0.22),
+          0 0 100px rgba(218,165,50,0.16),
+          0 0 150px rgba(196,148,60,0.1),
+          0 0 240px rgba(218,165,50,0.06),
+          inset 0 0 35px rgba(196,148,60,0.08);
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    /* --- NEON SIGN EFFECT --- */
+
+    .hero-one {
+      font-weight: 400;
+    }
+
+    .hero-night {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: clamp(5.5rem, 14vw, 13rem);
+      letter-spacing: 0.03em;
+      line-height: 0.85;
+      color: var(--neon-tube);
+      animation: fadeIn 1s ease 0.8s both, heroScale 1s ease 0.8s both;
+      text-shadow:
+        0 0 5px #FFF5E8,
+        0 0 12px #FFF5E8,
+        0 0 22px #FFF5E8,
+        0 0 45px #D4A040,
+        0 0 85px #D4A040,
+        0 0 130px rgba(196,148,60,0.7),
+        0 0 200px rgba(196,148,60,0.4),
+        0 0 300px rgba(196,148,60,0.2);
+    }
+
+    .hero-glow-pool {
+      display: none;
+    }
+
+    .hero-ent {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.95rem);
+      font-weight: 300;
+      letter-spacing: 0.75em;
+      text-indent: 0.75em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      margin-top: 1.2rem;
+      animation: fadeIn 1s ease 1.2s both, neonFlicker 12s ease-in-out infinite 3s;
+      text-shadow:
+        0 0 4px var(--amber-light),
+        0 0 10px var(--amber),
+        0 0 25px rgba(196,148,60,0.5),
+        0 0 50px rgba(196,148,60,0.25),
+        0 0 90px rgba(196,148,60,0.1);
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1rem, 1.8vw, 1.5rem);
+      color: var(--cream-dim);
+      margin-top: 2.5rem;
+      animation: fadeIn 1s ease 1.6s both;
+    }
+
+    .hero-tagline {
+      position: absolute;
+      bottom: 140px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(0.7rem, 1.1vw, 0.9rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: #fff;
+      opacity: 0.7;
+      animation: fadeIn 1s ease 2s both;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      animation: fadeIn 1s ease 2.5s both;
+    }
+    .scroll-indicator span {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.4em;
+      color: var(--cream-dim);
+      opacity: 0.5;
+    }
+    .scroll-indicator::after {
+      content: '';
+      width: 1px;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--amber), transparent);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+      transform-origin: top;
+    }
+
+    /* ========== TAXONOMY ========== */
+
+    .taxonomy {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 140px max(40px, 6vw);
+      text-align: center;
+      background:
+        linear-gradient(rgba(8,6,4,0.78), rgba(8,6,4,0.82)),
+        url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=1920&q=80&auto=format&fit=crop') center/cover no-repeat;
+    }
+
+    .taxonomy .section-headline {
+      max-width: 880px;
+      margin-bottom: 1.5rem;
+    }
+
+    .taxonomy-unclaimed {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      color: var(--amber);
+      margin-bottom: 4rem;
+    }
+
+    .taxonomy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 1140px;
+      width: 100%;
+      margin-bottom: 4rem;
+      background: rgba(196,148,60,0.08);
+    }
+
+    .taxonomy-card {
+      padding: 3rem 2.5rem;
+      background: rgba(8,6,4,0.85);
+      text-align: left;
+      transition: background 0.5s;
+      backdrop-filter: blur(2px);
+    }
+    .taxonomy-card:hover {
+      background: rgba(15,12,8,0.9);
+    }
+
+    .taxonomy-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 1.2rem;
+    }
+    .taxonomy-card h3 em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .taxonomy-card .example {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .taxonomy-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+    }
+
+    .taxonomy-card--active {
+      background: rgba(196,148,60,0.06);
+      border-top: 1px solid var(--amber);
+      margin-top: -1px;
+    }
+    .taxonomy-card--active h3 { color: var(--amber); }
+    .taxonomy-card--active .example { color: var(--amber-pale); }
+    .taxonomy-card--active p { color: var(--cream); }
+
+    .taxonomy-pullquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+      color: var(--cream-dim);
+      max-width: 780px;
+      line-height: 1.7;
+    }
+    .taxonomy-pullquote strong {
+      font-weight: 500;
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    /* ========== GENESIS ========== */
+
+    .genesis {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 140px max(40px, 6vw);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .genesis-video {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    .genesis-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .genesis-video::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,4,0.85) 0%,
+        rgba(8,6,4,0.6) 30%,
+        rgba(8,6,4,0.6) 70%,
+        rgba(8,6,4,0.85) 100%
+      );
+    }
+
+    .genesis > *:not(.genesis-video) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .genesis .section-headline {
+      max-width: 900px;
+      margin-bottom: 2rem;
+    }
+
+    .genesis-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.35rem;
+      line-height: 1.9;
+      color: var(--cream-dim);
+      max-width: 700px;
+      margin-bottom: 4rem;
+    }
+
+    .genesis-stats {
+      display: flex;
+      gap: 6rem;
+      margin-bottom: 4rem;
+    }
+
+    .genesis-stat .number {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 3.2rem;
+      color: var(--amber);
+      line-height: 1;
+      text-shadow: 0 0 30px rgba(196,148,60,0.15);
+    }
+    .genesis-stat .label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--cream-dim);
+      margin-top: 0.6rem;
+      max-width: 180px;
+    }
+
+    .genesis-pivot {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(1.15rem, 1.6vw, 1.35rem);
+      line-height: 1.75;
+      color: var(--cream);
+      max-width: 680px;
+      font-style: italic;
+    }
+    .genesis-pivot em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .genesis-question {
+      margin-top: 2.5rem;
+      border: 1px solid rgba(196,148,60,0.4);
+      padding: 2.5rem 4rem;
+      text-align: center;
+      background: rgba(8,6,4,0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .genesis-question-pair {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+    }
+    .genesis-question p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      color: var(--cream-dim);
+      margin-bottom: 1rem;
+    }
+    .genesis-question-big {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(1.4rem, 2.2vw, 1.8rem) !important;
+      line-height: 1.5;
+      color: var(--amber) !important;
+      margin-bottom: 0 !important;
+    }
+    .genesis-question-big em {
+      font-style: italic;
+    }
+
+    /* ========== INTRODUCING ========== */
+
+    .introducing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+    }
+
+    .introducing-circle {
+      position: absolute;
+      width: min(520px, 72vw);
+      height: min(520px, 72vw);
+      border-radius: 50%;
+      border: 1px solid rgba(196,148,60,0.2);
+      box-shadow:
+        0 0 80px rgba(196,148,60,0.06),
+        0 0 160px rgba(196,148,60,0.03),
+        inset 0 0 80px rgba(196,148,60,0.03);
+      animation: amberFire 6s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .introducing-portal-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease;
+      border-radius: 50%;
+    }
+
+    .introducing-portal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8,6,4,0.8);
+      opacity: 0;
+      transition: opacity 1s ease;
+      border-radius: 50%;
+    }
+
+    .britney-mode #portalVideo,
+    .britney-mode .introducing-portal-overlay {
+      opacity: 1;
+    }
+
+    .cash-mode #portalVideoCash,
+    .cash-mode .introducing-portal-overlay {
+      opacity: 1;
+    }
+
+    .introducing-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .introducing-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: clamp(4rem, 10vw, 9rem);
+      letter-spacing: 0.03em;
+      line-height: 0.85;
+      color: var(--neon-tube);
+      text-shadow:
+        0 0 5px #FFF5E8,
+        0 0 12px #FFF5E8,
+        0 0 22px #FFF5E8,
+        0 0 45px #D4A040,
+        0 0 85px #D4A040,
+        0 0 130px rgba(196,148,60,0.7),
+        0 0 200px rgba(196,148,60,0.4),
+        0 0 300px rgba(196,148,60,0.2);
+    }
+
+    .introducing-one {
+      font-weight: 400;
+    }
+
+    .introducing-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(0.85rem, 1.6vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 0.75em;
+      text-indent: 0.75em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      margin-top: 2rem;
+      text-shadow:
+        0 0 4px var(--amber-light),
+        0 0 10px var(--amber),
+        0 0 25px rgba(196,148,60,0.5),
+        0 0 50px rgba(196,148,60,0.25),
+        0 0 90px rgba(196,148,60,0.1);
+      transition: color 1s, text-shadow 1s;
+    }
+
+    .introducing-timeline {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      padding: 0 3rem;
+      gap: 2rem;
+    }
+
+    .timeline-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(196,148,60,0.35);
+      box-shadow: 0 0 4px rgba(196,148,60,0.2), 0 0 8px rgba(196,148,60,0.1);
+      transition: background 1s ease, box-shadow 1s ease;
+    }
+
+    .britney-mode .timeline-line {
+      background: rgba(208,108,192,0.6);
+      box-shadow: 0 0 4px rgba(208,108,192,0.4), 0 0 10px rgba(208,108,192,0.2);
+    }
+
+    .cash-mode .timeline-line {
+      background: rgba(255,255,255,0.5);
+      box-shadow: 0 0 4px rgba(255,255,255,0.3), 0 0 10px rgba(255,255,255,0.15);
+    }
+
+    .introducing-sig {
+      height: 90px;
+      width: auto;
+      opacity: 0.3;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      user-select: none;
+      -webkit-user-select: none;
+      flex-shrink: 0;
+    }
+
+    .introducing-sig:hover {
+      opacity: 0.6;
+    }
+
+    .introducing-sig.playing {
+      opacity: 0.6;
+      animation: eggPulse 2s ease-in-out infinite;
+    }
+
+    /* Britney mode on introducing */
+    .britney-mode .introducing-title {
+      color: #FFE0F5 !important;
+      text-shadow:
+        0 0 5px #FFE0F5,
+        0 0 12px #FFE0F5,
+        0 0 22px #FFE0F5,
+        0 0 45px #D06CC0,
+        0 0 85px #D06CC0,
+        0 0 130px rgba(208,108,192,0.7),
+        0 0 200px rgba(208,108,192,0.4),
+        0 0 300px rgba(208,108,192,0.2) !important;
+      animation: neonBreathPink 5s ease-in-out infinite;
+    }
+
+    .britney-mode .introducing-sub {
+      color: #E8A0D8;
+      text-shadow:
+        0 0 4px #E8A0D8,
+        0 0 10px #D06CC0,
+        0 0 25px rgba(208,108,192,0.5),
+        0 0 50px rgba(208,108,192,0.25);
+    }
+
+    .britney-mode .introducing-circle {
+      border-color: rgba(208,108,192,0.5);
+      animation: pinkFire 2s ease-in-out infinite !important;
+    }
+
+    /* Cash mode on introducing */
+    .cash-mode .introducing-title {
+      color: #FFFFFF !important;
+      text-shadow:
+        0 0 5px #FFFFFF,
+        0 0 12px #FFFFFF,
+        0 0 22px #FFFFFF,
+        0 0 45px rgba(255,255,255,0.7),
+        0 0 85px rgba(255,255,255,0.5),
+        0 0 130px rgba(255,255,255,0.3),
+        0 0 200px rgba(255,255,255,0.15),
+        0 0 300px rgba(255,255,255,0.08) !important;
+      animation: neonBreathWhite 5s ease-in-out infinite;
+    }
+
+    .cash-mode .introducing-sub {
+      color: rgba(255,255,255,0.7);
+      text-shadow:
+        0 0 4px rgba(255,255,255,0.7),
+        0 0 10px rgba(255,255,255,0.5),
+        0 0 25px rgba(255,255,255,0.3);
+    }
+
+    .cash-mode .introducing-circle {
+      border-color: rgba(255,255,255,0.4);
+      animation: whiteFire 2s ease-in-out infinite !important;
+    }
+
+    .introducing-closer {
+      position: absolute;
+      bottom: 8%;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+    }
+
+    .introducing-closer-card {
+      background: rgba(196,148,60,0.06);
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 1.5rem 3rem;
+      position: relative;
+    }
+
+    .introducing-closer-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(196,148,60,0.15), transparent 60%);
+      pointer-events: none;
+    }
+
+    .introducing-closer-btn {
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .introducing-closer-btn:hover {
+      background: rgba(196,148,60,0.12);
+      border-color: rgba(196,148,60,0.4);
+      box-shadow: 0 0 30px rgba(196,148,60,0.15);
+    }
+
+    .introducing-closer-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      color: var(--amber-pale);
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    /* ========== SHOWS ========== */
+
+    .shows {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px max(40px, 6vw);
+    }
+
+    .shows .section-headline {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .shows-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--cream-dim);
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .shows-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .show-card {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.5s ease;
+    }
+    .show-card:hover {
+      transform: scale(1.01);
+    }
+
+    .show-card-visual {
+      height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .show-card--britney .show-card-visual {
+      background:
+        linear-gradient(160deg, rgba(13,5,20,0.6) 0%, rgba(45,16,64,0.5) 40%, rgba(74,24,86,0.45) 60%, rgba(45,16,64,0.5) 80%, rgba(13,5,20,0.6) 100%),
+        url('britney-snake.webp') center 15%/cover no-repeat;
+    }
+    .show-card--britney .show-card-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 60%, rgba(180,80,160,0.12) 0%, transparent 70%);
+    }
+
+    .show-card--nashville .show-card-visual {
+      background:
+        linear-gradient(160deg, rgba(13,9,5,0.5) 0%, rgba(45,30,10,0.35) 40%, rgba(74,50,16,0.3) 60%, rgba(45,30,10,0.35) 80%, rgba(13,9,5,0.5) 100%),
+        url('nashville-duet-square.png') center 15%/cover no-repeat;
+    }
+    .show-card--nashville .show-card-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(196,148,60,0.1) 0%, transparent 70%);
+    }
+
+    .show-card-visual .big-text {
+      position: absolute;
+      bottom: -0.08em;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 7.5rem;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      opacity: 0.12;
+      color: white;
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(255,255,255,0.1);
+      text-align: center;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--amber-pale);
+      border-radius: 50%;
+      animation: twinkle 4s ease-in-out infinite;
+    }
+
+    .show-card-info {
+      padding: 2.4rem 2.8rem 3rem;
+      background: var(--black-warm);
+      border-top: 1px solid rgba(196,148,60,0.1);
+    }
+
+    .show-card-format {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.5rem;
+    }
+
+    .show-card-name {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 3rem;
+      line-height: 1;
+      margin-bottom: 1.2rem;
+    }
+    .show-card--britney .show-card-name { color: #E8C0E0; }
+    .show-card--nashville .show-card-name { color: var(--amber-light); }
+
+    .show-card-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .show-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(196,148,60,0.08);
+      padding-top: 1.2rem;
+    }
+
+    .show-card-stat .num {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--amber);
+    }
+    .show-card-stat .unit {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.05em;
+      color: var(--cream-dim);
+      margin-top: 2px;
+    }
+
+    .show-card-badge {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 0.5em 1.2em;
+    }
+
+    /* ========== SHOW CARD FLIP ========== */
+
+    .show-card-flip {
+      perspective: 1200px;
+    }
+
+    .show-card-flip-inner {
+      position: relative;
+      transition: transform 0.7s ease;
+      transform-style: preserve-3d;
+    }
+
+    .show-card-flip.flipped .show-card-flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .show-card-front,
+    .show-card-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .show-card-front {
+      position: relative;
+      z-index: 2;
+    }
+
+    .show-card-back {
+      position: absolute;
+      inset: 0;
+      transform: rotateY(180deg);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .show-card-back--britney {
+      background:
+        linear-gradient(160deg, rgba(13,5,20,0.85) 0%, rgba(45,16,64,0.8) 40%, rgba(74,24,86,0.75) 60%, rgba(45,16,64,0.8) 80%, rgba(13,5,20,0.85) 100%);
+    }
+
+    .show-card-back--nashville {
+      background:
+        linear-gradient(160deg, rgba(13,9,5,0.85) 0%, rgba(45,30,10,0.75) 40%, rgba(74,50,16,0.7) 60%, rgba(45,30,10,0.75) 80%, rgba(13,9,5,0.85) 100%);
+    }
+
+    .show-card-back-content {
+      padding: 3rem;
+    }
+
+    .show-card-back-headline {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: 2.4rem;
+      margin-bottom: 2rem;
+      line-height: 1;
+    }
+
+    .show-card-back--britney .show-card-back-headline { color: #E8C0E0; }
+    .show-card-back--nashville .show-card-back-headline { color: var(--amber-light); }
+
+    .show-card-back-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .show-card-back-list li {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      line-height: 1.5;
+      color: var(--cream);
+      padding-left: 1.4rem;
+      position: relative;
+    }
+
+    .show-card-back-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    .show-card-back--britney .show-card-back-list li::before {
+      background: #D06CC0;
+      box-shadow: 0 0 6px rgba(208,108,192,0.5);
+    }
+
+    .show-card-back--nashville .show-card-back-list li::before {
+      background: var(--amber);
+      box-shadow: 0 0 6px rgba(196,148,60,0.5);
+    }
+
+    /* ========== IMPOSSIBLE MOMENT ========== */
+
+    .impossible-moment {
+      padding: 140px max(40px, 6vw);
+      background: var(--black);
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .impossible-columns {
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .impossible-left {
+      flex: 0 0 auto;
+    }
+
+    .impossible-headline-card {
+      background: rgba(196,148,60,0.06);
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 3rem 3.5rem;
+      position: relative;
+    }
+
+    .impossible-headline-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: linear-gradient(135deg, rgba(196,148,60,0.15), transparent 60%);
+      pointer-events: none;
+    }
+
+    .impossible-headline-card .section-headline {
+      text-align: left;
+      margin-bottom: 0;
+      white-space: nowrap;
+      color: var(--amber-pale);
+    }
+
+    .impossible-headline-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.2rem;
+    }
+
+    .impossible-right {
+      flex: 1;
+    }
+
+    .impossible-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .impossible-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.3rem, 1.8vw, 1.5rem);
+      line-height: 1.6;
+      color: var(--cream);
+      padding-left: 1.8rem;
+      border-left: 1px solid var(--amber);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .impossible-closer {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      color: var(--amber-light);
+      max-width: 1100px;
+      margin: 4rem auto 0;
+      line-height: 1.7;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* ========== INFRASTRUCTURE ========== */
+
+    .infra-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      max-width: 1140px;
+      width: 100%;
+      margin-top: 4rem;
+      background: rgba(196,148,60,0.08);
+    }
+
+    .infra-card {
+      padding: 3rem 2.5rem;
+      background: rgba(8,6,4,0.85);
+      text-align: left;
+      transition: background 0.5s;
+      backdrop-filter: blur(2px);
+    }
+
+    .infra-card:hover {
+      background: rgba(196,148,60,0.06);
+      border-top: 1px solid var(--amber);
+      margin-top: -1px;
+    }
+    .infra-card:hover h3 { color: var(--amber); }
+    .infra-card:hover .infra-name { color: var(--amber-pale); }
+    .infra-card:hover p { color: var(--cream); }
+
+    .infra-card h3 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 1.2rem;
+    }
+
+    .infra-card .infra-name {
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .infra-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+    }
+
+    .infra-card--active {
+      background: rgba(196,148,60,0.06);
+      border-top: 1px solid var(--amber);
+      margin-top: -1px;
+    }
+    .infra-card--active h3 { color: var(--amber); }
+    .infra-card--active .infra-name { color: var(--amber-pale); }
+    .infra-card--active p { color: var(--cream); }
+
+    /* ========== TECH PARTNER ========== */
+
+    .partner {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px max(40px, 6vw);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .partner-bg {
+      position: absolute;
+      inset: 0;
+      background: url('abba-stage.jpeg') center center / cover no-repeat;
+      z-index: 0;
+    }
+
+    .partner-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,4,0.9) 0%,
+        rgba(8,6,4,0.72) 30%,
+        rgba(8,6,4,0.72) 70%,
+        rgba(8,6,4,0.9) 100%
+      );
+    }
+
+    .partner > *:not(.partner-bg) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .partner-powered {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 1rem;
+    }
+
+    .partner-name {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.2;
+      color: var(--cream);
+      margin-bottom: 2rem;
+    }
+
+    .partner-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.85;
+      color: var(--cream-dim);
+      max-width: 720px;
+      margin-bottom: 3.5rem;
+    }
+
+    .partner-credentials {
+      display: flex;
+      gap: 4rem;
+    }
+
+    .partner-credential {
+      text-align: center;
+      max-width: 240px;
+    }
+
+    .partner-credential p {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--cream-dim);
+      line-height: 1.6;
+    }
+
+    .partner-credential .accent {
+      display: block;
+      font-family: 'Bodoni Moda', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--amber);
+      margin-bottom: 0.6rem;
+    }
+
+    /* ========== VEGAS / WHERE ========== */
+
+    .vegas-section {
+      padding: 140px max(40px, 6vw);
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(196,148,60,0.04) 0%, transparent 60%),
+        var(--black);
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vegas-section .section-headline {
+      max-width: none;
+      margin-bottom: 2rem;
+      white-space: nowrap;
+    }
+
+    .vegas-section .section-body {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .land-stats {
+      display: flex;
+      gap: 3rem;
+      justify-content: center;
+      margin: 3rem 0 0;
+    }
+
+    .land-stat {
+      text-align: center;
+    }
+
+    .land-stat-num {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      color: var(--amber-pale);
+      margin-bottom: 0.4rem;
+    }
+
+    .land-stat-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: var(--cream-dim);
+      max-width: 180px;
+    }
+
+    .vegas-kicker {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+      color: var(--amber);
+      margin-top: 2.5rem;
+    }
+
+    .land-viewer {
+      margin-top: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .land-image-wrap {
+      position: relative;
+      max-width: 1000px;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .land-img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .land-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .land-image-wrap:hover .land-overlay,
+    .land-image-wrap.active .land-overlay {
+      opacity: 1;
+    }
+
+    .land-pill {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      background: transparent;
+      border: 1px solid var(--amber);
+      padding: 0.6rem 1.8rem;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .land-pill:hover,
+    .land-pill.active {
+      background: var(--amber);
+      color: var(--black);
+    }
+
+    /* ========== TIMELINE ========== */
+
+    .timeline {
+      padding: 140px max(40px, 6vw);
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-video {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      z-index: 0;
+    }
+
+    .timeline-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .timeline-video::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,4,0.85) 0%,
+        rgba(8,6,4,0.6) 30%,
+        rgba(8,6,4,0.6) 70%,
+        rgba(8,6,4,0.85) 100%
+      );
+    }
+
+    .timeline > *:not(.timeline-video) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .timeline .section-label {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .timeline .section-headline {
+      text-align: center;
+      margin: 0 auto 5rem;
+    }
+
+    .timeline-track {
+      position: relative;
+      padding-left: 48px;
+    }
+
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--amber), rgba(196,148,60,0.1));
+    }
+
+    .timeline-year {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .timeline-year-label {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 2rem;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .timeline-year-label::before {
+      content: '';
+      position: absolute;
+      left: -48px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      border: 1px solid var(--amber);
+      background: var(--black);
+      box-shadow: 0 0 12px rgba(196,148,60,0.3);
+    }
+
+    .timeline-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 1.2rem 1.6rem;
+      border: 1px solid rgba(196,148,60,0.08);
+      background: rgba(196,148,60,0.02);
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -44px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(196,148,60,0.4);
+    }
+
+    .timeline-item-quarter {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-item-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      color: var(--cream);
+    }
+
+    .timeline-item--launch {
+      border-color: rgba(196,148,60,0.3);
+      background: rgba(196,148,60,0.06);
+    }
+
+    .timeline-item--launch .timeline-item-title {
+      color: var(--amber-pale);
+    }
+
+    .timeline-item--launch::before {
+      background: var(--amber);
+      box-shadow: 0 0 8px rgba(196,148,60,0.5);
+    }
+
+    @media (max-width: 768px) {
+      .partner-credentials { flex-direction: column; gap: 2rem; align-items: center; }
+    }
+
+    /* ========== VENTURES ========== */
+
+    .ventures {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 140px max(40px, 6vw);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ventures-bg {
+      position: absolute;
+      inset: 0;
+      background: url('Downloads/crossroads-fan-event-092723-1-f1783b04cfaf4472b55ad1f92e8a6402.jpg') center 20% / cover no-repeat;
+      z-index: 0;
+    }
+
+    .ventures-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,4,0.85) 0%,
+        rgba(8,6,4,0.6) 30%,
+        rgba(8,6,4,0.6) 70%,
+        rgba(8,6,4,0.85) 100%
+      );
+    }
+
+    .ventures > *:not(.ventures-bg) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .ventures .section-headline {
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+    }
+
+    .ventures-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--cream-dim);
+      max-width: 640px;
+      line-height: 1.85;
+      margin-bottom: 4rem;
+    }
+
+    .ventures-category {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 2rem;
+    }
+
+    .ventures-cases {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      max-width: 900px;
+      width: 100%;
+      background: rgba(196,148,60,0.08);
+    }
+
+    .ventures-case {
+      padding: 2.8rem 2.5rem;
+      background: var(--black-warm);
+      text-align: left;
+      transition: background 0.5s;
+    }
+
+    .ventures-case:hover {
+      background: rgba(15,12,8,0.95);
+    }
+
+
+    .ventures-case-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 1rem;
+    }
+
+    .ventures-case-title {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      color: var(--cream);
+      margin-bottom: 0.8rem;
+    }
+
+    .ventures-case-detail {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+    }
+
+    .ventures-case-detail strong {
+      font-weight: 500;
+      color: var(--amber);
+    }
+
+    .ventures-thesis {
+      margin-top: 4rem;
+      max-width: 700px;
+    }
+
+    .ventures-thesis p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+      line-height: 1.85;
+      color: var(--cream-dim);
+    }
+
+    .ventures-thesis strong {
+      font-weight: 500;
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    @media (max-width: 768px) {
+      .ventures-cases { grid-template-columns: 1fr; }
+    }
+
+    /* ========== THE PROMISE ========== */
+
+    .promise {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 100px max(40px, 6vw);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .promise-bg {
+      position: absolute;
+      inset: 0;
+      background: url('fire-concert.webp') center center / cover no-repeat;
+      z-index: 0;
+    }
+
+    .promise-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,6,4,0.85) 0%,
+        rgba(8,6,4,0.55) 40%,
+        rgba(8,6,4,0.55) 60%,
+        rgba(8,6,4,0.85) 100%
+      );
+    }
+
+    .promise-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .promise-text {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+      line-height: 1.5;
+      color: var(--cream);
+      max-width: 1100px;
+    }
+
+    .promise-line {
+      display: block;
+    }
+
+    /* ========== CLOSING ========== */
+
+    .closing {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .closing-circle {
+      position: absolute;
+      width: min(520px, 72vw);
+      height: min(520px, 72vw);
+      border-radius: 50%;
+      border: 1px solid rgba(196,148,60,0.35);
+      box-shadow:
+        0 0 20px rgba(196,148,60,0.25),
+        0 0 40px rgba(196,148,60,0.18),
+        0 0 80px rgba(196,148,60,0.12),
+        0 0 120px rgba(196,148,60,0.08),
+        0 0 200px rgba(196,148,60,0.05),
+        inset 0 0 30px rgba(196,148,60,0.06);
+      animation: amberFire 6s ease-in-out infinite;
+    }
+
+    .closing-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    .closing-brand {
+      font-family: 'Bodoni Moda', serif;
+      font-weight: 700;
+      font-size: clamp(5.5rem, 14vw, 13rem);
+      letter-spacing: 0.03em;
+      line-height: 0.85;
+      color: var(--neon-tube);
+      text-shadow:
+        0 0 5px #FFF5E8,
+        0 0 12px #FFF5E8,
+        0 0 22px #FFF5E8,
+        0 0 45px #D4A040,
+        0 0 85px #D4A040,
+        0 0 130px rgba(196,148,60,0.7),
+        0 0 200px rgba(196,148,60,0.4),
+        0 0 300px rgba(196,148,60,0.2);
+      animation: neonBreath 5s ease-in-out infinite;
+    }
+
+    .closing-brand .closing-one {
+      font-weight: 400;
+    }
+
+    .closing-sub {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.95rem);
+      font-weight: 300;
+      letter-spacing: 0.75em;
+      text-indent: 0.75em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      margin-top: 1.2rem;
+      text-shadow:
+        0 0 4px var(--amber-light),
+        0 0 10px var(--amber),
+        0 0 25px rgba(196,148,60,0.5),
+        0 0 50px rgba(196,148,60,0.25),
+        0 0 90px rgba(196,148,60,0.1);
+    }
+
+    .closing-poem {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.35rem;
+      line-height: 2.2;
+      color: var(--cream-dim);
+      margin-bottom: 3rem;
+      max-width: 600px;
+    }
+
+    .closing-cta {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      color: var(--cream-dim);
+      margin-top: 2.5rem;
+    }
+
+    /* ========== DESIGN SYSTEM ========== */
+
+    .system {
+      padding: 120px max(40px, 6vw) 80px;
+      max-width: 1140px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(196,148,60,0.08);
+    }
+
+    .system-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 4rem;
+    }
+
+    .system-section {
+      margin-bottom: 5rem;
+    }
+
+    .system-section h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 2rem;
+    }
+
+    .color-swatches {
+      display: flex;
+      gap: 3px;
+    }
+
+    .swatch {
+      flex: 1;
+      aspect-ratio: 1.2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+      max-width: 180px;
+    }
+    .swatch-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+    .swatch-hex {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+    }
+
+    .type-scale {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .type-specimen {
+      border-bottom: 1px solid rgba(196,148,60,0.06);
+      padding-bottom: 2rem;
+    }
+
+    .type-specimen .sample {
+      margin-bottom: 0.6rem;
+    }
+
+    .type-specimen .meta {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: var(--cream-dim);
+    }
+
+    .motif-row {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .motif-circle {
+      border-radius: 50%;
+      border: 1px solid rgba(196,148,60,0.3);
+      box-shadow: 0 0 40px rgba(196,148,60,0.06), inset 0 0 40px rgba(196,148,60,0.03);
+      flex-shrink: 0;
+    }
+
+    .motif-note {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+      max-width: 400px;
+    }
+
+    .direction-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .direction-card {
+      padding: 2rem;
+      border: 1px solid rgba(196,148,60,0.06);
+    }
+    .direction-card h5 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+    .direction-card p {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--cream-dim);
+    }
+
+    .system-footer {
+      text-align: center;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(196,148,60,0.06);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--cream-dim);
+      opacity: 0.5;
+    }
+
+    /* ========== SCROLL REVEAL ========== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* ========== ANIMATIONS ========== */
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes heroScale {
+      from { transform: scale(0.92); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes neonBreath {
+      0%, 100% {
+        text-shadow:
+          0 0 5px #FFF5E8,
+          0 0 12px #FFF5E8,
+          0 0 22px #FFF5E8,
+          0 0 45px #D4A040,
+          0 0 85px #D4A040,
+          0 0 130px rgba(196,148,60,0.7),
+          0 0 200px rgba(196,148,60,0.4),
+          0 0 300px rgba(196,148,60,0.2);
+      }
+      50% {
+        text-shadow:
+          0 0 3px #FFF5E8,
+          0 0 8px rgba(255,245,232,0.8),
+          0 0 16px rgba(255,245,232,0.5),
+          0 0 35px rgba(212,160,64,0.6),
+          0 0 65px rgba(212,160,64,0.35),
+          0 0 100px rgba(196,148,60,0.4),
+          0 0 160px rgba(196,148,60,0.2),
+          0 0 240px rgba(196,148,60,0.1);
+      }
+    }
+
+    @keyframes neonFlicker {
+      0%, 87%, 89.5%, 91%, 93.5%, 95%, 100% { opacity: 1; }
+      88% { opacity: 0.82; }
+      90% { opacity: 0.88; }
+      92% { opacity: 0.78; }
+      94% { opacity: 0.92; }
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.015); opacity: 0.7; }
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.2; transform: scaleY(0.5); }
+      50% { opacity: 0.8; transform: scaleY(1); }
+    }
+
+    @keyframes grainDrift {
+      0% { transform: translate(0, 0); }
+      12.5% { transform: translate(-5%, -10%); }
+      25% { transform: translate(-12%, 5%); }
+      37.5% { transform: translate(7%, -20%); }
+      50% { transform: translate(-5%, 18%); }
+      62.5% { transform: translate(-10%, 8%); }
+      75% { transform: translate(12%, 0%); }
+      87.5% { transform: translate(0%, 12%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* ========== RESPONSIVE ========== */
+
+    @media (max-width: 768px) {
+      .taxonomy-grid { grid-template-columns: 1fr; gap: 0; }
+      .shows-grid { grid-template-columns: 1fr; }
+      .genesis-stats { flex-direction: column; gap: 2rem; align-items: center; }
+      .direction-grid { grid-template-columns: 1fr; }
+      .color-swatches { flex-wrap: wrap; }
+      .show-card-visual .big-text { font-size: 4rem; }
+      .motif-row { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password Gate -->
+  <div class="password-gate" id="passwordGate">
+    <div class="password-gate-inner">
+      <input type="password" class="password-gate-input" id="passwordInput" placeholder="Enter password" autofocus />
+      <button class="password-gate-btn" id="passwordBtn">Enter</button>
+    </div>
+  </div>
+
+  <!-- Mobile Gate -->
+  <div class="mobile-gate">
+    <div class="mobile-gate-text">Check this out on Desktop.</div>
+  </div>
+
+  <!-- Overlays -->
+  <div class="grain"></div>
+  <div class="vignette"></div>
+
+  <!-- Audio for easter eggs -->
+  <audio id="easterAudio" src="Downloads/Britney Spears - (You Drive Me) Crazy (Official HD Video) 4.mp3" preload="none"></audio>
+  <audio id="cashAudio" src="ring-of-fire.mp3" preload="none"></audio>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero">
+    <div class="hero-ambient"></div>
+    <div class="golden-circle"></div>
+    <div class="hero-glow-pool"></div>
+    <div class="hero-content">
+      <div class="hero-night"><span class="hero-one">ONE</span> NIGHT</div>
+      <div class="hero-ent" id="heroEnt">Entertainment</div>
+    </div>
+    <div class="hero-tagline">The Impossible Moments Company.</div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ============================== TAXONOMY ============================== -->
+  <section class="taxonomy">
+    <div class="section-label reveal">The New Experiential Economy</div>
+    <h2 class="section-headline reveal reveal-delay-1">Three kinds of impossible are reshaping live entertainment.</h2>
+    <p class="taxonomy-unclaimed reveal reveal-delay-2">Only one is still unclaimed.</p>
+
+    <div class="taxonomy-grid reveal reveal-delay-3">
+      <div class="taxonomy-card">
+        <h3>The <em>Impossible</em> Venue</h3>
+        <div class="example">Sphere</div>
+        <p>Architecture as experience. A $2.3 billion structure where the building itself is the show. The audience comes to be inside something that shouldn't exist.</p>
+      </div>
+      <div class="taxonomy-card">
+        <h3>The <em>Impossible</em> Immersion</h3>
+        <div class="example">Disneyland</div>
+        <p>Stepping inside alternate worlds with no fixed path and no fixed runtime. Participatory exploration as mass-market entertainment.</p>
+      </div>
+      <div class="taxonomy-card taxonomy-card--active">
+        <h3>The <em>Impossible</em> Moment</h3>
+        <div class="example">One Night</div>
+        <p>Spending the evening with someone who isn't there. A living performance from a moment in time that no longer exists. A night that, by every rational measure, cannot happen.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================== GENESIS ============================== -->
+  <section class="genesis">
+    <div class="genesis-video">
+      <video autoplay muted loop playsinline>
+        <source src="Downloads/abba-voyage-bg-compressed.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="section-label reveal">The Genesis</div>
+    <h2 class="section-headline reveal reveal-delay-1">ABBA Voyage didn't prove a model.<br>It revealed a category.</h2>
+    <p class="genesis-body reveal reveal-delay-2">In a purpose-built theatre an hour outside of London, four artists in their late seventies appeared on stage &mdash; as their younger selves. The audience knew it was technology. They didn't care. They sang every word. They wept. They came back. Because for ninety minutes, it was 1977 again.</p>
+
+    <div class="genesis-stats reveal">
+      <div class="genesis-stat">
+        <div class="number">$2B+</div>
+        <div class="label">Total revenue since 2022</div>
+      </div>
+      <div class="genesis-stat">
+        <div class="number">$175M</div>
+        <div class="label">Initial build investment</div>
+      </div>
+      <div class="genesis-stat">
+        <div class="number">$135M</div>
+        <div class="label">Annual revenue</div>
+      </div>
+    </div>
+
+    <div class="genesis-question reveal">
+      <p class="genesis-question-big"><em>In ABBA Voyage, we saw an opportunity to scale impossible moments globally.</em></p>
+    </div>
+  </section>
+
+  <!-- ============================== INFRASTRUCTURE ============================== -->
+  <section class="partner">
+    <div class="partner-bg"></div>
+    <div class="section-label reveal">Infrastructure</div>
+    <h2 class="section-headline reveal reveal-delay-1" style="white-space:nowrap;">How do you make the impossible possible?</h2>
+
+    <div class="infra-grid reveal reveal-delay-2">
+      <div class="infra-card">
+        <h3>The Ultimate Moat</h3>
+        <div class="infra-name">Name, Image &amp; Likeness</div>
+        <p>Exclusive rights to the most iconic figures in culture. In an AI era, these are prime assets. Once secured, no one else can build what we build. The deepest defensibility in live entertainment.</p>
+      </div>
+      <div class="infra-card">
+        <h3>Cinematic-Grade Tech</h3>
+        <div class="infra-name">Powered by ILM</div>
+        <p>Industrial Light &amp; Magic, the team behind ABBA Voyage &mdash; bringing cinematic tools to make the impossible feel real. Pioneers of digital human technology with 40+ years of industry-defining visual effects.</p>
+      </div>
+      <div class="infra-card">
+        <h3>Purpose Built Venue</h3>
+        <div class="infra-name">Custom 3,000-Seat Venue</div>
+        <p>Combines the scale of IMAX with the energy of a live performance. Engineered for 360&deg; immersive production, life-like holographic avatars on stage, and designed to bring legends back to their prime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== WHERE / VEGAS ============================== -->
+  <section class="vegas-section">
+    <div class="section-label reveal">The Location</div>
+    <h2 class="section-headline reveal reveal-delay-1" style="white-space:nowrap;">The Best Land in Vegas</h2>
+    <p class="section-body reveal reveal-delay-2">
+      Attached to BLVD at the center of the Las Vegas Strip. Flanked by MGM Grand, Aria, and the highest foot traffic corridor in the country.
+    </p>
+
+    <div class="land-stats reveal reveal-delay-2">
+      <div class="land-stat">
+        <div class="land-stat-num">50M+</div>
+        <div class="land-stat-label">annual foot traffic from the Strip</div>
+      </div>
+      <div class="land-stat">
+        <div class="land-stat-num">$50B+</div>
+        <div class="land-stat-label">in surrounding resort &amp; casino infrastructure</div>
+      </div>
+    </div>
+
+    <div class="land-viewer reveal reveal-delay-3">
+      <div class="land-image-wrap active" id="landImageWrap">
+        <img src="land.png" alt="Las Vegas venue site" class="land-img" />
+        <img src="land_transparent.png" alt="Land overlay" class="land-overlay" id="landOverlay" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== SHOWS ============================== -->
+  <section class="shows">
+    <div class="section-label reveal">Launch Slate</div>
+    <h2 class="section-headline reveal reveal-delay-1">One Venue. Two Impossible Nights.</h2>
+    <p class="shows-subtitle reveal reveal-delay-2">Walk in knowing this night shouldn't exist. Walk out knowing you'll never forget it.</p>
+
+    <div class="shows-grid">
+      <!-- Britney -->
+      <div class="show-card-flip" id="britneyFlip">
+        <div class="show-card-flip-inner">
+          <div class="show-card-front">
+            <div class="show-card show-card--britney reveal">
+              <div class="show-card-visual">
+                <span class="sparkle" style="top:20%;left:30%;animation-delay:0s"></span>
+                <span class="sparkle" style="top:35%;left:65%;animation-delay:1.2s"></span>
+                <span class="sparkle" style="top:55%;left:45%;animation-delay:0.6s"></span>
+                <span class="sparkle" style="top:15%;left:75%;animation-delay:2.1s"></span>
+                <span class="sparkle" style="top:70%;left:25%;animation-delay:1.8s"></span>
+                <span class="sparkle" style="top:45%;left:80%;animation-delay:0.3s"></span>
+              </div>
+              <div class="show-card-info">
+                <div class="show-card-format">One Night With</div>
+                <div class="show-card-name">Britney</div>
+                <p class="show-card-desc">The megastar format. A single icon with the cultural gravity to sustain a permanent residency. The night her fans have imagined for twenty years.</p>
+                <div class="show-card-meta">
+                  <div class="show-card-stat">
+                    <div class="num">46.7M</div>
+                    <div class="unit">Monthly Spotify listeners</div>
+                  </div>
+                  <div class="show-card-badge">LOI Secured</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="show-card-back show-card-back--nashville">
+            <div class="show-card-back-content">
+              <h3 class="show-card-back-headline">Why Nashville?</h3>
+              <ul class="show-card-back-list">
+                <li>Legends and modern stars. Cross-era duets that never existed.</li>
+                <li>Country is at a cultural peak with a broad and growing audience.</li>
+                <li>A structured, story-driven night that moves through eras with emotional flow.</li>
+                <li>A repeatable format across genres, with a flexible cast and an expandable concept.</li>
+                <li>A shared night across generations. Music history made present. A room that feels it together.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nashville -->
+      <div class="show-card-flip" id="nashvilleFlip">
+        <div class="show-card-flip-inner">
+          <div class="show-card-front">
+            <div class="show-card show-card--nashville reveal reveal-delay-1">
+              <div class="show-card-visual">
+                <span class="sparkle" style="top:18%;left:25%;animation-delay:0.4s"></span>
+                <span class="sparkle" style="top:30%;left:70%;animation-delay:1.5s"></span>
+                <span class="sparkle" style="top:50%;left:40%;animation-delay:0.9s"></span>
+                <span class="sparkle" style="top:12%;left:80%;animation-delay:2.3s"></span>
+                <span class="sparkle" style="top:65%;left:20%;animation-delay:1.1s"></span>
+                <span class="sparkle" style="top:40%;left:75%;animation-delay:0.2s"></span>
+              </div>
+              <div class="show-card-info">
+                <div class="show-card-format">One Night In</div>
+                <div class="show-card-name">Nashville</div>
+                <p class="show-card-desc">The collective format. Legends past and present on one stage. The depth of a genre's history, colliding in a single impossible night.</p>
+                <div class="show-card-meta">
+                  <div class="show-card-stat">
+                    <div class="num">139M+</div>
+                    <div class="unit">U.S. country music consumers</div>
+                  </div>
+                  <div class="show-card-badge">In Development</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="show-card-back show-card-back--britney">
+            <div class="show-card-back-content">
+              <h3 class="show-card-back-headline">Why Britney?</h3>
+              <ul class="show-card-back-list">
+                <li>Access to peak-era Britney. A performance that can no longer exist live.</li>
+                <li>A global icon with a massive catalog, multi-generational reach, and proven Vegas demand.</li>
+                <li>A high-impact, era-driven set with seamless transitions and nonstop hits.</li>
+                <li>A megastar template that is repeatable across icons and globally portable.</li>
+                <li>The definitive version of an icon, delivered at scale, night after night.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== INTRODUCING ============================== -->
+  <section class="introducing">
+    <div class="introducing-circle">
+      <video class="introducing-portal-video" id="portalVideo" muted loop playsinline>
+        <source src="Downloads/brit.mp4" type="video/mp4">
+      </video>
+      <video class="introducing-portal-video" id="portalVideoCash" muted loop playsinline>
+        <source src="johnny.mp4" type="video/mp4">
+      </video>
+      <div class="introducing-portal-overlay"></div>
+    </div>
+    <div class="introducing-content reveal">
+      <div class="introducing-title"><span class="introducing-one">ONE</span> NIGHT</div>
+      <div class="introducing-sub" id="introSub">Entertainment</div>
+    </div>
+    <div class="introducing-timeline reveal">
+      <img src="brit.png" alt="" class="introducing-sig introducing-sig--britney" id="easterEgg" />
+      <div class="timeline-line"></div>
+      <div class="timeline-line"></div>
+      <img src="nashville-sig.png" alt="" class="introducing-sig introducing-sig--cash" id="cashEgg" />
+    </div>
+    <div class="introducing-closer reveal">
+      <a href="/dataroom/" class="introducing-closer-card introducing-closer-btn">
+        <div class="introducing-closer-text">Enter Data Room</div>
+      </a>
+    </div>
+  </section>
+
+
+  <script>
+    // Easter Eggs
+    const egg = document.getElementById('easterEgg');
+    const eggAudio = document.getElementById('easterAudio');
+    const cashEgg = document.getElementById('cashEgg');
+    const cashAudio = document.getElementById('cashAudio');
+    const introSub = document.getElementById('introSub');
+    const portalVideo = document.getElementById('portalVideo');
+    const portalVideoCash = document.getElementById('portalVideoCash');
+
+    function stopBritney() {
+      eggAudio.pause();
+      egg.classList.remove('playing');
+      document.body.classList.remove('britney-mode');
+      introSub.textContent = 'Entertainment';
+      portalVideo.pause();
+    }
+
+    function stopCash() {
+      cashAudio.pause();
+      cashEgg.classList.remove('playing');
+      document.body.classList.remove('cash-mode');
+      introSub.textContent = 'Entertainment';
+      portalVideoCash.pause();
+    }
+
+    egg.addEventListener('click', () => {
+      if (eggAudio.paused) {
+        stopCash();
+        eggAudio.play();
+        portalVideo.play();
+        egg.classList.add('playing');
+        document.body.classList.add('britney-mode');
+        introSub.textContent = 'with Britney';
+      } else {
+        stopBritney();
+      }
+    });
+    eggAudio.addEventListener('ended', stopBritney);
+
+    cashEgg.addEventListener('click', () => {
+      if (cashAudio.paused) {
+        stopBritney();
+        cashAudio.currentTime = 2;
+        cashAudio.play();
+        portalVideoCash.play();
+        cashEgg.classList.add('playing');
+        document.body.classList.add('cash-mode');
+        introSub.textContent = 'in Nashville';
+      } else {
+        stopCash();
+      }
+    });
+    cashAudio.addEventListener('ended', stopCash);
+
+    // Scroll Reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Show card flip: hovering/clicking one card flips the OTHER
+    const britneyFlip = document.getElementById('britneyFlip');
+    const nashvilleFlip = document.getElementById('nashvilleFlip');
+
+    if (britneyFlip && nashvilleFlip) {
+      britneyFlip.addEventListener('mouseenter', () => nashvilleFlip.classList.add('flipped'));
+      britneyFlip.addEventListener('mouseleave', () => nashvilleFlip.classList.remove('flipped'));
+      nashvilleFlip.addEventListener('mouseenter', () => britneyFlip.classList.add('flipped'));
+      nashvilleFlip.addEventListener('mouseleave', () => britneyFlip.classList.remove('flipped'));
+
+      britneyFlip.addEventListener('click', () => nashvilleFlip.classList.toggle('flipped'));
+      nashvilleFlip.addEventListener('click', () => britneyFlip.classList.toggle('flipped'));
+    }
+    // Password Gate
+    const gate = document.getElementById('passwordGate');
+    const pwInput = document.getElementById('passwordInput');
+    const pwBtn = document.getElementById('passwordBtn');
+    const PASS = 'ONE2026';
+
+    function tryPassword() {
+      if (pwInput.value === PASS) {
+        gate.classList.add('hidden');
+        setTimeout(() => gate.style.display = 'none', 600);
+      } else {
+        pwInput.classList.add('error');
+        setTimeout(() => pwInput.classList.remove('error'), 500);
+        pwInput.value = '';
+      }
+    }
+
+    pwBtn.addEventListener('click', tryPassword);
+    pwInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryPassword(); });
+  </script>
+</body>
+</html>
