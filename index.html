@@ -2335,6 +2335,7 @@
     /* ========== RESPONSIVE ========== */
 
     .mobile-break { display: none; }
+    .desktop-break { display: block; }
 
     @media (max-width: 768px) {
       /* -- Base -- */
@@ -2342,6 +2343,7 @@
       .cursor { display: none; }
       .mobile-gate { display: none !important; }
       .mobile-break { display: block; }
+      .desktop-break { display: none; }
 
       /* -- Hero -- */
       .hero { padding: 0 1.5rem; }
@@ -2520,7 +2522,7 @@
       </video>
     </div>
     <div class="section-label reveal">The Genesis</div>
-    <h2 class="section-headline reveal reveal-delay-1">ABBA Voyage didn't prove a&nbsp;model.<br>It revealed a category.</h2>
+    <h2 class="section-headline reveal reveal-delay-1">ABBA Voyage didn't prove a&nbsp;model.<br class="desktop-break"> It revealed a category.</h2>
     <p class="genesis-body reveal reveal-delay-2">In a purpose-built theatre an hour outside of London, four artists in their late seventies appeared on stage &mdash; as their younger selves. The audience knew it was technology. They didn't care. They sang every word. They wept. They came back. Because for ninety minutes, it was 1977 again.</p>
 
     <div class="genesis-stats reveal">
@@ -2599,7 +2601,7 @@
   <section class="shows">
     <div class="section-label reveal">Launch Slate</div>
     <h2 class="section-headline reveal reveal-delay-1">One Venue.<br class="mobile-break"> Two Impossible Nights.</h2>
-    <p class="shows-subtitle reveal reveal-delay-2">Walk in knowing this night shouldn't exist. Walk out knowing you'll never forget it.</p>
+    <p class="shows-subtitle reveal reveal-delay-2">Walk in knowing this night shouldn't exist.<br class="mobile-break"> Walk out knowing you'll never forget it.</p>
 
     <div class="shows-grid">
       <!-- Britney -->
