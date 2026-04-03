@@ -1037,13 +1037,14 @@
       }
 
       /* Panel slides up from bottom on mobile */
+      html, body { overflow-x: hidden; width: 100%; }
       .dr-panel {
-        width: 100%;
-        max-width: 100%;
+        width: 100vw;
+        max-width: 100vw;
         top: auto;
         bottom: 0;
         left: 0;
-        right: 0;
+        right: auto;
         max-height: 85vh;
         border-left: none;
         border-top: 1px solid rgba(196,148,60,0.2);
@@ -1052,6 +1053,7 @@
         transform: translateY(100%);
         transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
         box-shadow: 0 -20px 60px rgba(0,0,0,0.5);
+        overflow-x: hidden;
       }
       .dr-panel.open {
         transform: translateY(0);
