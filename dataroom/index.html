@@ -893,6 +893,7 @@
     function checkPassword() {
       const pw = passwordInput.value.trim();
       if (pw === DATA_ROOM_PASSWORD) {
+        sessionStorage.setItem('dr_authed', '1');
         passwordGate.classList.add('hidden');
         const storedEmail = sessionStorage.getItem('dr_email');
         if (storedEmail) {
@@ -914,7 +915,21 @@
 
     passwordBtn.addEventListener('click', checkPassword);
     passwordInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPassword(); });
-    passwordInput.focus();
+
+    // Auto-login from session
+    if (sessionStorage.getItem('dr_authed') === '1') {
+      passwordGate.classList.add('hidden');
+      var storedEmail = sessionStorage.getItem('dr_email');
+      if (storedEmail) {
+        currentInvestor = { email: storedEmail, id: sessionStorage.getItem('dr_investor_id') };
+        showDataRoom();
+      } else {
+        emailGate.classList.remove('hidden');
+        setTimeout(function() { emailInput.focus(); }, 400);
+      }
+    } else {
+      passwordInput.focus();
+    }
 
     // ========== EMAIL GATE ==========
     async function submitEmail() {
@@ -1166,6 +1181,7 @@
     logoutBtn.addEventListener('click', function() {
       sessionStorage.removeItem('dr_email');
       sessionStorage.removeItem('dr_investor_id');
+      sessionStorage.removeItem('dr_authed');
       currentInvestor = null;
       drHeader.style.display = 'none';
       drBack.style.display = 'none';

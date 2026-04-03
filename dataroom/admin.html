@@ -146,6 +146,22 @@
       font-size: 0.85rem;
       margin-left: 0.5rem;
     }
+    .admin-back-btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      text-decoration: none;
+      border: 1px solid rgba(196,148,60,0.2);
+      padding: 0.4rem 1rem;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .admin-back-btn:hover {
+      border-color: var(--amber);
+      color: var(--amber-light);
+    }
 
     .admin-body {
       padding: 2rem max(30px, 4vw) 4rem;
@@ -433,7 +449,7 @@
       <div class="gate-title">Admin</div>
       <div class="gate-subtitle">Data Room Management</div>
       <input type="email" class="gate-input" id="adminEmailInput" placeholder="admin@email.com" autocomplete="email" style="margin-bottom: -0.5rem;">
-      <input type="password" class="gate-input" id="adminPwInput" placeholder="Password" autocomplete="off">
+      <input type="text" class="gate-input" id="adminPwInput" placeholder="Password" autocomplete="off">
       <button class="gate-btn" id="adminPwBtn">Enter</button>
       <div class="gate-error-msg" id="adminPwError"></div>
     </div>
@@ -441,6 +457,7 @@
 
   <header class="admin-header" id="adminHeader" style="display: none;">
     <a href="/dataroom/" class="admin-logo">ONE NIGHT <span>Admin</span></a>
+    <a href="/dataroom/" class="admin-back-btn">Back to Data Room</a>
   </header>
 
   <main class="admin-body" id="adminBody">
@@ -573,6 +590,8 @@
         if (result.data === true) {
           adminEmail = email;
           adminPassword = pw;
+          sessionStorage.setItem('admin_email', email);
+          sessionStorage.setItem('admin_password', pw);
           adminGate.classList.add('hidden');
           adminHeader.style.display = 'flex';
           adminBody.classList.add('visible');
@@ -596,7 +615,29 @@
     adminPwBtn.addEventListener('click', checkAdminPw);
     adminPwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') checkAdminPw(); });
     adminEmailInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') adminPwInput.focus(); });
-    adminEmailInput.focus();
+
+    // Auto-login from session
+    (async function() {
+      var storedEmail = sessionStorage.getItem('admin_email');
+      var storedPw = sessionStorage.getItem('admin_password');
+      if (storedEmail && storedPw) {
+        try {
+          var result = await sb.rpc('admin_auth', { admin_email: storedEmail, admin_password: storedPw });
+          if (result.data === true) {
+            adminEmail = storedEmail;
+            adminPassword = storedPw;
+            adminGate.classList.add('hidden');
+            adminHeader.style.display = 'flex';
+            adminBody.classList.add('visible');
+            loadAllData();
+            return;
+          }
+        } catch (e) {}
+        sessionStorage.removeItem('admin_email');
+        sessionStorage.removeItem('admin_password');
+      }
+      adminEmailInput.focus();
+    })();
 
     // ========== TABS ==========
     document.querySelectorAll('.admin-tab').forEach(function(tab) {
