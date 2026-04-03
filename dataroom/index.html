@@ -940,7 +940,7 @@
       position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 0;
+      z-index: 2;
       overflow: hidden;
     }
     .dr-particle {
@@ -950,6 +950,7 @@
       background: var(--amber);
       border-radius: 50%;
       opacity: 0;
+      box-shadow: 0 0 6px rgba(196,148,60,0.4), 0 0 12px rgba(196,148,60,0.2);
       animation: particleFloat linear infinite;
     }
     @keyframes particleFloat {
@@ -957,8 +958,8 @@
         opacity: 0;
         transform: translateY(0) translateX(0);
       }
-      10% { opacity: 0.3; }
-      90% { opacity: 0.1; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.15; }
       100% {
         opacity: 0;
         transform: translateY(-100vh) translateX(30px);
