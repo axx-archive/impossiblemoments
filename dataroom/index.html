@@ -1683,7 +1683,7 @@
       downloadBtn.setAttribute('download', file.name);
 
       drPanel.classList.add('open');
-      drBrowser.classList.add('panel-open');
+      if (window.innerWidth > 768) drBrowser.classList.add('panel-open');
     }
 
     function closePanel() {
