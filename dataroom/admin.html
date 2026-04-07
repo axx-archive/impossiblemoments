@@ -737,30 +737,35 @@
       </div>
 
       <div class="doc-creator-instructions">
-        <div class="doc-creator-instructions-title">Have an existing document? Copy this prompt into Claude with your file:</div>
-        <div style="position:relative;">
-          <pre id="llmPrompt" style="background:rgba(196,148,60,0.04);border:1px solid rgba(196,148,60,0.12);padding:1rem 1.2rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.7rem;line-height:1.7;color:var(--cream);white-space:pre-wrap;word-wrap:break-word;max-height:120px;overflow-y:auto;cursor:pointer;" onclick="copyPrompt()">Extract the full text from the uploaded document and output it as raw markdown source code inside a code block so I can copy and paste the markers directly. Use # for main headings, ## for subheadings, ### for minor headings, regular text for body paragraphs, **bold** for emphasis or callouts, > for styled quotes, - for bullet points, --- for section dividers, and blank lines between sections for spacing. Preserve all original content — don't summarize or omit anything. Structure the hierarchy logically based on the document's layout.</pre>
-          <button onclick="copyPrompt()" style="position:absolute;top:8px;right:8px;background:rgba(196,148,60,0.1);border:1px solid rgba(196,148,60,0.25);padding:0.3rem 0.8rem;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.5rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--amber-light);cursor:pointer;">Copy</button>
+        <div class="doc-creator-instructions-title">Import an Existing Document</div>
+        <div style="display:flex;gap:0.8rem;align-items:stretch;flex-wrap:wrap;">
+          <div style="flex:1;min-width:200px;">
+            <input type="file" id="aiFileInput" accept=".pdf,.doc,.docx,.txt,.md,.rtf" style="display:none;">
+            <label for="aiFileInput" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;padding:1.2rem;border:1px dashed rgba(196,148,60,0.3);cursor:pointer;transition:border-color 0.3s,background 0.3s;min-height:80px;text-align:center;" onmouseover="this.style.borderColor='var(--amber)';this.style.background='rgba(196,148,60,0.04)'" onmouseout="this.style.borderColor='rgba(196,148,60,0.3)';this.style.background='transparent'">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.6rem;color:var(--cream-dim);letter-spacing:0.1em;" id="aiFileName">Upload PDF, DOC, or TXT</span>
+            </label>
+          </div>
+          <button class="doc-generate-btn" id="aiConvertBtn" style="padding:1.2rem 1.5rem;min-height:80px;display:flex;align-items:center;gap:0.5rem;" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l2 2 4-4"/></svg>
+            Convert with AI
+          </button>
         </div>
-        <div id="copyConfirm" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.6rem;color:var(--amber-light);margin-top:0.5rem;min-height:1em;"></div>
+        <div id="aiStatus" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;color:var(--amber-light);margin-top:0.6rem;min-height:1em;"></div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:1rem;margin:1rem 0;">
+        <div style="flex:1;height:1px;background:rgba(196,148,60,0.12);"></div>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.5rem;color:var(--cream-dim);letter-spacing:0.3em;text-transform:uppercase;">or write directly</span>
+        <div style="flex:1;height:1px;background:rgba(196,148,60,0.12);"></div>
       </div>
 
       <input type="text" class="doc-input-title" id="docTitle" placeholder="Document Title (e.g. Investor Memo — April 2026)">
       <textarea class="doc-textarea" id="docContent" placeholder="# Executive Summary
 
-One Night Entertainment is building the first permanent venue for impossible live performances...
+Content goes here. Use # for headings, ## for subheadings, **bold** for emphasis, > for quotes, - for bullets, --- for dividers.
 
-## The Opportunity
-
-The live entertainment industry is undergoing...
-
-- $100B+ global live entertainment market
-- Growing demand for immersive experiences
-- Technology now enables what was previously impossible
-
-## Our Approach
-
-Paste your content here using the formatting guide above."></textarea>
+AI-converted content will appear here automatically."></textarea>
 
       <button class="doc-generate-btn" id="docGenerateBtn">Generate Document</button>
       <div class="doc-status" id="docStatus"></div>
@@ -1186,14 +1191,72 @@ Paste your content here using the formatting guide above."></textarea>
       }
     }
 
-    // ========== COPY PROMPT ==========
-    function copyPrompt() {
-      var text = document.getElementById('llmPrompt').textContent;
-      navigator.clipboard.writeText(text).then(function() {
-        document.getElementById('copyConfirm').textContent = 'Copied to clipboard!';
-        setTimeout(function() { document.getElementById('copyConfirm').textContent = ''; }, 2000);
-      });
-    }
+    // ========== AI CONVERT ==========
+    var aiFileInput = document.getElementById('aiFileInput');
+    var aiConvertBtn = document.getElementById('aiConvertBtn');
+    var aiStatus = document.getElementById('aiStatus');
+    var aiFileName = document.getElementById('aiFileName');
+
+    aiFileInput.addEventListener('change', function() {
+      if (aiFileInput.files.length > 0) {
+        aiFileName.textContent = aiFileInput.files[0].name;
+        aiConvertBtn.disabled = false;
+      }
+    });
+
+    aiConvertBtn.addEventListener('click', async function() {
+      var file = aiFileInput.files[0];
+      if (!file) return;
+
+      aiConvertBtn.disabled = true;
+      aiStatus.textContent = 'Converting with AI — this may take a moment...';
+      aiStatus.style.color = 'var(--amber-light)';
+
+      try {
+        var reader = new FileReader();
+        var base64 = await new Promise(function(resolve, reject) {
+          reader.onload = function() {
+            var result = reader.result.split(',')[1];
+            resolve(result);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+        var response = await fetch('/api/convert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileBase64: base64,
+            fileType: file.type || 'application/octet-stream',
+            fileName: file.name
+          })
+        });
+
+        if (!response.ok) {
+          var errData = await response.json().catch(function() { return {}; });
+          throw new Error(errData.error || 'Conversion failed');
+        }
+
+        var data = await response.json();
+        document.getElementById('docContent').value = data.markdown;
+
+        // Auto-extract title from first heading
+        var firstHeading = data.markdown.match(/^# (.+)/m);
+        if (firstHeading && !document.getElementById('docTitle').value) {
+          document.getElementById('docTitle').value = firstHeading[1];
+        }
+
+        aiStatus.textContent = 'Converted! Review the content below, then hit Generate Document.';
+        aiStatus.style.color = '#4c4';
+      } catch (err) {
+        console.error('AI convert error:', err);
+        aiStatus.textContent = 'Failed: ' + (err.message || 'Unknown error');
+        aiStatus.style.color = '#c44';
+      }
+
+      aiConvertBtn.disabled = false;
+    });
 
     // ========== DOCUMENT CREATOR ==========
     var docOverlay = document.getElementById('docCreatorOverlay');
