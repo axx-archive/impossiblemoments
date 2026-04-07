@@ -745,7 +745,7 @@
           Regular text <span>&mdash; body paragraph</span><br>
           **bold text** <span>&mdash; bold emphasis</span><br>
           - Bullet item <span>&mdash; bulleted list</span><br>
-          <span style="opacity:0.5;">Blank lines separate paragraphs.</span>
+          <span style="opacity:0.5;">Blank lines add spacing between sections.</span>
         </code>
       </div>
 
@@ -1214,8 +1214,11 @@ Paste your content here using the formatting guide above."></textarea>
       while (i < lines.length) {
         var line = lines[i];
 
-        // Skip empty lines
-        if (line.trim() === '') { i++; continue; }
+        // Empty line = spacer
+        if (line.trim() === '') {
+          elements.push({ type: 'spacer' });
+          i++; continue;
+        }
 
         // Headings
         if (line.startsWith('### ')) {
@@ -1378,6 +1381,11 @@ Paste your content here using the formatting guide above."></textarea>
                 })
               }));
             });
+          } else if (el.type === 'spacer') {
+            children.push(new docx.Paragraph({
+              spacing: { after: 120 },
+              children: [new docx.TextRun({ text: '' })]
+            }));
           }
         });
 
