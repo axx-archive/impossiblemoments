@@ -747,6 +747,7 @@
           ### Sub-subheading <span>&mdash; minor heading</span><br>
           Regular text <span>&mdash; body paragraph</span><br>
           **bold text** <span>&mdash; bold emphasis</span><br>
+          &gt; Quote text <span>&mdash; styled quote box with amber accent</span><br>
           - Bullet item <span>&mdash; bulleted list</span><br>
           <span style="opacity:0.5;">Blank lines add spacing between sections.</span>
         </code>
@@ -1276,6 +1277,17 @@ Talent/Licensing | $3M | $5M | $7M"></textarea>
           i++; continue;
         }
 
+        // Blockquote
+        if (line.trim().startsWith('> ')) {
+          var quoteLines = [];
+          while (i < lines.length && lines[i].trim().startsWith('> ')) {
+            quoteLines.push(lines[i].trim().slice(2).trim());
+            i++;
+          }
+          elements.push({ type: 'quote', text: quoteLines.join(' ') });
+          continue;
+        }
+
         // Bullet list
         if (line.trim().startsWith('- ')) {
           var bullets = [];
@@ -1289,7 +1301,7 @@ Talent/Licensing | $3M | $5M | $7M"></textarea>
 
         // Regular paragraph (collect consecutive non-empty non-special lines)
         var paraLines = [];
-        while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#') && !lines[i].trim().startsWith('- ')) {
+        while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#') && !lines[i].trim().startsWith('- ') && !lines[i].trim().startsWith('> ')) {
           paraLines.push(lines[i]);
           i++;
         }
@@ -1423,6 +1435,21 @@ Talent/Licensing | $3M | $5M | $7M"></textarea>
                 })
               }));
             });
+          } else if (el.type === 'quote') {
+            children.push(new docx.Paragraph({
+              spacing: { before: 160, after: 160, line: 340 },
+              indent: { left: 480, right: 480 },
+              border: {
+                left: { style: docx.BorderStyle.SINGLE, size: 12, color: AMBER, space: 12 }
+              },
+              children: [new docx.TextRun({
+                text: el.text,
+                font: 'Georgia',
+                size: 22,
+                italics: true,
+                color: '4A3F36'
+              })]
+            }));
           } else if (el.type === 'spacer') {
             children.push(new docx.Paragraph({
               spacing: { after: 120 },
