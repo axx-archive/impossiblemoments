@@ -645,7 +645,10 @@
       <div class="upload-form">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:1.5rem;">
           <div class="upload-form-title" style="margin-bottom:0;">Upload New File</div>
-          <button class="create-doc-btn" id="openDocCreator">Create New Document</button>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <button class="create-doc-btn" id="openDocCreator">Create Document</button>
+            <button class="create-doc-btn" id="openSheetCreator">Create Spreadsheet</button>
+          </div>
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -771,7 +774,46 @@ Paste your content here using the formatting guide above."></textarea>
     </div>
   </div>
 
+  <!-- Spreadsheet Creator Modal -->
+  <div class="doc-creator-overlay" id="sheetCreatorOverlay">
+    <div class="doc-creator">
+      <div class="doc-creator-header">
+        <div class="doc-creator-title">Create New Spreadsheet</div>
+        <button class="doc-creator-close" id="sheetCreatorClose">&times;</button>
+      </div>
+
+      <div class="doc-creator-instructions">
+        <div class="doc-creator-instructions-title">Formatting Guide</div>
+        <code>
+          Sheet Name | Column A | Column B | Column C <span>&mdash; first row = headers</span><br>
+          Row 1 Val | Row 1 Val | Row 1 Val <span>&mdash; pipe-separated values</span><br>
+          <span style="opacity:0.7;">---</span> <span>&mdash; start a new sheet tab</span><br>
+          New Sheet | Col A | Col B <span>&mdash; new tab headers</span><br>
+          <span style="opacity:0.5;">Use | (pipe) to separate columns. First row of each section becomes the header.</span>
+        </code>
+      </div>
+
+      <input type="text" class="doc-input-title" id="sheetTitle" placeholder="Spreadsheet Title (e.g. Financial Model — Q2 2026)">
+      <textarea class="doc-textarea" id="sheetContent" placeholder="Revenue Projections | Year 1 | Year 2 | Year 3
+Ticket Revenue | $12M | $28M | $45M
+Sponsorship | $2M | $5M | $8M
+Merchandise | $1M | $3M | $5M
+Total | $15M | $36M | $58M
+
+---
+
+Operating Costs | Year 1 | Year 2 | Year 3
+Venue Lease | $4M | $4M | $4.2M
+Technology | $6M | $3M | $2M
+Talent/Licensing | $3M | $5M | $7M"></textarea>
+
+      <button class="doc-generate-btn" id="sheetGenerateBtn">Generate Spreadsheet</button>
+      <div class="doc-status" id="sheetStatus"></div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
   <script>
     // ========== CONFIG ==========
     var SUPABASE_URL = 'https://qbnhjklajnmjfsqfzlna.supabase.co';
@@ -1504,6 +1546,172 @@ Paste your content here using the formatting guide above."></textarea>
       }
 
       docGenerateBtn.disabled = false;
+    });
+
+    // ========== SPREADSHEET CREATOR ==========
+    var sheetOverlay = document.getElementById('sheetCreatorOverlay');
+    var sheetCloseBtn = document.getElementById('sheetCreatorClose');
+    var sheetGenerateBtn = document.getElementById('sheetGenerateBtn');
+    var sheetStatus = document.getElementById('sheetStatus');
+
+    document.getElementById('openSheetCreator').addEventListener('click', function() {
+      sheetOverlay.classList.add('open');
+    });
+    sheetCloseBtn.addEventListener('click', function() {
+      sheetOverlay.classList.remove('open');
+    });
+    sheetOverlay.addEventListener('click', function(e) {
+      if (e.target === sheetOverlay) sheetOverlay.classList.remove('open');
+    });
+
+    function parseSheetContent(text) {
+      var sheets = [];
+      var sections = text.split(/\n---\s*\n/);
+
+      sections.forEach(function(section) {
+        var lines = section.split('\n').filter(function(l) { return l.trim() !== ''; });
+        if (lines.length === 0) return;
+
+        var rows = lines.map(function(line) {
+          return line.split('|').map(function(cell) { return cell.trim(); });
+        });
+
+        // First row's first cell can be used as sheet name
+        var sheetName = rows[0][0] || 'Sheet ' + (sheets.length + 1);
+        sheets.push({ name: sheetName, rows: rows });
+      });
+
+      return sheets;
+    }
+
+    sheetGenerateBtn.addEventListener('click', async function() {
+      var title = document.getElementById('sheetTitle').value.trim();
+      var content = document.getElementById('sheetContent').value;
+
+      if (!title) {
+        sheetStatus.textContent = 'Please enter a spreadsheet title';
+        sheetStatus.style.color = '#c44';
+        return;
+      }
+      if (!content.trim()) {
+        sheetStatus.textContent = 'Please enter spreadsheet content';
+        sheetStatus.style.color = '#c44';
+        return;
+      }
+
+      sheetGenerateBtn.disabled = true;
+      sheetStatus.textContent = 'Generating...';
+      sheetStatus.style.color = 'var(--amber-light)';
+
+      try {
+        var sheets = parseSheetContent(content);
+        var workbook = new ExcelJS.Workbook();
+        workbook.creator = 'One Night Entertainment';
+
+        var AMBER_HEX = '9B7A3C';
+        var DARK_HEX = '1A1714';
+        var HEADER_BG = 'F5EFE3';
+        var AMBER_BORDER = { style: 'thin', color: { argb: 'FFC4943C' } };
+        var LIGHT_BORDER = { style: 'thin', color: { argb: 'FFE0D8C8' } };
+
+        sheets.forEach(function(sheetData) {
+          var name = sheetData.name.substring(0, 31); // Excel max 31 chars
+          var ws = workbook.addWorksheet(name);
+
+          // Add rows
+          sheetData.rows.forEach(function(row, rowIdx) {
+            var excelRow = ws.addRow(row);
+
+            if (rowIdx === 0) {
+              // Header row styling
+              excelRow.height = 28;
+              excelRow.eachCell(function(cell) {
+                cell.font = {
+                  name: 'Calibri',
+                  size: 10,
+                  bold: true,
+                  color: { argb: 'FF' + DARK_HEX }
+                };
+                cell.fill = {
+                  type: 'pattern',
+                  pattern: 'solid',
+                  fgColor: { argb: 'FF' + HEADER_BG }
+                };
+                cell.border = {
+                  bottom: AMBER_BORDER,
+                  top: AMBER_BORDER,
+                  left: LIGHT_BORDER,
+                  right: LIGHT_BORDER
+                };
+                cell.alignment = { vertical: 'middle' };
+              });
+            } else {
+              // Data row styling
+              excelRow.eachCell(function(cell) {
+                cell.font = {
+                  name: 'Calibri',
+                  size: 10,
+                  color: { argb: 'FF333333' }
+                };
+                cell.border = {
+                  bottom: LIGHT_BORDER,
+                  left: LIGHT_BORDER,
+                  right: LIGHT_BORDER
+                };
+                // Auto-detect numbers/currency
+                var val = cell.value;
+                if (typeof val === 'string') {
+                  var numMatch = val.replace(/[$,]/g, '').trim();
+                  if (/^-?\d+(\.\d+)?[MBKmk]?$/.test(numMatch)) {
+                    cell.alignment = { horizontal: 'right' };
+                  }
+                }
+              });
+
+              // Bold first column (row labels)
+              var firstCell = excelRow.getCell(1);
+              firstCell.font = {
+                name: 'Calibri',
+                size: 10,
+                bold: true,
+                color: { argb: 'FF' + DARK_HEX }
+              };
+            }
+          });
+
+          // Auto-fit column widths
+          ws.columns.forEach(function(col, colIdx) {
+            var maxLen = 10;
+            sheetData.rows.forEach(function(row) {
+              if (row[colIdx] && row[colIdx].length > maxLen) {
+                maxLen = row[colIdx].length;
+              }
+            });
+            col.width = Math.min(maxLen + 4, 40);
+          });
+        });
+
+        var buffer = await workbook.xlsx.writeBuffer();
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = title.replace(/[^a-zA-Z0-9 _-]/g, '').replace(/\s+/g, '_') + '.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        sheetStatus.textContent = 'Spreadsheet downloaded!';
+        sheetStatus.style.color = '#4c4';
+      } catch (err) {
+        console.error('Sheet generation error:', err);
+        sheetStatus.textContent = 'Failed: ' + (err.message || 'Unknown error');
+        sheetStatus.style.color = '#c44';
+      }
+
+      sheetGenerateBtn.disabled = false;
     });
   </script>
 </body>
