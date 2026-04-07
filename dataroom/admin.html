@@ -749,6 +749,7 @@
           **bold text** <span>&mdash; bold emphasis</span><br>
           &gt; Quote text <span>&mdash; styled quote box with amber accent</span><br>
           - Bullet item <span>&mdash; bulleted list</span><br>
+          --- <span>&mdash; horizontal divider line</span><br>
           <span style="opacity:0.5;">Blank lines add spacing between sections.</span>
         </code>
       </div>
@@ -1277,14 +1278,23 @@ Talent/Licensing | $3M | $5M | $7M"></textarea>
           i++; continue;
         }
 
-        // Blockquote
-        if (line.trim().startsWith('> ')) {
+        // Horizontal rule / divider
+        if (line.trim() === '---') {
+          elements.push({ type: 'divider' });
+          i++; continue;
+        }
+
+        // Blockquote (handles > text, >text, and bare >)
+        if (line.trim() === '>' || line.trim().startsWith('> ') || line.trim().startsWith('>')) {
           var quoteLines = [];
-          while (i < lines.length && lines[i].trim().startsWith('> ')) {
-            quoteLines.push(lines[i].trim().slice(2).trim());
+          while (i < lines.length && (lines[i].trim() === '>' || lines[i].trim().startsWith('> ') || (lines[i].trim().startsWith('>') && !lines[i].trim().startsWith('> ')))) {
+            var ql = lines[i].trim();
+            if (ql === '>') { quoteLines.push(''); }
+            else if (ql.startsWith('> ')) { quoteLines.push(ql.slice(2)); }
+            else { quoteLines.push(ql.slice(1)); }
             i++;
           }
-          elements.push({ type: 'quote', text: quoteLines.join(' ') });
+          elements.push({ type: 'quote', text: quoteLines.filter(function(l) { return l.trim() !== ''; }).join('\n') });
           continue;
         }
 
@@ -1301,7 +1311,7 @@ Talent/Licensing | $3M | $5M | $7M"></textarea>
 
         // Regular paragraph (collect consecutive non-empty non-special lines)
         var paraLines = [];
-        while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#') && !lines[i].trim().startsWith('- ') && !lines[i].trim().startsWith('> ')) {
+        while (i < lines.length && lines[i].trim() !== '' && !lines[i].startsWith('#') && !lines[i].trim().startsWith('- ') && !lines[i].trim().startsWith('>') && lines[i].trim() !== '---') {
           paraLines.push(lines[i]);
           i++;
         }
@@ -1436,19 +1446,28 @@ Talent/Licensing | $3M | $5M | $7M"></textarea>
               }));
             });
           } else if (el.type === 'quote') {
+            // Split quote into lines to handle attribution separately
+            var qLines = el.text.split('\n');
+            qLines.forEach(function(qLine) {
+              children.push(new docx.Paragraph({
+                spacing: { before: 40, after: 40, line: 340 },
+                indent: { left: 480, right: 480 },
+                border: {
+                  left: { style: docx.BorderStyle.SINGLE, size: 12, color: AMBER, space: 12 }
+                },
+                children: buildTextRuns(qLine, {
+                  font: 'Georgia',
+                  size: 22,
+                  italics: true,
+                  color: '4A3F36'
+                })
+              }));
+            });
+          } else if (el.type === 'divider') {
             children.push(new docx.Paragraph({
-              spacing: { before: 160, after: 160, line: 340 },
-              indent: { left: 480, right: 480 },
-              border: {
-                left: { style: docx.BorderStyle.SINGLE, size: 12, color: AMBER, space: 12 }
-              },
-              children: [new docx.TextRun({
-                text: el.text,
-                font: 'Georgia',
-                size: 22,
-                italics: true,
-                color: '4A3F36'
-              })]
+              spacing: { before: 200, after: 200 },
+              border: { bottom: { style: docx.BorderStyle.SINGLE, size: 2, color: AMBER } },
+              children: [new docx.TextRun({ text: '' })]
             }));
           } else if (el.type === 'spacer') {
             children.push(new docx.Paragraph({
