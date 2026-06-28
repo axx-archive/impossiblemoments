@@ -128,7 +128,7 @@
       }
       for (var k = 0; k < layers.length; k++) {
         var rect = layers[k].getBoundingClientRect();
-        layers[k].style.transform = 'translate3d(0,' + (rect.top * -0.06) + 'px,0)';
+        layers[k].style.transform = 'translate3d(0,' + (rect.top * -0.03) + 'px,0)';
       }
     }
     function onScroll() {
@@ -163,6 +163,15 @@
         child.style.transitionDelay = Math.min(idx, 3) * 90 + 'ms';
         idx++;
       }
+      var groups = section.querySelectorAll('[data-reveal-group]');
+      for (var g = 0; g < groups.length; g++) {
+        var groupChildren = groups[g].children;
+        for (var gc = 0; gc < groupChildren.length; gc++) {
+          var groupChild = groupChildren[gc];
+          groupChild.classList.add('me-stagger');
+          groupChild.style.transitionDelay = Math.min(gc, 3) * 80 + 'ms';
+        }
+      }
     }
 
     var io;
@@ -172,6 +181,10 @@
           var en = entries[e];
           if (!en.isIntersecting) continue;
           en.target.classList.add('me-in');
+          (function (target) {
+            var delay = parseInt(target.style.transitionDelay || '0', 10);
+            window.setTimeout(function () { target.style.transitionDelay = ''; }, delay + 650);
+          })(en.target);
           io.unobserve(en.target);
           // "lights up as you arrive" wash on this section's backdrop
           if (!REDUCE.matches) {
@@ -218,9 +231,13 @@
     overlay.setAttribute('aria-hidden', 'true');
     var links = [
       ['#category', 'The Category'],
+      ['#genesis', 'The Story'],
       ['#format', 'The Format'],
       ['#location', 'The Venue'],
+      ['#conviction', 'The Conviction'],
       ['#model', 'The Model'],
+      ['#leadership', 'The Team'],
+      ['#raise', 'The Raise'],
       ['/assets/downloads/impossible-moments-desktop.pdf', 'Download PDF', 'pdf'],
       ['/dataroom/', 'Data Room']
     ];
@@ -269,7 +286,7 @@
         var doc = document.documentElement;
         var max = (doc.scrollHeight - doc.clientHeight) || 1;
         var pct = Math.max(0, Math.min(1, (window.scrollY || doc.scrollTop || 0) / max));
-        progress.style.width = (pct * 100) + '%';
+        progress.style.transform = 'scaleX(' + pct + ')';
       } catch (e) {}
     }
     window.addEventListener('scroll', function () {

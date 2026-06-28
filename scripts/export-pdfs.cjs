@@ -161,7 +161,9 @@ body.im-export-mode section[data-screen-label] *::after {
   backdrop-filter: none !important;
   mix-blend-mode: normal !important;
 }
+body.im-export-mode [data-hero-reveal],
 body.im-export-mode [data-reveal],
+body.im-export-mode [data-reveal-group] > *,
 body.im-export-mode .me-stagger {
   opacity: 1 !important;
   transform: none !important;
@@ -341,7 +343,7 @@ async function preparePage(page, mode, localOrigin) {
       video.replaceWith(img);
     });
 
-    document.querySelectorAll('[data-reveal], .me-stagger').forEach((el) => {
+    document.querySelectorAll('[data-hero-reveal], [data-reveal], [data-reveal-group] > *, .me-stagger').forEach((el) => {
       el.style.opacity = '1';
       el.style.transform = 'none';
       el.style.filter = 'none';
