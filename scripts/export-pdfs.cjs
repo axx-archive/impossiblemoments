@@ -110,6 +110,24 @@ body.im-export-mode {
   --im-glow-lumen-sm: none !important;
   --im-glow-lumen-md: none !important;
 }
+body.im-export-mode .im-stat__num,
+body.im-export-mode .im-display-number,
+body.im-export-mode .im-raise-figure,
+body.im-export-mode .im-number-strong,
+body.im-export-mode .im-number-gilt,
+body.im-export-mode #conviction h2,
+body.im-export-mode #conviction [style*="font-size:2.4rem"],
+body.im-export-mode #model [style*="font-size:1.85rem"],
+body.im-export-mode #raise h2 {
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-variant-numeric: lining-nums tabular-nums !important;
+  text-shadow: none !important;
+}
+body.im-export-mode .im-raise-figure {
+  font-family: var(--im-font-sans) !important;
+  -webkit-text-stroke: 0.28px currentColor !important;
+}
 body.im-export-mode #im-site-gate,
 body.im-export-mode header,
 body.im-export-mode footer,

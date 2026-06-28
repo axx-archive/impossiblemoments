@@ -157,6 +157,45 @@ section[data-screen-label] { min-height: 100vh; box-sizing: border-box; }
   outline: none;
 }
 .im-pdf-button:active { transform: scale(0.96); }
+.im-stat__num,
+.im-display-number,
+#conviction h2,
+#conviction [style*="font-size:2.4rem"],
+#model [style*="font-size:1.85rem"],
+#raise h2 {
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.012em;
+}
+.im-stat__num,
+.im-display-number,
+#conviction [style*="font-size:2.4rem"],
+#model [style*="font-size:1.85rem"] {
+  text-shadow: 0 0 22px rgba(196,148,60,0.22), 0 1px 0 rgba(255,255,255,0.06) !important;
+  -webkit-text-stroke: 0.24px currentColor;
+  paint-order: stroke fill;
+}
+.im-raise-figure {
+  display: inline-block;
+  font-family: var(--im-font-sans);
+  font-size: 0.86em;
+  font-weight: 700 !important;
+  letter-spacing: 0.018em;
+  -webkit-text-stroke: 0.22px currentColor;
+  paint-order: stroke fill;
+  transform: translateY(-0.02em);
+}
+.im-number-strong {
+  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--im-ivory-100);
+}
+.im-number-gilt {
+  font-weight: 700;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--im-gilt-300);
+}
 .im-land-photo-mobile { display: none; }
 .im-hero-mobile-pdf { display: none; }
 .im-land-photo-button {
@@ -571,12 +610,12 @@ body.im-site-unlocked [data-hero-reveal] {
   <div data-reveal-group="1" style="position:relative; z-index:2; display:flex; gap:2px; max-width:760px; width:100%; margin:34px auto 0; flex-wrap:wrap; justify-content:center;">
     <div style="flex:1; min-width:240px; background:var(--im-noir-850); border:1px solid var(--im-border-faint); padding:1.6rem 1.9rem; text-align:left;">
       <div style="font-family:var(--im-font-mono); font-size:0.62rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:14px;">May 2026 · Caesars Entertainment</div>
-      <div style="font-family:var(--im-font-display); font-style:italic; font-size:2.4rem; color:var(--im-gilt-500); line-height:1; text-shadow:0 0 30px rgba(196,148,60,0.18);">$17.6B</div>
+      <div class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:2.4rem; color:var(--im-gilt-500); line-height:1; text-shadow:0 0 30px rgba(196,148,60,0.18);">$17.6B</div>
       <div style="font-family:var(--im-font-sans); font-size:0.8rem; color:var(--im-ivory-400); margin-top:8px;">Tilman Fertitta, agreed acquisition</div>
     </div>
     <div style="flex:1; min-width:240px; background:var(--im-noir-850); border:1px solid var(--im-border-faint); padding:1.6rem 1.9rem; text-align:left;">
       <div style="font-family:var(--im-font-mono); font-size:0.62rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:14px;">Five days later · MGM</div>
-      <div style="font-family:var(--im-font-display); font-style:italic; font-size:2.4rem; color:var(--im-gilt-500); line-height:1; text-shadow:0 0 30px rgba(196,148,60,0.18);">$18B</div>
+      <div class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:2.4rem; color:var(--im-gilt-500); line-height:1; text-shadow:0 0 30px rgba(196,148,60,0.18);">$18B</div>
       <div style="font-family:var(--im-font-sans); font-size:0.8rem; color:var(--im-ivory-400); margin-top:8px;">Barry Diller, moved to take private</div>
     </div>
   </div>
@@ -602,19 +641,19 @@ body.im-site-unlocked [data-hero-reveal] {
     <!-- Operating assumptions -->
     <div style="background:var(--im-noir-850); border:1px solid var(--im-border-faint); padding:2.6rem; text-align:left;">
       <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:14px;">Operating Assumptions</div>
-      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">01</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);">3,000-seat purpose-built venue</span></div>
-      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">02</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);">9 shows per week, 50 weeks per year</span></div>
-      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">03</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);">$125 average ticket price</span></div>
-      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">04</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);">80% modeled occupancy</span></div>
+      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span class="im-number-gilt" style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">01</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);"><span class="im-number-strong">3,000</span>-seat purpose-built venue</span></div>
+      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span class="im-number-gilt" style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">02</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);"><span class="im-number-strong">9</span> shows per week, <span class="im-number-strong">50</span> weeks per year</span></div>
+      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span class="im-number-gilt" style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">03</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);"><span class="im-number-strong">$125</span> average ticket price</span></div>
+      <div style="display:flex; align-items:baseline; gap:14px; padding:16px 0; border-top:1px solid var(--im-border-faint);"><span class="im-number-gilt" style="font-family:var(--im-font-mono); font-size:0.7rem; color:var(--im-gilt-500);">04</span><span style="font-family:var(--im-font-serif); font-size:1.15rem; color:var(--im-ivory-200);"><span class="im-number-strong">80%</span> modeled occupancy</span></div>
     </div>
     <!-- Projected returns -->
     <div style="background:var(--im-accent-tint); border:1px solid var(--im-border); padding:2.6rem; text-align:left;">
       <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:14px;">Projected Returns</div>
-      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">$135M</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Year 1 ticket revenue</span></div>
-      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">47%</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Cash-on-cash return, Year 1</span></div>
-      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">$445M</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Total 5-year distributable cash flow</span></div>
-      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">Year 3</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Full return of capital within</span></div>
-      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">40–49%</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Capital IRR</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">$135M</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Year 1 ticket revenue</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">47%</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Cash-on-cash return, Year 1</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">$445M</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Total 5-year distributable cash flow</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">Year 3</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Full return of capital within</span></div>
+      <div style="display:flex; align-items:baseline; gap:16px; padding:14px 0; border-top:1px solid var(--im-border-faint);"><span class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:1.85rem; color:var(--im-gilt-500); min-width:120px; text-shadow:0 0 30px rgba(196,148,60,0.18);">40–49%</span><span style="font-family:var(--im-font-sans); font-size:0.85rem; color:var(--im-ivory-400); line-height:1.4;">Capital IRR</span></div>
     </div>
   </div>
   <p data-reveal="1" style="position:relative; z-index:2; font-family:var(--im-font-serif); font-style:italic; font-weight:400; font-size:0.95rem; line-height:1.6; color:var(--im-ivory-600); max-width:760px; margin:28px auto 0; text-align:center;">All figures exclude sponsorship, advertising, and signage revenue entirely. Cost estimates are intentionally conservative.</p>
@@ -659,7 +698,7 @@ body.im-site-unlocked [data-hero-reveal] {
   <div style="position:absolute; inset:0; z-index:0; overflow:hidden;"><img src="/assets/sec10-raise-vegas-night.jpg" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 50%; filter:brightness(0.66) saturate(1.08); animation:im-kenburns 40s ease-in-out infinite alternate;"><div style="position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 16%, rgba(191,154,74,0.12), transparent 55%), radial-gradient(ellipse 95% 85% at 50% 45%, rgba(10,7,6,0.58), rgba(10,7,6,0.86));"></div></div>
   <div data-reveal="1" style="position:relative; z-index:2; max-width:1100px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
     <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Marker" hint-size="auto,16px" tone="lumen" index="NO. 010">First Tranche Raise</x-import>
-    <h2 style="font-family:var(--im-font-display); font-weight:700; font-size:clamp(2.6rem,6vw,5rem); line-height:0.96; color:var(--im-gilt-100); margin:18px 0 0; letter-spacing:0.01em;">$41.2M to Secure the Foundation.</h2>
+    <h2 style="font-family:var(--im-font-display); font-weight:700; font-size:clamp(2.6rem,6vw,5rem); line-height:0.96; color:var(--im-gilt-100); margin:18px 0 0; letter-spacing:0.01em;"><span class="im-raise-figure">$41.2M</span> to Secure the Foundation.</h2>
   </div>
   <div data-reveal-group="1" style="position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:1px; background:var(--im-border-faint); max-width:1100px; width:100%; margin:52px auto 0;">
     <div style="background:var(--im-noir-850); padding:2.6rem 2.2rem; text-align:left;">
