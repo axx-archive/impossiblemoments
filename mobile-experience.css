@@ -242,6 +242,8 @@
   .me-overlay.open a:nth-child(4) { transition-delay: .20s; }
   .me-overlay.open a:nth-child(5) { transition-delay: .26s; }
   .me-overlay.open a:nth-child(6) { transition-delay: .32s; }
+  .me-overlay.open a:nth-child(7) { transition-delay: .38s; }
+  .me-overlay a.me-overlay-pdf { color: #EAF1F8; }
   .me-overlay a.me-overlay-dr { color: #BF9A4A; font-style: italic; }
 }
 
