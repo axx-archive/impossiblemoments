@@ -231,9 +231,12 @@ body.im-export-desktop #location .im-frame {
   margin-right: auto !important;
 }
 body.im-export-desktop #location img[src="/land-location-night.png"] {
+  width: 200% !important;
+  max-width: none !important;
   height: 300px !important;
   object-fit: cover !important;
   object-position: center !important;
+  transform: none !important;
 }
 body.im-export-desktop #conviction [style*="margin:36px auto 0"] { margin-top: 24px !important; }
 body.im-export-desktop #conviction {
