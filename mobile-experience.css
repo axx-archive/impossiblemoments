@@ -96,7 +96,7 @@
   }
 
   /* CATEGORY (#category) — ILM stage */
-  #category img { filter: grayscale(.4) contrast(1.05) brightness(.95) !important; }
+  #category img { filter: saturate(1.05) brightness(.9) !important; }
   #category > div:first-child > div { background: linear-gradient(rgba(10,7,6,.55), rgba(10,7,6,.78)) !important; }
 
   /* INFRASTRUCTURE (#infrastructure) — LED volume stage */
