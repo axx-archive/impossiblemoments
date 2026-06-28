@@ -16,7 +16,10 @@
     <div class="imsg-mark">Private Preview</div>
     <h1 class="imsg-logo"><span class="imsg-logo-1">Impossible</span><span class="imsg-logo-2">Moments</span></h1>
     <p class="imsg-sub">The past, made present.</p>
-    <input id="imsg-input" class="imsg-input" type="password" placeholder="Enter password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Password">
+    <div class="imsg-password-row" id="imsg-password-row">
+      <input id="imsg-input" class="imsg-input" type="password" placeholder="Enter password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Password">
+      <button class="imsg-toggle" id="imsg-toggle" type="button" aria-label="Show password" aria-controls="imsg-input" aria-pressed="false">Show</button>
+    </div>
     <button class="imsg-btn" type="submit">Enter</button>
     <div class="imsg-err" id="imsg-err" aria-live="polite"></div>
   </form>
@@ -56,15 +59,28 @@
     font-size: clamp(1.5rem, 5vw, 2rem); letter-spacing: 0.06em; color: #EAF1F8; margin-top: 2px;
   }
   #im-site-gate .imsg-sub { font-style: italic; font-size: 1.02rem; color: #9C9387; margin: 2px 0 10px; }
+  #im-site-gate .imsg-password-row {
+    position: relative; width: 100%; border-bottom: 1px solid rgba(191,154,74,0.38);
+    transition: border-color .35s ease, box-shadow .35s ease;
+  }
   #im-site-gate .imsg-input {
-    width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(191,154,74,0.38);
-    padding: 12px 6px; text-align: center; color: #F4EFE6;
+    width: 100%; box-sizing: border-box; background: transparent; border: none;
+    padding: 12px 68px; text-align: center; color: #F4EFE6;
     font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; letter-spacing: 0.16em;
-    outline: none; transition: border-color .35s ease, box-shadow .35s ease;
+    outline: none;
   }
   #im-site-gate .imsg-input::placeholder { color: #645C52; letter-spacing: 0.12em; }
-  #im-site-gate .imsg-input:focus { border-bottom-color: #BF9A4A; box-shadow: 0 1px 0 0 rgba(191,154,74,0.5); }
-  #im-site-gate .imsg-input.imsg-shake { animation: imsg-shake .4s ease; border-bottom-color: #C2564A; }
+  #im-site-gate .imsg-password-row:focus-within { border-bottom-color: #BF9A4A; box-shadow: 0 1px 0 0 rgba(191,154,74,0.5); }
+  #im-site-gate .imsg-password-row.imsg-shake { animation: imsg-shake .4s ease; border-bottom-color: #C2564A; }
+  #im-site-gate .imsg-toggle {
+    position: absolute; top: 50%; right: 0; min-width: 58px; min-height: 36px;
+    transform: translateY(-50%); cursor: pointer; border: 0; background: transparent;
+    color: #8E826F; padding: 0 2px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 600; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+    transition: color .25s ease, opacity .25s ease;
+  }
+  #im-site-gate .imsg-toggle:hover,
+  #im-site-gate .imsg-toggle:focus-visible { color: #CBA75E; outline: none; }
   #im-site-gate .imsg-btn {
     width: 100%; margin-top: 4px; cursor: pointer; border: 1px solid #BF9A4A;
     background: #BF9A4A; color: #0A0908; padding: 13px;
@@ -82,6 +98,8 @@
     var gate = document.getElementById('im-site-gate');
     var form = document.getElementById('imsg-form');
     var input = document.getElementById('imsg-input');
+    var inputRow = document.getElementById('imsg-password-row');
+    var toggle = document.getElementById('imsg-toggle');
     var err = document.getElementById('imsg-err');
     function unlock() {
       gate.classList.add('imsg-hidden');
@@ -93,6 +111,14 @@
     } catch (e) {}
     document.documentElement.style.overflow = 'hidden';
     setTimeout(function () { try { input.focus(); } catch (e) {} }, 200);
+    toggle.addEventListener('click', function () {
+      var showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      toggle.textContent = showing ? 'Show' : 'Hide';
+      toggle.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+      toggle.setAttribute('aria-pressed', showing ? 'false' : 'true');
+      input.focus();
+    });
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if ((input.value || '').trim().toUpperCase() === PW) {
@@ -100,9 +126,9 @@
         unlock();
       } else {
         err.textContent = 'Incorrect password';
-        input.classList.add('imsg-shake');
+        inputRow.classList.add('imsg-shake');
         input.value = '';
-        setTimeout(function () { input.classList.remove('imsg-shake'); err.textContent = ''; }, 1600);
+        setTimeout(function () { inputRow.classList.remove('imsg-shake'); err.textContent = ''; }, 1600);
         input.focus();
       }
     });
@@ -123,6 +149,19 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; background: #0A0908; }
 section[data-screen-label] { min-height: 100vh; box-sizing: border-box; }
+@media (min-width: 901px) {
+  body:not(.im-export-mode) #category,
+  body:not(.im-export-mode) #genesis,
+  body:not(.im-export-mode) #infrastructure,
+  body:not(.im-export-mode) #conviction,
+  body:not(.im-export-mode) #leadership,
+  body:not(.im-export-mode) #raise {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
 .im-header-actions {
   display: flex;
   align-items: center;
