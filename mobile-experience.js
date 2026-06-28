@@ -2,7 +2,7 @@
    IMPOSSIBLE MOMENTS — MOBILE "WOAH" EXPERIENCE LAYER (progressive enhancement)
    ----------------------------------------------------------------------------
    Loaded with `defer` on BOTH the marketing site and the data room.
-   - No-ops on desktop (>700px): every motion path is gated on MOBILE.matches.
+   - No-ops on marketing desktop (>820px): every motion path is gated on SITE_MOBILE.matches.
    - Never hides content and never locks scrolling. Reveals are transform-only,
      with a 6s failsafe + try/catch that force everything visible.
    - On the dc-runtime site it waits for the React-rendered markup to mount
@@ -13,12 +13,14 @@
 (function () {
   'use strict';
 
-  var MOBILE, REDUCE;
+  var SITE_MOBILE, DATAROOM_MOBILE, REDUCE;
   try {
-    MOBILE = window.matchMedia('(max-width:700px)');
+    SITE_MOBILE = window.matchMedia('(max-width:820px)');
+    DATAROOM_MOBILE = window.matchMedia('(max-width:768px)');
     REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)');
   } catch (e) {
-    MOBILE = { matches: false, addEventListener: function () {} };
+    SITE_MOBILE = { matches: false, addEventListener: function () {} };
+    DATAROOM_MOBILE = { matches: false, addEventListener: function () {} };
     REDUCE = { matches: false };
   }
 
@@ -82,9 +84,9 @@
 
     // Re-check on breakpoint change (rotation / resize): nav visibility is
     // CSS-driven; here we just make sure nothing stays stranded if we cross out.
-    onMediaChange(MOBILE, function () {
+    onMediaChange(SITE_MOBILE, function () {
       try {
-        if (!MOBILE.matches) {
+        if (!SITE_MOBILE.matches) {
           var nodes = document.querySelectorAll('.me-stagger');
           for (var i = 0; i < nodes.length; i++) nodes[i].classList.add('me-in');
         }
@@ -119,7 +121,7 @@
     var ticking = false;
     function update() {
       ticking = false;
-      if (!MOBILE.matches || REDUCE.matches) {
+      if (!SITE_MOBILE.matches || REDUCE.matches) {
         // Reset any prior transform when leaving mobile / reduced motion.
         for (var j = 0; j < layers.length; j++) layers[j].style.transform = '';
         return;
@@ -142,7 +144,7 @@
 
   /* ---- (b) STAGGERED REVEALS + (d) per-section ENTER WASH ------------------- */
   function initReveals() {
-    if (!MOBILE.matches) return; // desktop untouched — no reveal classes added
+    if (!SITE_MOBILE.matches) return; // desktop untouched — no reveal classes added
     if (REDUCE.matches) return; // instant — content already visible, do nothing
 
     var sections = sectionList();
@@ -299,7 +301,7 @@
         }
         function addScrim() {
           if (scrim) return;
-          if (!window.matchMedia('(max-width:700px)').matches) return; // bottom-sheet is mobile-only
+          if (!DATAROOM_MOBILE.matches) return; // bottom-sheet is mobile-only
           clearTimeout(removeTimer);
           scrim = document.createElement('div');
           scrim.className = 'me-sheet-scrim';

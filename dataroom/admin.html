@@ -26,6 +26,8 @@
     html {
       scrollbar-width: thin;
       scrollbar-color: var(--amber) var(--black);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: var(--black); }
@@ -36,6 +38,7 @@
       color: var(--cream);
       font-family: 'Cormorant Garamond', Georgia, serif;
       min-height: 100vh;
+      text-wrap: pretty;
     }
 
     /* ========== GATE ========== */
@@ -67,6 +70,7 @@
       font-weight: 700;
       font-size: 2.5rem;
       color: var(--amber-pale);
+      text-wrap: balance;
     }
     .gate-subtitle {
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -75,6 +79,7 @@
       text-transform: uppercase;
       color: var(--cream-dim);
       margin-top: -0.5rem;
+      text-wrap: balance;
     }
     .gate-input {
       background: transparent;
@@ -87,7 +92,8 @@
       text-align: center;
       outline: none;
       width: 300px;
-      transition: border-color 0.3s;
+      min-height: 44px;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .gate-input:focus { border-color: var(--amber); }
     .gate-input.error {
@@ -105,12 +111,14 @@
       text-transform: uppercase;
       color: var(--amber-light);
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s;
+      min-height: 44px;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
     }
     .gate-btn:hover {
       background: rgba(196,148,60,0.15);
       border-color: var(--amber);
     }
+    .gate-btn:active { transform: scale(0.96); }
     .gate-error-msg {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.7rem;
@@ -156,11 +164,34 @@
       text-decoration: none;
       border: 1px solid rgba(196,148,60,0.2);
       padding: 0.4rem 1rem;
-      transition: border-color 0.3s, color 0.3s;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.3s, color 0.3s, background 0.3s, transform 0.2s;
     }
     .admin-back-btn:hover {
       border-color: var(--amber);
       color: var(--amber-light);
+    }
+    .admin-back-btn:active { transform: scale(0.96); }
+    .admin-back-btn:focus-visible,
+    .admin-tab:focus-visible,
+    .gate-input:focus-visible,
+    .gate-btn:focus-visible,
+    .form-input:focus-visible,
+    .form-textarea:focus-visible,
+    .form-file-label:focus-visible,
+    .upload-btn:focus-visible,
+    .edit-btn:focus-visible,
+    .delete-btn:focus-visible,
+    .doc-creator-close:focus-visible,
+    .doc-input-title:focus-visible,
+    .doc-textarea:focus-visible,
+    .doc-generate-btn:focus-visible,
+    .create-doc-btn:focus-visible {
+      outline: 1px solid rgba(212,168,83,0.65);
+      outline-offset: 3px;
     }
 
     .admin-body {
@@ -192,6 +223,7 @@
       cursor: pointer;
       transition: color 0.3s;
       position: relative;
+      min-height: 44px;
     }
     .admin-tab::after {
       content: '';
@@ -232,6 +264,7 @@
       font-size: 1.8rem;
       color: var(--amber-pale);
       margin-bottom: 2rem;
+      text-wrap: balance;
     }
 
     /* ========== UPLOAD FORM ========== */
@@ -278,7 +311,8 @@
       font-size: 0.8rem;
       color: var(--cream);
       outline: none;
-      transition: border-color 0.3s;
+      min-height: 40px;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .form-input:focus, .form-textarea:focus {
       border-color: var(--amber);
@@ -303,6 +337,7 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.7rem;
       color: var(--cream-dim);
+      min-height: 44px;
     }
     .form-file-label:hover {
       border-color: var(--amber);
@@ -332,7 +367,8 @@
       text-transform: uppercase;
       color: var(--amber-light);
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s;
+      min-height: 44px;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
       margin-top: 0.5rem;
     }
     .upload-btn:hover {
@@ -343,6 +379,7 @@
       opacity: 0.4;
       cursor: not-allowed;
     }
+    .upload-btn:active:not(:disabled) { transform: scale(0.96); }
     .upload-status {
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.7rem;
@@ -353,8 +390,16 @@
 
     /* ========== TABLE ========== */
 
+    .admin-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid rgba(196,148,60,0.08);
+      background: rgba(196,148,60,0.02);
+      -webkit-overflow-scrolling: touch;
+    }
     .admin-table {
       width: 100%;
+      min-width: 760px;
       border-collapse: collapse;
     }
     .admin-table th {
@@ -375,6 +420,13 @@
       padding: 0.7rem 1rem;
       border-bottom: 1px solid rgba(196,148,60,0.06);
       vertical-align: middle;
+    }
+    .admin-table td:nth-child(2),
+    .admin-table td:nth-child(3) {
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .admin-table tr:hover td {
       background: rgba(196,148,60,0.03);
@@ -408,7 +460,8 @@
       text-transform: uppercase;
       color: var(--amber-light);
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s;
+      min-height: 40px;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
       margin-right: 0.4rem;
     }
     .edit-btn:hover {
@@ -425,12 +478,15 @@
       text-transform: uppercase;
       color: #c44;
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s;
+      min-height: 40px;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
     }
     .delete-btn:hover {
       background: rgba(196,60,60,0.1);
       border-color: #c44;
     }
+    .edit-btn:active,
+    .delete-btn:active { transform: scale(0.96); }
 
     /* ========== LOADING ========== */
 
@@ -492,6 +548,11 @@
       cursor: pointer;
       padding: 0.3rem;
       line-height: 1;
+      min-width: 44px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .doc-creator-close:hover { color: var(--cream); }
 
@@ -532,7 +593,8 @@
       color: var(--cream);
       outline: none;
       margin-bottom: 1rem;
-      transition: border-color 0.3s;
+      min-height: 44px;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .doc-input-title:focus { border-color: var(--amber); }
     .doc-input-title::placeholder { color: var(--cream-dim); opacity: 0.5; }
@@ -549,7 +611,7 @@
       color: var(--cream);
       outline: none;
       resize: vertical;
-      transition: border-color 0.3s;
+      transition: border-color 0.3s, box-shadow 0.3s;
       margin-bottom: 1.5rem;
     }
     .doc-textarea:focus { border-color: var(--amber); }
@@ -566,7 +628,8 @@
       text-transform: uppercase;
       color: var(--amber-light);
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s;
+      min-height: 44px;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
     }
     .doc-generate-btn:hover {
       background: rgba(196,148,60,0.18);
@@ -595,18 +658,35 @@
       text-transform: uppercase;
       color: var(--amber-light);
       cursor: pointer;
-      transition: background 0.3s, border-color 0.3s;
+      min-height: 44px;
+      transition: background 0.3s, border-color 0.3s, transform 0.2s;
       margin-left: 1rem;
     }
     .create-doc-btn:hover {
       background: rgba(196,148,60,0.15);
       border-color: var(--amber);
     }
+    .doc-generate-btn:active:not(:disabled),
+    .create-doc-btn:active { transform: scale(0.96); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
 
     /* ========== RESPONSIVE ========== */
 
     @media (max-width: 768px) {
       .form-row { flex-direction: column; }
+      .admin-header { align-items: flex-start; gap: 1rem; flex-direction: column; }
+      .admin-tabs { overflow-x: auto; }
+      .admin-tab { padding: 0.8rem 1rem; white-space: nowrap; }
       .admin-table { font-size: 0.65rem; }
       .admin-table th, .admin-table td { padding: 0.5rem; }
       .doc-creator { padding: 1.5rem; }
@@ -676,20 +756,22 @@
 
       <div class="section-label">Current Files</div>
       <div id="filesLoading" class="loading"><div class="spinner"></div></div>
-      <table class="admin-table" id="filesTable" style="display: none;">
-        <thead>
-          <tr>
-            <th>Order</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Type</th>
-            <th>Size</th>
-            <th>Uploaded</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="filesBody"></tbody>
-      </table>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="filesTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Order</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Type</th>
+              <th>Size</th>
+              <th>Uploaded</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="filesBody"></tbody>
+        </table>
+      </div>
       <div id="filesEmpty" class="table-empty" style="display: none;">No files uploaded yet</div>
     </div>
 
@@ -697,16 +779,18 @@
     <div class="admin-panel" id="tab-investors">
       <div class="section-label">Registered Investors</div>
       <div id="investorsLoading" class="loading"><div class="spinner"></div></div>
-      <table class="admin-table" id="investorsTable" style="display: none;">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Downloads</th>
-            <th>Joined</th>
-          </tr>
-        </thead>
-        <tbody id="investorsBody"></tbody>
-      </table>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="investorsTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Downloads</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody id="investorsBody"></tbody>
+        </table>
+      </div>
       <div id="investorsEmpty" class="table-empty" style="display: none;">No investors registered yet</div>
     </div>
 
@@ -714,16 +798,18 @@
     <div class="admin-panel" id="tab-downloads">
       <div class="section-label">Download History</div>
       <div id="downloadsLoading" class="loading"><div class="spinner"></div></div>
-      <table class="admin-table" id="downloadsTable" style="display: none;">
-        <thead>
-          <tr>
-            <th>Investor</th>
-            <th>File</th>
-            <th>Downloaded</th>
-          </tr>
-        </thead>
-        <tbody id="downloadsBody"></tbody>
-      </table>
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="downloadsTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Investor</th>
+              <th>File</th>
+              <th>Downloaded</th>
+            </tr>
+          </thead>
+          <tbody id="downloadsBody"></tbody>
+        </table>
+      </div>
       <div id="downloadsEmpty" class="table-empty" style="display: none;">No downloads recorded yet</div>
     </div>
   </main>
