@@ -225,7 +225,11 @@ body.im-export-desktop #format [style*="padding-top:20px"] {
 body.im-export-desktop #format button {
   display: none !important;
 }
-body.im-export-desktop #location .im-frame { max-width: 760px !important; }
+body.im-export-desktop #location .im-frame {
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
 body.im-export-desktop #location img[src="/land-location-night.png"] {
   height: 300px !important;
   object-fit: cover !important;
