@@ -4,11 +4,15 @@ const fs = require('fs');
 const http = require('http');
 const os = require('os');
 const path = require('path');
-const { pathToFileURL } = require('url');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT_DIR = path.join(ROOT, 'assets', 'downloads');
 const BASE_URL = process.env.IM_PUBLIC_BASE_URL || 'https://onenight.vercel.app';
+const PDF_TARGET_BYTES = Number(process.env.IM_PDF_TARGET_BYTES || 10 * 1024 * 1024);
+const PDF_QUALITY_STEPS = (process.env.IM_PDF_JPEG_QUALITIES || '84,78,72,66,60')
+  .split(',')
+  .map((value) => Number(value.trim()))
+  .filter((value) => Number.isFinite(value) && value > 0 && value <= 100);
 
 function requireDependency(name) {
   try {
@@ -41,13 +45,6 @@ const MODES = [
     width: 1440,
     height: 810,
     output: 'impossible-moments-desktop.pdf',
-  },
-  {
-    name: 'mobile',
-    width: 430,
-    height: 1500,
-    output: 'impossible-moments-mobile.pdf',
-    isMobile: true,
   },
 ];
 
@@ -104,11 +101,18 @@ html, body {
 }
 body.im-export-mode {
   overflow: visible !important;
+  --im-neon-text: none !important;
+  --im-neon-text-soft: none !important;
+  --im-lumen-text: none !important;
+  --im-glow-gilt-sm: none !important;
+  --im-glow-gilt-md: none !important;
+  --im-glow-gilt-lg: none !important;
+  --im-glow-lumen-sm: none !important;
+  --im-glow-lumen-md: none !important;
 }
 body.im-export-mode #im-site-gate,
 body.im-export-mode header,
 body.im-export-mode footer,
-body.im-export-mode #im-pdf-chooser,
 body.im-export-mode #im-land-photo-viewer,
 body.im-export-mode .im-land-photo-mobile,
 body.im-export-mode .im-hero-mobile-pdf,
@@ -151,6 +155,11 @@ body.im-export-mode section[data-screen-label] *::after {
   animation: none !important;
   transition-duration: 0s !important;
   caret-color: transparent !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  mix-blend-mode: normal !important;
 }
 body.im-export-mode [data-reveal],
 body.im-export-mode .me-stagger {
@@ -167,6 +176,10 @@ body.im-export-mode .im-marker__text {
 }
 body.im-export-mode .im-marker__tick {
   display: none !important;
+}
+body.im-export-mode .im-neon,
+body.im-export-mode .im-lumen {
+  text-shadow: none !important;
 }
 body.im-export-mode video {
   display: none !important;
@@ -218,37 +231,56 @@ body.im-export-desktop #location img[src="/land-location-night.png"] {
 }
 body.im-export-desktop #conviction [style*="margin:36px auto 0"] { margin-top: 24px !important; }
 body.im-export-desktop #conviction {
-  padding: 34px 72px !important;
+  padding: 30px 72px !important;
   justify-content: flex-start !important;
 }
 body.im-export-desktop #conviction h2 {
-  font-size: 2.7rem !important;
+  font-size: 2.48rem !important;
   line-height: 1.02 !important;
-  margin-top: 12px !important;
+  margin-top: 10px !important;
+}
+body.im-export-desktop #conviction [style*="margin:46px auto 0"] {
+  margin-top: 24px !important;
 }
 body.im-export-desktop #conviction [style*="padding:2rem 2.2rem"] {
-  padding: 1rem 1.35rem !important;
+  padding: 0.92rem 1.2rem !important;
 }
 body.im-export-desktop #conviction [style*="font-size:2.4rem"] {
-  font-size: 1.62rem !important;
+  font-size: 1.5rem !important;
 }
 body.im-export-desktop #conviction [style*="margin:36px auto 0"],
 body.im-export-desktop #conviction [style*="margin:30px auto 0"] {
-  margin-top: 14px !important;
+  margin-top: 12px !important;
 }
 body.im-export-desktop #conviction [style*="padding:2.4rem"] {
-  padding: 1rem !important;
+  padding: 0.86rem 1rem !important;
 }
 body.im-export-desktop #conviction p[style*="font-size:clamp(1.35rem"] {
-  font-size: 1.22rem !important;
-  line-height: 1.26 !important;
+  font-size: 1.06rem !important;
+  line-height: 1.22 !important;
 }
 body.im-export-desktop #conviction p[style*="font-size:clamp(1.12rem"] {
-  font-size: 0.98rem !important;
-  line-height: 1.4 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.3 !important;
 }
 body.im-export-desktop #conviction [style*="margin-top:20px"] {
-  margin-top: 10px !important;
+  margin-top: 8px !important;
+}
+body.im-export-desktop #conviction > div[style*="max-width:760px"][style*="margin:36px auto 0"] {
+  max-width: 1120px !important;
+  margin-top: 16px !important;
+}
+body.im-export-desktop #conviction > div[style*="max-width:760px"][style*="margin:36px auto 0"] p {
+  font-size: 0.9rem !important;
+  line-height: 1.28 !important;
+}
+body.im-export-desktop #conviction > div:nth-of-type(6) {
+  max-width: 1120px !important;
+  margin: 12px auto 0 !important;
+}
+body.im-export-desktop #conviction > div:nth-of-type(6) p {
+  font-size: 0.9rem !important;
+  line-height: 1.28 !important;
 }
 body.im-export-desktop #model h2 {
   font-size: 2.68rem !important;
@@ -272,129 +304,7 @@ body.im-export-desktop #model p[data-reveal] {
   font-size: 0.82rem !important;
 }
 body.im-export-desktop #raise [style*="margin:40px auto 0"] { margin-top: 28px !important; }
-body.im-export-mobile section[data-screen-label] {
-  padding: 54px 20px !important;
-}
-body.im-export-mobile #top,
-body.im-export-mobile section[data-screen-label="Closing"] {
-  padding: 88px 22px 58px !important;
-}
-body.im-export-mobile h2 {
-  font-size: 2.22rem !important;
-  line-height: 1.08 !important;
-  text-wrap: balance !important;
-}
-body.im-export-mobile #raise h2 {
-  font-size: 2.58rem !important;
-}
-body.im-export-mobile #top .im-neon {
-  font-size: 4.8rem !important;
-}
-body.im-export-mobile #top .im-lumen {
-  font-size: 2.72rem !important;
-}
-body.im-export-mobile [style*="margin:52px auto 0"],
-body.im-export-mobile [style*="margin:48px auto 0"],
-body.im-export-mobile [style*="margin:42px 0 0"],
-body.im-export-mobile [style*="margin:40px auto 0"] {
-  margin-top: 22px !important;
-}
-body.im-export-mobile [style*="grid-template-columns"] {
-  grid-template-columns: 1fr !important;
-  gap: 8px !important;
-}
-body.im-export-mobile [style*="padding:2.8rem"],
-body.im-export-mobile [style*="padding:2.6rem"],
-body.im-export-mobile [style*="padding:2.4rem"],
-body.im-export-mobile [style*="padding:2.2rem"] {
-  padding: 1rem 1.05rem !important;
-}
-body.im-export-mobile [style*="font-size:1.08rem"],
-body.im-export-mobile [style*="font-size:1.05rem"],
-body.im-export-mobile [style*="font-size:1.02rem"] {
-  font-size: 0.86rem !important;
-  line-height: 1.42 !important;
-}
-body.im-export-mobile [style*="font-size:1.15rem"],
-body.im-export-mobile [style*="font-size:1.12rem"],
-body.im-export-mobile [style*="font-size:1.1rem"] {
-  font-size: 0.98rem !important;
-  line-height: 1.52 !important;
-}
-body.im-export-mobile #format [style*="height:340px"] {
-  height: 98px !important;
-  min-height: 98px !important;
-  aspect-ratio: auto !important;
-}
-body.im-export-mobile #format {
-  justify-content: flex-start !important;
-  padding-top: 42px !important;
-  padding-bottom: 42px !important;
-}
-body.im-export-mobile #format > div[style*="display:grid"] {
-  margin-top: 20px !important;
-}
-body.im-export-mobile #format div[style*="background-image"] {
-  height: 126px !important;
-  min-height: 126px !important;
-  aspect-ratio: auto !important;
-}
-body.im-export-mobile #format [style*="font-size:5rem"] {
-  font-size: 2.25rem !important;
-}
-body.im-export-mobile #format [style*="font-size:2.6rem"] {
-  font-size: 1.65rem !important;
-}
-body.im-export-mobile #format p {
-  font-size: 0.82rem !important;
-  line-height: 1.36 !important;
-}
-body.im-export-mobile #format button[onclick],
-body.im-export-mobile #format button[onClick],
-body.im-export-mobile #format button {
-  display: none !important;
-}
-body.im-export-mobile #format [style*="padding-top:20px"] {
-  padding-top: 10px !important;
-}
-body.im-export-mobile #location {
-  justify-content: flex-start !important;
-  padding-top: 44px !important;
-}
-body.im-export-mobile #location .im-frame {
-  display: block !important;
-  margin-top: 24px !important;
-  padding: 8px !important;
-}
-body.im-export-mobile #location img[src="/land-location-night.png"] {
-  height: 210px !important;
-  object-fit: cover !important;
-  object-position: center !important;
-}
-body.im-export-mobile #location p[style*="font-display"] {
-  margin-top: 18px !important;
-}
-body.im-export-mobile #model [style*="font-size:1.85rem"] {
-  font-size: 1.28rem !important;
-  min-width: 86px !important;
-}
-body.im-export-mobile #model [style*="padding:14px 0"] {
-  padding: 8px 0 !important;
-}
-body.im-export-mobile #leadership [style*="gap:14px"] {
-  gap: 7px !important;
-}
-body.im-export-mobile #leadership [style*="width:54px"] {
-  width: 42px !important;
-  height: 42px !important;
-}
-body.im-export-mobile #conviction [style*="margin:36px auto 0"] {
-  margin-top: 20px !important;
-}
-body.im-export-mobile #raise [style*="font-size:0.82rem"] {
-  font-size: 0.72rem !important;
-}
-`;
+	`;
 }
 
 async function preparePage(page, mode, localOrigin) {
@@ -442,6 +352,132 @@ async function preparePage(page, mode, localOrigin) {
   await page.evaluate(() => document.fonts && document.fonts.ready);
 }
 
+function pdfNum(value) {
+  return Number(value.toFixed(3)).toString();
+}
+
+function pdfString(value) {
+  return String(value).replace(/[\\()]/g, '\\$&');
+}
+
+function buildSlidePdf({ mode, images, sectionLinks }) {
+  const pageWidth = mode.width * 0.75;
+  const pageHeight = mode.height * 0.75;
+  const objects = [null, null, null];
+  const catalogId = 1;
+  const pagesId = 2;
+  const pageIds = [];
+
+  function setObject(id, body) {
+    objects[id] = Buffer.isBuffer(body) ? body : Buffer.from(body);
+  }
+
+  function addObject(body) {
+    const id = objects.length;
+    setObject(id, body);
+    return id;
+  }
+
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    const imageId = addObject(Buffer.concat([
+      Buffer.from(`<< /Type /XObject /Subtype /Image /Width ${mode.width} /Height ${mode.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${image.length} >>\nstream\n`),
+      image,
+      Buffer.from('\nendstream'),
+    ]));
+
+    const content = Buffer.from(`q\n${pdfNum(pageWidth)} 0 0 ${pdfNum(pageHeight)} 0 0 cm\n/Im0 Do\nQ\n`);
+    const contentId = addObject(Buffer.concat([
+      Buffer.from(`<< /Length ${content.length} >>\nstream\n`),
+      content,
+      Buffer.from('endstream'),
+    ]));
+
+    const annotations = [];
+    for (const link of sectionLinks[i] || []) {
+      const left = Math.max(0, Math.min(pageWidth, link.rect.left * 0.75));
+      const right = Math.max(0, Math.min(pageWidth, link.rect.right * 0.75));
+      const top = Math.max(0, Math.min(pageHeight, link.rect.top * 0.75));
+      const bottom = Math.max(0, Math.min(pageHeight, link.rect.bottom * 0.75));
+      if (right - left < 1 || bottom - top < 1) continue;
+      const rect = [
+        pdfNum(left),
+        pdfNum(pageHeight - bottom),
+        pdfNum(right),
+        pdfNum(pageHeight - top),
+      ].join(' ');
+      annotations.push(addObject(`<< /Type /Annot /Subtype /Link /Rect [${rect}] /Border [0 0 0] /A << /S /URI /URI (${pdfString(link.href)}) >> >>`));
+    }
+
+    const pageId = addObject(`<< /Type /Page /Parent ${pagesId} 0 R /MediaBox [0 0 ${pdfNum(pageWidth)} ${pdfNum(pageHeight)}] /Resources << /XObject << /Im0 ${imageId} 0 R >> >> /Contents ${contentId} 0 R${annotations.length ? ` /Annots [${annotations.map((id) => `${id} 0 R`).join(' ')}]` : ''} >>`);
+    pageIds.push(pageId);
+  }
+
+  setObject(catalogId, `<< /Type /Catalog /Pages ${pagesId} 0 R >>`);
+  setObject(pagesId, `<< /Type /Pages /Kids [${pageIds.map((id) => `${id} 0 R`).join(' ')}] /Count ${pageIds.length} >>`);
+
+  const chunks = [Buffer.from('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n', 'binary')];
+  const offsets = [0];
+  for (let id = 1; id < objects.length; id++) {
+    offsets[id] = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+    chunks.push(Buffer.from(`${id} 0 obj\n`));
+    chunks.push(objects[id]);
+    chunks.push(Buffer.from('\nendobj\n'));
+  }
+  const xrefOffset = chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+  const xref = [
+    `xref\n0 ${objects.length}`,
+    '0000000000 65535 f ',
+    ...offsets.slice(1).map((offset) => `${String(offset).padStart(10, '0')} 00000 n `),
+    `trailer\n<< /Size ${objects.length} /Root ${catalogId} 0 R >>`,
+    `startxref\n${xrefOffset}`,
+    '%%EOF\n',
+  ].join('\n');
+  chunks.push(Buffer.from(xref));
+  return Buffer.concat(chunks);
+}
+
+async function collectSectionLinks(page) {
+  return page.evaluate(({ baseUrl }) => {
+    const normalizedBase = baseUrl.replace(/\/$/, '');
+    return Array.from(document.querySelectorAll('section[data-screen-label]')).map((section) => {
+      const sectionRect = section.getBoundingClientRect();
+      return Array.from(section.querySelectorAll('a[href]'))
+        .map((anchor) => {
+          const href = anchor.href;
+          if (!href || !href.startsWith(`${normalizedBase}/dataroom`)) return null;
+          const rect = anchor.getBoundingClientRect();
+          if (rect.width < 1 || rect.height < 1) return null;
+          return {
+            href,
+            rect: {
+              left: rect.left - sectionRect.left,
+              top: rect.top - sectionRect.top,
+              right: rect.right - sectionRect.left,
+              bottom: rect.bottom - sectionRect.top,
+            },
+          };
+        })
+        .filter(Boolean);
+    });
+  }, { baseUrl: BASE_URL });
+}
+
+async function captureSlideImages(page, quality) {
+  const sections = await page.$$('section[data-screen-label]');
+  const images = [];
+  for (const section of sections) {
+    images.push(await section.screenshot({
+      type: 'jpeg',
+      quality,
+      animations: 'disabled',
+      caret: 'hide',
+      scale: 'css',
+    }));
+  }
+  return images;
+}
+
 async function exportMode(browser, mode, localOrigin) {
   const page = await browser.newPage({
     viewport: { width: mode.width, height: mode.height },
@@ -450,16 +486,17 @@ async function exportMode(browser, mode, localOrigin) {
   });
   await preparePage(page, mode, localOrigin);
   const outPath = path.join(OUT_DIR, mode.output);
-  await page.pdf({
-    path: outPath,
-    width: `${mode.width}px`,
-    height: `${mode.height}px`,
-    margin: { top: '0px', right: '0px', bottom: '0px', left: '0px' },
-    printBackground: true,
-    preferCSSPageSize: true,
-  });
+  const sectionLinks = await collectSectionLinks(page);
+  let exported = null;
+  for (const quality of PDF_QUALITY_STEPS) {
+    const images = await captureSlideImages(page, quality);
+    const pdf = buildSlidePdf({ mode, images, sectionLinks });
+    exported = { quality, pdf };
+    if (pdf.length <= PDF_TARGET_BYTES) break;
+  }
+  fs.writeFileSync(outPath, exported.pdf);
   await page.close();
-  return outPath;
+  return { outPath, quality: exported.quality, bytes: exported.pdf.length };
 }
 
 async function main() {
@@ -472,8 +509,8 @@ async function main() {
     if (executablePath) launchOptions.executablePath = executablePath;
     browser = await chromium.launch(launchOptions);
     for (const mode of MODES) {
-      const outPath = await exportMode(browser, mode, origin);
-      console.log(`Exported ${mode.name}: ${path.relative(ROOT, outPath)}`);
+      const result = await exportMode(browser, mode, origin);
+      console.log(`Exported ${mode.name}: ${path.relative(ROOT, result.outPath)} (${(result.bytes / 1024 / 1024).toFixed(1)} MB, JPEG q${result.quality})`);
     }
   } finally {
     if (browser) await browser.close();

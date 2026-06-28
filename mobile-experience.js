@@ -221,14 +221,14 @@
       ['#format', 'The Format'],
       ['#location', 'The Venue'],
       ['#model', 'The Model'],
-      ['#download-pdf', 'Download PDF', 'pdf'],
+      ['/assets/downloads/impossible-moments-desktop.pdf', 'Download PDF', 'pdf'],
       ['/dataroom/', 'Data Room']
     ];
     var html = '<div class="me-overlay-kicker">Impossible Moments</div>';
     for (var i = 0; i < links.length; i++) {
       var isPdf = links[i][2] === 'pdf';
       var isDR = links[i][0].charAt(0) !== '#';
-      var attrs = isPdf ? ' class="me-overlay-pdf" data-pdf-trigger="1" aria-haspopup="dialog"' : (isDR ? ' class="me-overlay-dr"' : '');
+      var attrs = isPdf ? ' class="me-overlay-pdf" download' : (isDR ? ' class="me-overlay-dr"' : '');
       html += '<a href="' + links[i][0] + '"' + attrs + '>' + links[i][1] + '</a>';
     }
     overlay.innerHTML = html;
