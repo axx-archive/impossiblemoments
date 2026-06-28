@@ -1,5 +1,5 @@
 # Why Britney Will Be a Big Draw
-*One Night Entertainment — Investor Memo*
+*Impossible Moments — Investor Memo*
 
 **Thesis:** Britney Spears' proven Vegas audience and price point, a multi-year and reiterated refusal to perform live in the U.S., and a structurally younger Strip visitor base establish the demand conditions under which an avatar residency — benchmarked to ABBA Voyage's operating performance — can price and fill at scale.
 
