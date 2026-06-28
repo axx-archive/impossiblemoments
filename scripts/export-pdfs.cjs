@@ -229,10 +229,14 @@ body.im-export-desktop #location .im-frame {
   max-width: 760px !important;
   margin-left: auto !important;
   margin-right: auto !important;
+  transform: translateX(-5%) !important;
+}
+body.im-export-desktop #location .im-frame + div {
+  transform: translateX(0) !important;
 }
 body.im-export-desktop #location img[src="/land-location-night.png"] {
-  width: 200% !important;
-  max-width: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
   height: 300px !important;
   object-fit: cover !important;
   object-position: center !important;
