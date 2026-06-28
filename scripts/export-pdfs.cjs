@@ -7,7 +7,8 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT_DIR = path.join(ROOT, 'assets', 'downloads');
-const BASE_URL = process.env.IM_PUBLIC_BASE_URL || 'https://onenight.vercel.app';
+const BASE_URL = process.env.IM_PUBLIC_BASE_URL || 'https://impossiblemoments.com';
+const DATAROOM_URL = process.env.IM_DATAROOM_URL || 'https://impossiblemoments.com/dataroom/';
 const PDF_TARGET_BYTES = Number(process.env.IM_PDF_TARGET_BYTES || 10 * 1024 * 1024);
 const PDF_QUALITY_STEPS = (process.env.IM_PDF_JPEG_QUALITIES || '84,78,72,66,60')
   .split(',')
@@ -349,12 +350,12 @@ async function preparePage(page, mode, localOrigin) {
   }, null, { timeout: 15000 });
   await page.emulateMedia({ media: 'screen' });
   await page.addStyleTag({ content: exportCss(mode) });
-  await page.evaluate(({ modeName, baseUrl }) => {
+  await page.evaluate(({ modeName, dataroomUrl }) => {
     document.body.classList.add('im-export-mode', `im-export-${modeName}`);
     document.documentElement.classList.add('im-export-root');
 
     document.querySelectorAll('a[href="/dataroom/"], a[href="/dataroom"]').forEach((anchor) => {
-      anchor.href = `${baseUrl.replace(/\/$/, '')}/dataroom/`;
+      anchor.href = dataroomUrl;
     });
 
     document.querySelectorAll('video').forEach((video) => {
@@ -377,7 +378,7 @@ async function preparePage(page, mode, localOrigin) {
       el.style.transform = 'none';
       el.style.filter = 'none';
     });
-  }, { modeName: mode.name, baseUrl: BASE_URL });
+  }, { modeName: mode.name, dataroomUrl: DATAROOM_URL });
 
   await page.waitForFunction(() => Array.from(document.images).every((img) => img.complete), null, { timeout: 15000 });
   await page.evaluate(() => document.fonts && document.fonts.ready);
@@ -469,14 +470,13 @@ function buildSlidePdf({ mode, images, sectionLinks }) {
 }
 
 async function collectSectionLinks(page) {
-  return page.evaluate(({ baseUrl }) => {
-    const normalizedBase = baseUrl.replace(/\/$/, '');
+  return page.evaluate(({ dataroomUrl }) => {
     return Array.from(document.querySelectorAll('section[data-screen-label]')).map((section) => {
       const sectionRect = section.getBoundingClientRect();
       return Array.from(section.querySelectorAll('a[href]'))
         .map((anchor) => {
           const href = anchor.href;
-          if (!href || !href.startsWith(`${normalizedBase}/dataroom`)) return null;
+          if (!href || href !== dataroomUrl) return null;
           const rect = anchor.getBoundingClientRect();
           if (rect.width < 1 || rect.height < 1) return null;
           return {
@@ -491,7 +491,7 @@ async function collectSectionLinks(page) {
         })
         .filter(Boolean);
     });
-  }, { baseUrl: BASE_URL });
+  }, { dataroomUrl: DATAROOM_URL });
 }
 
 async function captureSlideImages(page, quality) {
