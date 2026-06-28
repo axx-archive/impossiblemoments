@@ -233,7 +233,7 @@ body.im-export-desktop #location img[src="/land-location-night.png"] {
 }
 body.im-export-desktop #conviction [style*="margin:36px auto 0"] { margin-top: 24px !important; }
 body.im-export-desktop #conviction {
-  padding: 30px 72px !important;
+  padding: 96px 72px 22px !important;
   justify-content: flex-start !important;
 }
 body.im-export-desktop #conviction h2 {
