@@ -1,0 +1,67 @@
+/* ============================================================
+   Impossible Moments — Effects: light, shadow, grain, motion
+   Two lights over an archive: a warm GILT bloom (the past) and a
+   cool LUMEN bloom (the present). Restrained — light is precious.
+   Plus the archival apparatus: crop marks, threshold lines, grain.
+   ============================================================ */
+
+:root {
+  /* ---- Elevation (depth on obsidian) ---- */
+  --im-shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.5);
+  --im-shadow-md: 0 10px 36px rgba(0, 0, 0, 0.55);
+  --im-shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.65);
+
+  /* ---- GILT glow: warm bloom for borders / circles / cards ---- */
+  --im-glow-gilt-sm: 0 0 14px rgba(191, 154, 74, 0.2), 0 0 36px rgba(191, 154, 74, 0.1);
+  --im-glow-gilt-md: 0 0 22px rgba(191, 154, 74, 0.26), 0 0 64px rgba(191, 154, 74, 0.14), inset 0 0 28px rgba(191, 154, 74, 0.05);
+  --im-glow-gilt-lg: 0 0 30px rgba(191, 154, 74, 0.26), 0 0 90px rgba(191, 154, 74, 0.15), 0 0 200px rgba(191, 154, 74, 0.07), inset 0 0 40px rgba(191, 154, 74, 0.06);
+
+  /* ---- LUMEN glow: cool revival light (the present) ---- */
+  --im-glow-lumen-sm: 0 0 16px rgba(174, 192, 214, 0.22), 0 0 44px rgba(174, 192, 214, 0.12);
+  --im-glow-lumen-md: 0 0 24px rgba(210, 222, 236, 0.28), 0 0 80px rgba(174, 192, 214, 0.16);
+
+  /* ---- Marquee text: filament core → gilt bloom. Restrained (4 layers). ---- */
+  --im-neon-text: 0 0 6px var(--im-filament), 0 0 18px rgba(234, 217, 168, 0.6), 0 0 48px rgba(191, 154, 74, 0.45), 0 0 110px rgba(191, 154, 74, 0.22);
+  --im-neon-text-soft: 0 0 4px rgba(234, 217, 168, 0.7), 0 0 16px rgba(191, 154, 74, 0.4), 0 0 44px rgba(191, 154, 74, 0.18);
+  /* ---- Lumen text: the present, lit cool ---- */
+  --im-lumen-text: 0 0 6px var(--im-filament), 0 0 20px rgba(210, 222, 236, 0.6), 0 0 56px rgba(174, 192, 214, 0.4);
+
+  /* ---- Threshold: the seam where past meets present ---- */
+  --im-threshold: linear-gradient(90deg, transparent, var(--im-gilt-500) 30%, var(--im-lumen-200) 70%, transparent);
+  --im-threshold-v: linear-gradient(180deg, transparent, var(--im-gilt-500) 30%, var(--im-lumen-200) 70%, transparent);
+
+  /* ---- Atmospheric scrims & vignette ---- */
+  --im-vignette: radial-gradient(ellipse 78% 68% at 50% 42%, transparent 0%, rgba(10,9,8,0.4) 60%, rgba(6,6,6,0.9) 100%); /* @kind other */
+  --im-scrim-top: linear-gradient(to bottom, rgba(10,9,8,0.9) 0%, rgba(10,9,8,0.5) 32%, rgba(10,9,8,0.55) 68%, rgba(6,6,6,0.92) 100%); /* @kind other */
+  --im-scrim-image: linear-gradient(160deg, rgba(10,9,8,0.55) 0%, rgba(10,9,8,0.28) 50%, rgba(6,6,6,0.62) 100%); /* @kind other */
+  /* Followspot: a single warm light pooled from above */
+  --im-spot: radial-gradient(ellipse 60% 55% at 50% 32%, rgba(191,154,74,0.1) 0%, transparent 62%); /* @kind other */
+
+  /* ---- Duotone: imagery as a silver-gelatin print lit by revival light.
+     Apply the filter to <img>; overlay --im-duotone-wash via a sibling. ---- */
+  --im-duotone-filter: grayscale(1) contrast(1.08) brightness(0.92); /* @kind other */
+  --im-duotone-wash: linear-gradient(135deg, rgba(120,90,40,0.32), rgba(20,18,16,0.2) 45%, rgba(120,140,170,0.22)); /* @kind other */
+
+  /* ---- Film grain (data-URI fractal noise) ---- */
+  --im-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); /* @kind other */
+  --im-grain-opacity: 0.03; /* @kind other */
+
+  /* ---- Crop / registration marks (archival framing) ----
+     Use --im-mark-len & --im-mark-color on a ::before/::after bracket. */
+  --im-mark-len: 14px;   /* @kind spacing */
+  --im-mark-weight: 1px; /* @kind spacing */
+  --im-mark-color: var(--im-gilt-500); /* @kind color */
+
+  /* ---- Motion: slow, weighted, cinematic. No bounce. ---- */
+  --im-ease: cubic-bezier(0.22, 0.61, 0.36, 1);     /* @kind other */
+  --im-ease-inout: cubic-bezier(0.65, 0, 0.35, 1);  /* @kind other */
+  --im-dur-fast: 0.25s;    /* @kind other */
+  --im-dur: 0.4s;          /* @kind other */
+  --im-dur-slow: 0.9s;     /* @kind other */
+  --im-reveal-shift: 28px; /* @kind spacing */
+
+  /* ---- Legacy glow aliases (back-compat with v1) ---- */
+  --im-glow-gold-sm: var(--im-glow-gilt-sm);
+  --im-glow-gold-md: var(--im-glow-gilt-md);
+  --im-glow-gold-lg: var(--im-glow-gilt-lg);
+}

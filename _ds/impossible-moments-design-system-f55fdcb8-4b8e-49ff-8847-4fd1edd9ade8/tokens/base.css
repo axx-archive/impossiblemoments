@@ -1,0 +1,143 @@
+/* ============================================================
+   Impossible Moments — Base layer
+   Resets, atmospheric overlays, and a handful of brand utility
+   classes that recur across every surface. Tokens only above.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scrollbar-width: thin;
+  scrollbar-color: var(--im-gold-600) var(--im-noir-900);
+}
+
+body {
+  margin: 0;
+  background: var(--im-bg);
+  color: var(--im-text);
+  font: var(--im-serif-body);
+  -webkit-text-size-adjust: 100%;
+}
+
+::selection { background: rgba(196, 148, 60, 0.3); color: var(--im-cream-100); }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--im-noir-900); }
+::-webkit-scrollbar-thumb { background: var(--im-gold-600); border-radius: 2px; }
+
+/* ---- Atmospheric overlays (place once, fixed, near root) ---- */
+.im-grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: var(--im-z-grain); overflow: hidden;
+}
+.im-grain::after {
+  content: ''; position: absolute; inset: -150%; width: 400%; height: 400%;
+  background-image: var(--im-grain); background-size: 200px 200px;
+  opacity: var(--im-grain-opacity); animation: im-grain-drift 6s steps(8) infinite;
+}
+.im-vignette {
+  position: fixed; inset: 0; pointer-events: none; z-index: var(--im-z-base);
+  background: var(--im-vignette);
+}
+
+/* ---- The signature kicker / eyebrow label ---- */
+.im-kicker {
+  font: var(--im-kicker);
+  letter-spacing: var(--im-track-kicker);
+  text-transform: uppercase;
+  color: var(--im-text-gold);
+}
+
+/* ---- Display headline helper ---- */
+.im-display {
+  font-family: var(--im-font-display);
+  letter-spacing: var(--im-track-display);
+  color: var(--im-cream-200);
+}
+
+/* ---- Neon marquee text (use sparingly, on hero caps) ---- */
+.im-neon {
+  color: var(--im-filament);
+  text-shadow: var(--im-neon-text);
+}
+.im-neon-soft {
+  color: var(--im-gold-200);
+  text-shadow: var(--im-neon-text-soft);
+}
+
+/* ---- Timecode / index marker (the archival mono voice) ---- */
+.im-timecode {
+  font-family: var(--im-font-mono);
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--im-text-dim);
+}
+.im-timecode--gilt { color: var(--im-gilt-500); }
+.im-timecode--lumen { color: var(--im-lumen-300); }
+
+/* ---- Registration / crop-mark frame (archival framing) ----
+   Apply to a wrapper; four L-shaped corner brackets are painted with
+   layered gradients. Tune via --im-mark-len / --im-mark-weight / --im-mark-color. */
+.im-frame {
+  --_l: var(--im-mark-len);
+  --_w: var(--im-mark-weight);
+  --_c: var(--im-mark-color);
+  background:
+    linear-gradient(var(--_c) 0 0) 0 0 / var(--_l) var(--_w) no-repeat,
+    linear-gradient(var(--_c) 0 0) 0 0 / var(--_w) var(--_l) no-repeat,
+    linear-gradient(var(--_c) 0 0) 100% 0 / var(--_l) var(--_w) no-repeat,
+    linear-gradient(var(--_c) 0 0) 100% 0 / var(--_w) var(--_l) no-repeat,
+    linear-gradient(var(--_c) 0 0) 0 100% / var(--_l) var(--_w) no-repeat,
+    linear-gradient(var(--_c) 0 0) 0 100% / var(--_w) var(--_l) no-repeat,
+    linear-gradient(var(--_c) 0 0) 100% 100% / var(--_l) var(--_w) no-repeat,
+    linear-gradient(var(--_c) 0 0) 100% 100% / var(--_w) var(--_l) no-repeat;
+}
+
+/* ---- The threshold: the seam where past meets present ---- */
+.im-threshold { width: 100%; height: 1px; background: var(--im-threshold); }
+.im-threshold--v { width: 1px; height: 100%; background: var(--im-threshold-v); }
+
+/* ---- Duotone imagery: silver-gelatin print under revival light ----
+   Put .im-duotone on a wrapper; the <img> is desaturated and the wash
+   recolours shadows warm / highlights cool. */
+.im-duotone { position: relative; overflow: hidden; }
+.im-duotone > img { display: block; width: 100%; height: 100%; object-fit: cover; filter: var(--im-duotone-filter); }
+.im-duotone::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: var(--im-duotone-wash); mix-blend-mode: color; opacity: 0.9;
+}
+
+/* ---- Lumen marquee text (the present, lit cool) ---- */
+.im-lumen { color: var(--im-filament); text-shadow: var(--im-lumen-text); }
+
+/* ---- Scroll reveal ---- */
+.im-reveal {
+  opacity: 0; transform: translateY(var(--im-reveal-shift));
+  transition: opacity var(--im-dur-slow) var(--im-ease), transform var(--im-dur-slow) var(--im-ease);
+}
+.im-reveal.is-visible { opacity: 1; transform: none; }
+
+/* ---- Keyframes ---- */
+@keyframes im-grain-drift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-8%, 4%); }
+  50% { transform: translate(-3%, 12%); }
+  75% { transform: translate(7%, 2%); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes im-marquee-breathe {
+  0%, 100% { text-shadow: var(--im-neon-text); }
+  50% { text-shadow: var(--im-neon-text-soft); }
+}
+@keyframes im-amber-fire {
+  0%, 100% { box-shadow: var(--im-glow-gold-md); }
+  50% { box-shadow: var(--im-glow-gold-sm); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .im-grain::after, .im-reveal { animation: none !important; transition: none !important; }
+  .im-reveal { opacity: 1; transform: none; }
+}

@@ -1,0 +1,116 @@
+/* ============================================================
+   Impossible Moments — Color System
+   "Where time collapses." A duality of light over an obsidian
+   archive: GILT (the past, gilded & warm) meets LUMEN (the
+   present, cool & luminous). One archive, two lights.
+   Base values first, then semantic aliases.
+   ============================================================ */
+
+:root {
+  /* ---- Obsidian: the archive vault (warm-cool near-black ramp) ---- */
+  --im-noir-950: #060606;  /* deepest — letterbox / void */
+  --im-noir-900: #0A0908;  /* page base — warm obsidian */
+  --im-noir-850: #0E0D0C;  /* raised */
+  --im-noir-800: #131211;  /* panel */
+  --im-noir-700: #1A1917;  /* card surface */
+  --im-noir-600: #262320;  /* hairline / warm gray */
+  --im-noir-500: #423D37;  /* muted divider */
+
+  /* ---- GILT: the past — gilded archival gold (signature warm) ---- */
+  --im-gilt-100: #F3E8CC;  /* lightest champagne wash */
+  --im-gilt-200: #EAD9A8;  /* pale champagne — headline highlight */
+  --im-gilt-300: #D9C089;  /* light gilt */
+  --im-gilt-400: #CBA75E;  /* gilt */
+  --im-gilt-500: #BF9A4A;  /* PRIMARY gilt */
+  --im-gilt-600: #9A7A34;  /* deep gilt */
+  --im-gilt-700: #6F5826;  /* shadowed gilt */
+
+  /* ---- LUMEN: the present — cool luminous revival light ---- */
+  --im-lumen-50: #F7FAFE;  /* hot followspot white */
+  --im-lumen-100: #EAF1F8; /* cool ivory-white */
+  --im-lumen-200: #D2DEEC; /* pale moonstone */
+  --im-lumen-300: #AEC0D6; /* moonstone */
+  --im-lumen-500: #7E93AC; /* restrained steel (use sparingly) */
+
+  /* ---- Filament: the hot core of any light source ---- */
+  --im-filament: #FFFBF2;  /* white-warm at the centre of a bloom */
+
+  /* ---- Ivory: text on obsidian ---- */
+  --im-ivory-100: #F4EFE6; /* brightest */
+  --im-ivory-200: #E7DFD2; /* body text */
+  --im-ivory-400: #9C9387; /* dimmed / secondary */
+  --im-ivory-600: #645C52; /* faint / captions */
+
+  /* ---- Curtain: deep theatrical accent (rare) ---- */
+  --im-curtain-500: #5A2230;
+  --im-curtain-700: #381119;
+
+  /* ---- Show-mode accents (per-residency lighting) ---- */
+  --im-britney: #D06CC0;
+  --im-britney-pale: #E8C0E0;
+  --im-nashville: #CBA75E;
+  --im-marquee-white: #FFFFFF;
+
+  /* ---- Functional / status ---- */
+  --im-success: #7AA882;
+  --im-pending: #BF9A4A;
+  --im-info: #AEC0D6;
+  --im-danger: #C2564A;
+
+  /* ============================================================
+     Semantic aliases — reference these in product code
+     ============================================================ */
+
+  /* Surfaces */
+  --im-bg: var(--im-noir-900);
+  --im-bg-void: var(--im-noir-950);
+  --im-bg-raised: var(--im-noir-850);
+  --im-surface: var(--im-noir-700);
+  --im-surface-panel: var(--im-noir-800);
+  --im-overlay-scrim: rgba(10, 9, 8, 0.8);
+
+  /* Text */
+  --im-text: var(--im-ivory-200);
+  --im-text-bright: var(--im-ivory-100);
+  --im-text-dim: var(--im-ivory-400);
+  --im-text-faint: var(--im-ivory-600);
+  --im-text-gilt: var(--im-gilt-500);
+  --im-text-gilt-pale: var(--im-gilt-200);
+  --im-text-lumen: var(--im-lumen-200);
+  --im-text-on-gilt: var(--im-noir-950);
+
+  /* Lines & borders */
+  --im-border: rgba(191, 154, 74, 0.18);     /* default gilt hairline */
+  --im-border-strong: rgba(203, 167, 94, 0.38);
+  --im-border-faint: rgba(191, 154, 74, 0.09);
+  --im-border-lumen: rgba(174, 192, 214, 0.22);
+  --im-divider: rgba(231, 223, 210, 0.08);
+
+  /* Interactive */
+  --im-accent: var(--im-gilt-500);
+  --im-accent-hover: var(--im-gilt-400);
+  --im-accent-press: var(--im-gilt-600);
+  --im-accent-tint: rgba(191, 154, 74, 0.08);
+  --im-accent-tint-hover: rgba(191, 154, 74, 0.14);
+
+  /* Focus */
+  --im-focus-ring: rgba(203, 167, 94, 0.55);
+
+  /* ---- Legacy aliases (back-compat with v1 token names) ---- */
+  --im-gold-100: var(--im-gilt-100);
+  --im-gold-200: var(--im-gilt-200);
+  --im-gold-300: var(--im-gilt-300);
+  --im-gold-400: var(--im-gilt-400);
+  --im-gold-500: var(--im-gilt-500);
+  --im-gold-600: var(--im-gilt-600);
+  --im-gold-700: var(--im-gilt-700);
+  --im-cream-100: var(--im-ivory-100);
+  --im-cream-200: var(--im-ivory-200);
+  --im-cream-400: var(--im-ivory-400);
+  --im-cream-600: var(--im-ivory-600);
+  --im-burgundy-500: var(--im-curtain-500);
+  --im-burgundy-700: var(--im-curtain-700);
+  --im-text-gold: var(--im-gilt-500);
+  --im-text-gold-pale: var(--im-gilt-200);
+  --im-text-on-gold: var(--im-noir-950);
+}

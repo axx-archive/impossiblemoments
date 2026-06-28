@@ -1,0 +1,11 @@
+/* ============================================================
+   Impossible Moments — Webfonts
+   Loaded from Google Fonts. Self-host the .woff2 files for
+   production if you want to drop the third-party dependency.
+   - Bodoni Moda     → display / marquee headlines + dramatic italic quotes (Didone, the past)
+   - EB Garamond     → editorial body / captions / reading (classic old-style, the archive)
+   - Plus Jakarta Sans  → buttons & functional UI
+   - Space Mono      → timecodes, index markers, technical metadata (the present)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');

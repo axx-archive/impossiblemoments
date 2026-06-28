@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>One Night Entertainment — Data Room</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Impossible Moments — Data Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <link rel="stylesheet" href="/mobile-experience.css">
+  <script defer src="/mobile-experience.js"></script>
   <style>
     :root {
-      --black: #080604;
-      --black-warm: #0F0C08;
-      --amber: #C4943C;
-      --amber-light: #D4A853;
-      --amber-pale: #F0DEB4;
-      --cream: #EDE4D4;
-      --cream-dim: #A89A86;
+      --black: #0A0908;
+      --black-warm: #0E0D0C;
+      --amber: #BF9A4A;
+      --amber-light: #CBA75E;
+      --amber-pale: #EAD9A8;
+      --cream: #E7DFD2;
+      --cream-dim: #9C9387;
       --burgundy: #5C2232;
       --burgundy-deep: #3D1520;
       --warm-gray: #2A2420;
@@ -40,9 +42,12 @@
     ::-webkit-scrollbar-thumb { background: var(--amber); border-radius: 2px; }
 
     body {
-      background: var(--black);
+      background:
+        radial-gradient(ellipse 100% 46% at 50% 0%, rgba(191,154,74,0.07), transparent 62%),
+        radial-gradient(ellipse 90% 60% at 50% 100%, rgba(92,34,50,0.06), transparent 60%),
+        var(--black);
       color: var(--cream);
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
       overflow-x: hidden;
       min-height: 100vh;
     }
@@ -87,7 +92,8 @@
       inset: 0;
       z-index: 9999;
       background:
-        radial-gradient(ellipse 40% 35% at 50% 45%, rgba(196,148,60,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 70% 50% at 50% 38%, rgba(196,148,60,0.08) 0%, transparent 68%),
+        radial-gradient(ellipse 90% 60% at 50% 100%, rgba(92,34,50,0.07) 0%, transparent 62%),
         var(--black-warm);
       display: flex;
       align-items: center;
@@ -279,6 +285,22 @@
       flex: 1;
       padding: 2rem max(30px, 4vw) 3rem;
       transition: padding-right 0.4s ease;
+      position: relative;
+    }
+    .dr-browser::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(191,154,74,0.09), transparent 72%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .dr-browser > * {
+      position: relative;
+      z-index: 1;
     }
     .dr-browser.panel-open {
       padding-right: calc(420px + 2rem);
@@ -1104,7 +1126,7 @@
     <div class="gate-inner">
       <div class="gate-ring"></div>
       <div class="gate-title">Data Room</div>
-      <div class="gate-subtitle">One Night Entertainment</div>
+      <div class="gate-subtitle">Impossible Moments</div>
       <input type="text" class="gate-input" id="passwordInput" placeholder="Enter password" autocomplete="off">
       <button class="gate-btn" id="passwordBtn">Enter</button>
       <div class="gate-error-msg" id="passwordError"></div>
@@ -1125,7 +1147,7 @@
 
   <!-- Header -->
   <header class="dr-header" style="display: none;" id="drHeader">
-    <a href="/" class="dr-logo">ONE NIGHT <span>Data Room</span></a>
+    <a href="/" class="dr-logo">IMPOSSIBLE MOMENTS <span>Data Room</span></a>
     <div class="dr-header-right">
       <div class="dr-user-email" id="userEmail"></div>
       <a class="dr-admin-btn" id="adminBtn" href="/dataroom/admin.html">Admin</a>
@@ -1361,7 +1383,7 @@
     // ========== CONFIG ==========
     const SUPABASE_URL = 'https://qbnhjklajnmjfsqfzlna.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFibmhqa2xham5tamZzcWZ6bG5hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyNDA4NjksImV4cCI6MjA5MDgxNjg2OX0.ocF4YeJ6IB-gZv3C67T8vV_GCcXGGm5COBG1D-DVLlI';
-    const DATA_ROOM_PASSWORD = 'Impossible2026';
+    const DATA_ROOM_PASSWORD = 'M0MENTS';
     const STORAGE_BUCKET = 'dataroom-files';
 
     let sb;
