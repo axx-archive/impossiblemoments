@@ -225,7 +225,7 @@ body.im-export-desktop #format .im-format-art {
 body.im-export-desktop #format {
   padding-top: 54px !important;
   padding-bottom: 36px !important;
-  justify-content: flex-start !important;
+  justify-content: center !important;
 }
 body.im-export-desktop #format h2 {
   font-size: 2.62rem !important;
