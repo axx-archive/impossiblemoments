@@ -787,14 +787,19 @@ body.im-site-unlocked [data-hero-reveal] {
 </section>
 
 <!-- ============ CLOSING ============ -->
-<section data-screen-label="Closing" style="position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden;">
+<section id="closing" data-screen-label="Closing" style="position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden;">
   <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
     <video autoplay muted loop playsinline preload="auto" poster="/assets/posters/closing-holograms-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%; filter:brightness(0.78) saturate(1.04);"><source src="/assets/closing-holograms.mp4" type="video/mp4"></video>
   </div>
   <div style="position:absolute; inset:0; z-index:1; background:radial-gradient(ellipse 86% 82% at 50% 46%, rgba(10,7,6,0.34) 0%, rgba(10,7,6,0.6) 55%, rgba(8,6,5,0.85) 100%);"></div>
-  <div style="position:relative; z-index:2; padding:0 24px; display:flex; flex-direction:column; align-items:center;">
+  <div class="im-frame" aria-hidden="true" style="position:absolute; z-index:2; inset:26px; --im-mark-len:22px; --im-mark-color:var(--im-border-strong);"></div>
+  <div style="position:relative; z-index:3; padding:0 24px; display:flex; flex-direction:column; align-items:center;">
     <p style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2.1rem,5.2vw,5rem); line-height:1.04; color:var(--im-ivory-100); margin:0 0 clamp(36px,5vw,56px); text-align:center; text-wrap:balance;">A night that cannot happen.<br><span style="color:var(--im-gilt-300); font-style:italic;">And yet, there it is.</span></p>
     <div><x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Button" hint-size="220px,52px" variant="primary" size="lg" href="/dataroom/">Enter the Data Room</x-import></div>
+  </div>
+  <div style="position:absolute; z-index:3; bottom:38px; left:0; right:0; display:flex; gap:clamp(16px,5vw,56px); align-items:center; justify-content:center; flex-wrap:wrap;">
+    <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Marker" hint-size="auto,16px" tone="dim" size="sm" dot="true">Est. 2026</x-import>
+    <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Marker" hint-size="auto,16px" tone="dim" size="sm" dot="true">Las Vegas · NV</x-import>
   </div>
 </section>
 
