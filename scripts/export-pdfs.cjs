@@ -215,10 +215,14 @@ body.im-export-desktop [style*="padding:2.8rem"],
 body.im-export-desktop [style*="padding:2.6rem"],
 body.im-export-desktop [style*="padding:2.4rem"],
 body.im-export-desktop [style*="padding:2.2rem"] { padding: 1.7rem !important; }
-body.im-export-desktop #format [style*="height:340px"] { height: 146px !important; }
+body.im-export-desktop #format [style*="height:340px"],
+body.im-export-desktop #format [style*="height: 340px"],
+body.im-export-desktop #format .im-format-art {
+  height: 146px !important;
+}
 body.im-export-desktop #format {
-  padding-top: 44px !important;
-  padding-bottom: 44px !important;
+  padding-top: 54px !important;
+  padding-bottom: 36px !important;
   justify-content: flex-start !important;
 }
 body.im-export-desktop #format h2 {
@@ -227,10 +231,13 @@ body.im-export-desktop #format h2 {
   margin-top: 6px !important;
 }
 body.im-export-desktop #format > div[style*="display:grid"] {
-  margin-top: 18px !important;
+  margin-top: 32px !important;
 }
-body.im-export-desktop #format [style*="padding:2.4rem 2.6rem 2.8rem"] {
-  padding: 1.05rem 1.3rem 1.15rem !important;
+body.im-export-desktop #format [style*="padding:2.4rem 2.6rem 2.8rem"],
+body.im-export-desktop #format [style*="padding: 2.4rem 2.6rem 2.8rem"],
+body.im-export-desktop #format .im-format-card > div:not(.im-format-art) {
+  position: relative !important;
+  padding: 1.25rem 1.35rem 1.2rem !important;
 }
 body.im-export-desktop #format [style*="font-size:5rem"] { font-size: 2.7rem !important; }
 body.im-export-desktop #format [style*="font-size:2.6rem"] { font-size: 1.75rem !important; }
@@ -238,11 +245,42 @@ body.im-export-desktop #format p {
   font-size: 0.84rem !important;
   line-height: 1.34 !important;
 }
-body.im-export-desktop #format [style*="padding-top:20px"] {
-  padding-top: 9px !important;
+body.im-export-desktop #format [style*="padding:2.4rem 2.6rem 2.8rem"] > div:first-child,
+body.im-export-desktop #format [style*="padding: 2.4rem 2.6rem 2.8rem"] > div:first-child,
+body.im-export-desktop #format .im-format-card > div:not(.im-format-art) > div:first-child {
+  padding-right: 8.5rem !important;
+}
+body.im-export-desktop #format [style*="padding-top:20px"],
+body.im-export-desktop #format [style*="padding-top: 20px"],
+body.im-export-desktop #format .im-format-card > div:not(.im-format-art) > div:nth-of-type(3) {
+  position: absolute !important;
+  top: 1.08rem !important;
+  right: 1.2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  width: auto !important;
+  min-width: 0 !important;
+  gap: 0 !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  border-top: 0 !important;
+}
+body.im-export-desktop #format [style*="padding-top:20px"] > :first-child,
+body.im-export-desktop #format [style*="padding-top: 20px"] > :first-child,
+body.im-export-desktop #format .im-format-card > div:not(.im-format-art) > div:nth-of-type(3) > :first-child {
+  display: none !important;
 }
 body.im-export-desktop #format button {
   display: none !important;
+}
+body.im-export-desktop #location {
+  padding-top: 84px !important;
+  padding-bottom: 32px !important;
+  justify-content: flex-start !important;
+}
+body.im-export-desktop #location [style*="margin:48px auto 0"] {
+  margin-top: 20px !important;
 }
 body.im-export-desktop #location .im-frame {
   max-width: 760px !important;
@@ -256,7 +294,7 @@ body.im-export-desktop #location .im-frame + div {
 body.im-export-desktop #location img[src="/land-location-night.png"] {
   width: 100% !important;
   max-width: 100% !important;
-  height: 300px !important;
+  height: 235px !important;
   object-fit: cover !important;
   object-position: center !important;
   transform: none !important;
