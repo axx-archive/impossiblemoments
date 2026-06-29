@@ -301,7 +301,7 @@
 
 /* ============================================================================
    DATA ROOM — MOBILE FLIP  (<= 768px)
-   Preserves every id, Supabase call, gate flow, the M0MENTS password (never
+   Preserves every id, Supabase call, gate flow, the MOMENTS password (never
    printed), and all document / FAQ content. CSS-only — JS adds the sheet scrim.
    ============================================================================ */
 @media (max-width: 768px) {

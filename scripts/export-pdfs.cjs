@@ -332,8 +332,10 @@ body.im-export-desktop #model [style*="font-size:1.85rem"] {
   min-width: 100px !important;
 }
 body.im-export-desktop #model p[data-reveal] {
-  margin-top: 18px !important;
-  font-size: 0.82rem !important;
+  margin-top: 20px !important;
+  font-size: 0.96rem !important;
+  color: #E7DFD2 !important;
+  font-weight: 500 !important;
 }
 body.im-export-desktop #raise [style*="margin:40px auto 0"] { margin-top: 28px !important; }
 	`;
