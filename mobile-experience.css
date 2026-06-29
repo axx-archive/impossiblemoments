@@ -49,6 +49,11 @@
     overflow: hidden;
   }
 
+  section[data-screen-label] h2,
+  section[data-screen-label="Closing"] p[style*="font-size:clamp(2.1rem"] {
+    font-weight: 650 !important;
+  }
+
   #category,
   #genesis,
   #infrastructure,
@@ -261,13 +266,13 @@
   .me-overlay.open { opacity: 1; visibility: visible; }
 
   .me-overlay .me-overlay-kicker {
-    font-family: 'Space Mono', ui-monospace, monospace;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
     font-size: 0.62rem; letter-spacing: 0.34em; text-transform: uppercase;
     color: #9C9387; margin-bottom: 6px;
   }
   .me-overlay a {
-    font-family: var(--im-font-display, 'Bodoni Moda'), Didot, Georgia, serif;
-    font-weight: 400;
+    font-family: var(--im-font-display, 'Google Sans Flex'), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 600;
     font-size: clamp(1.55rem, 9vw, 2.75rem);
     line-height: 1.02;
     letter-spacing: 0.01em;

@@ -116,6 +116,8 @@ body.im-export-mode .im-display-number,
 body.im-export-mode .im-raise-figure,
 body.im-export-mode .im-number-strong,
 body.im-export-mode .im-number-gilt,
+body.im-export-mode section[data-screen-label] h2,
+body.im-export-mode section[data-screen-label="Closing"] p[style*="font-size:clamp(2.1rem"],
 body.im-export-mode #conviction h2,
 body.im-export-mode #conviction [style*="font-size:2.4rem"],
 body.im-export-mode #model [style*="font-size:1.85rem"],
@@ -275,15 +277,29 @@ body.im-export-desktop #format button {
   display: none !important;
 }
 body.im-export-desktop #location {
-  padding-top: 84px !important;
+  padding-top: 66px !important;
   padding-bottom: 32px !important;
   justify-content: flex-start !important;
 }
-body.im-export-desktop #location [style*="margin:48px auto 0"] {
+body.im-export-desktop #location h2 {
+  font-size: 2.92rem !important;
+  line-height: 1.04 !important;
+  margin-top: 8px !important;
+}
+body.im-export-desktop #location p[style*="font-size:clamp(1.05rem"] {
+  font-size: 1rem !important;
+  line-height: 1.48 !important;
+  margin-top: 14px !important;
+}
+body.im-export-desktop #location p[style*="font-size:clamp(1.15rem"] {
+  font-size: 1.18rem !important;
   margin-top: 20px !important;
 }
+body.im-export-desktop #location [style*="margin:48px auto 0"] {
+  margin-top: 12px !important;
+}
 body.im-export-desktop #location .im-frame {
-  max-width: 760px !important;
+  max-width: 720px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   transform: translateX(-5%) !important;
@@ -294,7 +310,7 @@ body.im-export-desktop #location .im-frame + div {
 body.im-export-desktop #location img[src="/land-location-night.png"] {
   width: 100% !important;
   max-width: 100% !important;
-  height: 235px !important;
+  height: 205px !important;
   object-fit: cover !important;
   object-position: center !important;
   transform: none !important;

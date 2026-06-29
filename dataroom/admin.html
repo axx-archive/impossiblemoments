@@ -4,11 +4,52 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Room — Admin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
   <style>
+    @font-face {
+      font-family: 'Google Sans Flex';
+      src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Light.ttf') format('truetype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Google Sans Flex';
+      src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Google Sans Flex';
+      src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Medium.ttf') format('truetype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Google Sans Flex';
+      src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-SemiBold.ttf') format('truetype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Google Sans Flex';
+      src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Google Sans Flex';
+      src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-ExtraBold.ttf') format('truetype');
+      font-weight: 800;
+      font-style: normal;
+      font-display: swap;
+    }
     :root {
       --black: #080604;
       --black-warm: #0F0C08;
@@ -16,7 +57,7 @@
       --amber-light: #D4A853;
       --amber-pale: #F0DEB4;
       --cream: #EDE4D4;
-      --cream-dim: #A89A86;
+      --cream-dim: #B8AEA0;
       --warm-gray: #2A2420;
       --warm-gray-mid: #4A3F36;
     }
@@ -36,7 +77,7 @@
     body {
       background: var(--black);
       color: var(--cream);
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       min-height: 100vh;
       text-wrap: pretty;
     }
@@ -66,14 +107,14 @@
       gap: 1.5rem;
     }
     .gate-title {
-      font-family: 'Bodoni Moda', serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-weight: 700;
       font-size: 2.5rem;
       color: var(--amber-pale);
       text-wrap: balance;
     }
     .gate-subtitle {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.6rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
@@ -85,7 +126,7 @@
       background: transparent;
       border: 1px solid rgba(196,148,60,0.3);
       padding: 0.8rem 1.5rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.9rem;
       letter-spacing: 0.15em;
       color: var(--cream);
@@ -104,7 +145,7 @@
       background: rgba(196,148,60,0.08);
       border: 1px solid rgba(196,148,60,0.3);
       padding: 0.6rem 2.5rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.3em;
@@ -120,7 +161,7 @@
     }
     .gate-btn:active { transform: scale(0.96); }
     .gate-error-msg {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.7rem;
       color: #c44;
       min-height: 1em;
@@ -142,7 +183,7 @@
       border-bottom: 1px solid rgba(196,148,60,0.08);
     }
     .admin-logo {
-      font-family: 'Bodoni Moda', serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-weight: 700;
       font-size: 1.1rem;
       color: var(--amber-pale);
@@ -155,7 +196,7 @@
       margin-left: 0.5rem;
     }
     .admin-back-btn {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.25em;
@@ -214,7 +255,7 @@
       background: none;
       border: none;
       padding: 0.8rem 1.5rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.3em;
@@ -250,7 +291,7 @@
     /* ========== SECTION TITLES ========== */
 
     .section-label {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.45em;
@@ -259,8 +300,8 @@
       margin-bottom: 0.5rem;
     }
     .section-title {
-      font-family: 'Bodoni Moda', serif;
-      font-weight: 400;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
+      font-weight: 700;
       font-size: 1.8rem;
       color: var(--amber-pale);
       margin-bottom: 2rem;
@@ -276,7 +317,7 @@
       margin-bottom: 2.5rem;
     }
     .upload-form-title {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.35em;
@@ -296,7 +337,7 @@
       gap: 0.4rem;
     }
     .form-label {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.55rem;
       font-weight: 500;
       letter-spacing: 0.25em;
@@ -307,7 +348,7 @@
       background: transparent;
       border: 1px solid rgba(196,148,60,0.2);
       padding: 0.6rem 0.8rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.8rem;
       color: var(--cream);
       outline: none;
@@ -320,7 +361,7 @@
     .form-textarea {
       resize: vertical;
       min-height: 60px;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 1rem;
     }
     .form-file-input {
@@ -334,7 +375,7 @@
       border: 1px dashed rgba(196,148,60,0.25);
       cursor: pointer;
       transition: border-color 0.3s, background 0.3s;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.7rem;
       color: var(--cream-dim);
       min-height: 44px;
@@ -351,7 +392,7 @@
       stroke-width: 1.5;
     }
     .form-file-name {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.7rem;
       color: var(--amber-light);
       margin-top: 0.3rem;
@@ -360,7 +401,7 @@
       background: rgba(196,148,60,0.1);
       border: 1px solid rgba(196,148,60,0.3);
       padding: 0.7rem 2rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.3em;
@@ -381,7 +422,7 @@
     }
     .upload-btn:active:not(:disabled) { transform: scale(0.96); }
     .upload-status {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.7rem;
       color: var(--amber-light);
       margin-top: 0.8rem;
@@ -403,7 +444,7 @@
       border-collapse: collapse;
     }
     .admin-table th {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.55rem;
       font-weight: 500;
       letter-spacing: 0.3em;
@@ -414,7 +455,7 @@
       border-bottom: 1px solid rgba(196,148,60,0.12);
     }
     .admin-table td {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.75rem;
       color: var(--cream);
       padding: 0.7rem 1rem;
@@ -445,7 +486,7 @@
     .table-empty {
       text-align: center;
       padding: 3rem;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 1.1rem;
       color: var(--cream-dim);
     }
@@ -454,7 +495,7 @@
       background: none;
       border: 1px solid rgba(196,148,60,0.2);
       padding: 0.3rem 0.6rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.55rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -472,7 +513,7 @@
       background: none;
       border: 1px solid rgba(196,60,60,0.2);
       padding: 0.3rem 0.6rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.55rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -535,7 +576,7 @@
       margin-bottom: 2rem;
     }
     .doc-creator-title {
-      font-family: 'Bodoni Moda', serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-weight: 400;
       font-size: 1.6rem;
       color: var(--amber-pale);
@@ -563,7 +604,7 @@
       margin-bottom: 1.5rem;
     }
     .doc-creator-instructions-title {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.55rem;
       font-weight: 500;
       letter-spacing: 0.3em;
@@ -573,7 +614,7 @@
     }
     .doc-creator-instructions code {
       display: block;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.75rem;
       line-height: 2;
       color: var(--cream);
@@ -588,7 +629,7 @@
       background: transparent;
       border: 1px solid rgba(196,148,60,0.2);
       padding: 0.8rem 1rem;
-      font-family: 'Bodoni Moda', serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 1.2rem;
       color: var(--cream);
       outline: none;
@@ -605,7 +646,7 @@
       background: transparent;
       border: 1px solid rgba(196,148,60,0.2);
       padding: 1rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.85rem;
       line-height: 1.8;
       color: var(--cream);
@@ -621,7 +662,7 @@
       background: rgba(196,148,60,0.1);
       border: 1px solid rgba(196,148,60,0.3);
       padding: 0.8rem 2.5rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.65rem;
       font-weight: 500;
       letter-spacing: 0.3em;
@@ -640,7 +681,7 @@
       cursor: not-allowed;
     }
     .doc-status {
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.7rem;
       color: var(--amber-light);
       margin-top: 0.8rem;
@@ -651,7 +692,7 @@
       background: rgba(196,148,60,0.06);
       border: 1px solid rgba(196,148,60,0.25);
       padding: 0.6rem 1.5rem;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
       font-size: 0.6rem;
       font-weight: 500;
       letter-spacing: 0.25em;
@@ -829,7 +870,7 @@
             <input type="file" id="aiFileInput" accept=".pdf,.doc,.docx,.txt,.md,.rtf" style="display:none;">
             <label for="aiFileInput" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;padding:1.2rem;border:1px dashed rgba(196,148,60,0.3);cursor:pointer;transition:border-color 0.3s,background 0.3s;min-height:80px;text-align:center;" onmouseover="this.style.borderColor='var(--amber)';this.style.background='rgba(196,148,60,0.04)'" onmouseout="this.style.borderColor='rgba(196,148,60,0.3)';this.style.background='transparent'">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.6rem;color:var(--cream-dim);letter-spacing:0.1em;" id="aiFileName">Upload PDF, DOC, or TXT</span>
+              <span style="font-family:'Google Sans Flex',sans-serif;font-size:0.6rem;color:var(--cream-dim);letter-spacing:0.1em;" id="aiFileName">Upload PDF, DOC, or TXT</span>
             </label>
           </div>
           <button class="doc-generate-btn" id="aiConvertBtn" style="padding:1.2rem 1.5rem;min-height:80px;display:flex;align-items:center;gap:0.5rem;" disabled>
@@ -837,12 +878,12 @@
             Convert with AI
           </button>
         </div>
-        <div id="aiStatus" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.65rem;color:var(--amber-light);margin-top:0.6rem;min-height:1em;"></div>
+        <div id="aiStatus" style="font-family:'Google Sans Flex',sans-serif;font-size:0.65rem;color:var(--amber-light);margin-top:0.6rem;min-height:1em;"></div>
       </div>
 
       <div style="display:flex;align-items:center;gap:1rem;margin:1rem 0;">
         <div style="flex:1;height:1px;background:rgba(196,148,60,0.12);"></div>
-        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.5rem;color:var(--cream-dim);letter-spacing:0.3em;text-transform:uppercase;">or write directly</span>
+        <span style="font-family:'Google Sans Flex',sans-serif;font-size:0.5rem;color:var(--cream-dim);letter-spacing:0.3em;text-transform:uppercase;">or write directly</span>
         <div style="flex:1;height:1px;background:rgba(196,148,60,0.12);"></div>
       </div>
 
@@ -1481,7 +1522,7 @@ AI-converted content will appear here automatically."></textarea>
           spacing: { after: 80 },
           children: [new docx.TextRun({
             text: title,
-            font: 'Georgia',
+            font: 'Helvetica',
             size: 40,
             color: DARK,
             bold: true
@@ -1501,7 +1542,7 @@ AI-converted content will appear here automatically."></textarea>
               spacing: { before: 360, after: 160 },
               children: [new docx.TextRun({
                 text: el.text.toUpperCase(),
-                font: 'Georgia',
+                font: 'Helvetica',
                 size: 28,
                 bold: true,
                 color: DARK
@@ -1517,7 +1558,7 @@ AI-converted content will appear here automatically."></textarea>
               spacing: { before: 280, after: 120 },
               children: [new docx.TextRun({
                 text: el.text,
-                font: 'Georgia',
+                font: 'Helvetica',
                 size: 24,
                 color: AMBER,
                 bold: true
@@ -1528,7 +1569,7 @@ AI-converted content will appear here automatically."></textarea>
               spacing: { before: 200, after: 80 },
               children: [new docx.TextRun({
                 text: el.text,
-                font: 'Georgia',
+                font: 'Helvetica',
                 size: 21,
                 color: DARK,
                 italics: true
@@ -1571,7 +1612,7 @@ AI-converted content will appear here automatically."></textarea>
                   bottom: qIdx === qLines.length - 1 ? qBorder : undefined
                 },
                 children: buildTextRuns(qLine, {
-                  font: 'Georgia',
+                  font: 'Helvetica',
                   size: 22,
                   italics: true,
                   color: '4A3F36'
@@ -1624,7 +1665,7 @@ AI-converted content will appear here automatically."></textarea>
                   children: [
                     new docx.TextRun({
                       text: 'Impossible Moments',
-                      font: 'Georgia',
+                      font: 'Helvetica',
                       size: 18,
                       bold: true,
                       color: DARK

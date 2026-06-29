@@ -1,11 +1,94 @@
 /* ============================================================
    Impossible Moments — Webfonts
-   Loaded from Google Fonts. Self-host the .woff2 files for
-   production if you want to drop the third-party dependency.
-   - Bodoni Moda     → display / marquee headlines + dramatic italic quotes (Didone, the past)
-   - EB Garamond     → editorial body / captions / reading (classic old-style, the archive)
-   - Plus Jakarta Sans  → buttons & functional UI
-   - Space Mono      → timecodes, index markers, technical metadata (the present)
+   Self-hosted Google Sans Flex static cuts. Display uses the 120pt
+   optical size; body and UI use 24pt so the site keeps the same
+   atmosphere without fragile hairline serifs or oversized font payloads.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex Display';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex Display';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex Display';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex Display';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Google Sans Flex Display';
+  src: url('/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}

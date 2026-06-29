@@ -1,16 +1,16 @@
 /* ============================================================
    Impossible Moments — Typography Tokens
-   Three voices: Bodoni (marquee), Cormorant (editorial),
-   Plus Jakarta (UI). High-contrast display + letterspaced
-   uppercase kickers are the signatures.
+   Google Sans Flex now carries every type role. Hierarchy comes
+   from weight, optical sizing, width, tracking, and color instead
+   of fragile high-contrast serif strokes.
    ============================================================ */
 
 :root {
   /* ---- Families ---- */
-  --im-font-display: 'Bodoni Moda', 'Didot', Georgia, serif;
-  --im-font-serif: 'EB Garamond', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --im-font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
-  --im-font-mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --im-font-display: 'Google Sans Flex Display', 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
+  --im-font-serif: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
+  --im-font-sans: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
+  --im-font-mono: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
 
   /* ---- Weights ---- */
   --im-w-light: 300;     /* @kind other */
@@ -19,36 +19,36 @@
   --im-w-semibold: 600;  /* @kind other */
   --im-w-bold: 700;      /* @kind other */
 
-  /* ---- Display scale (Bodoni Moda) ---- */
-  --im-display-hero: 700 clamp(4rem, 11vw, 11rem)/0.86 var(--im-font-display);
-  --im-display-xl: 700 clamp(3rem, 6vw, 6rem)/0.92 var(--im-font-display);
-  --im-display-lg: 400 clamp(2.2rem, 4vw, 3.4rem)/1.12 var(--im-font-display);
-  --im-display-md: 400 clamp(1.6rem, 2.6vw, 2.2rem)/1.2 var(--im-font-display);
-  --im-display-sm: 400 1.5rem/1.25 var(--im-font-display);
+  /* ---- Display scale ---- */
+  --im-display-hero: 800 clamp(4rem, 11vw, 11rem)/0.9 var(--im-font-display);
+  --im-display-xl: 760 clamp(3rem, 6vw, 6rem)/0.98 var(--im-font-display);
+  --im-display-lg: 650 clamp(2.2rem, 4vw, 3.4rem)/1.08 var(--im-font-display);
+  --im-display-md: 600 clamp(1.6rem, 2.6vw, 2.2rem)/1.16 var(--im-font-display);
+  --im-display-sm: 600 1.5rem/1.22 var(--im-font-display);
 
-  /* ---- Editorial scale (EB Garamond) ---- */
-  --im-serif-lead: 400 clamp(1.25rem, 2vw, 1.5rem)/1.65 var(--im-font-serif);
-  --im-serif-body: 400 1.125rem/1.7 var(--im-font-serif);
-  --im-serif-quote: italic 500 clamp(1.3rem, 2.2vw, 1.9rem)/1.45 var(--im-font-display);
+  /* ---- Editorial scale ---- */
+  --im-serif-lead: 450 clamp(1.18rem, 1.8vw, 1.42rem)/1.6 var(--im-font-serif);
+  --im-serif-body: 430 1.0625rem/1.68 var(--im-font-serif);
+  --im-serif-quote: italic 560 clamp(1.24rem, 2vw, 1.75rem)/1.42 var(--im-font-display);
 
-  /* ---- UI scale (Plus Jakarta Sans) ---- */
+  /* ---- UI scale ---- */
   --im-ui-lg: 500 1rem/1.5 var(--im-font-sans);
   --im-ui-md: 500 0.875rem/1.5 var(--im-font-sans);
   --im-ui-sm: 400 0.8125rem/1.5 var(--im-font-sans);
   --im-ui-xs: 400 0.75rem/1.4 var(--im-font-sans);
 
   /* ---- Kicker / eyebrow (the letterspaced uppercase label) ---- */
-  --im-kicker: 500 0.7rem/1.4 var(--im-font-sans);
-  --im-kicker-tracking: 0.42em; /* @kind other */
-  --im-label-tracking: 0.18em;  /* @kind other */
+  --im-kicker: 620 0.68rem/1.4 var(--im-font-sans);
+  --im-kicker-tracking: 0.34em; /* @kind other */
+  --im-label-tracking: 0.15em;  /* @kind other */
 
   /* ---- Timecode / marker (the archival mono voice) ---- */
-  --im-timecode: 400 0.7rem/1.3 var(--im-font-mono);
-  --im-timecode-sm: 400 0.62rem/1.3 var(--im-font-mono);
-  --im-track-timecode: 0.24em; /* @kind other */
+  --im-timecode: 620 0.68rem/1.3 var(--im-font-mono);
+  --im-timecode-sm: 620 0.6rem/1.3 var(--im-font-mono);
+  --im-track-timecode: 0.22em; /* @kind other */
 
   /* ---- Tracking presets ---- */
-  --im-track-display: 0.02em;   /* @kind other */
+  --im-track-display: 0;        /* @kind other */
   --im-track-tight: -0.01em;    /* @kind other */
   --im-track-normal: 0;         /* @kind other */
   --im-track-wide: 0.18em;      /* @kind other */

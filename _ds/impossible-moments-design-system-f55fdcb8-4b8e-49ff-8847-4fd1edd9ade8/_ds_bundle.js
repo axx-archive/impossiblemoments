@@ -599,7 +599,7 @@ const CSS = `
 
 /**
  * Impossible Moments — Stat
- * The big italic Bodoni number + quiet sans label. The brand's primary
+ * The big gilt number + quiet sans label. The brand's primary
  * way of stating evidence (grosses, listeners, occupancy).
  */
 function Stat({

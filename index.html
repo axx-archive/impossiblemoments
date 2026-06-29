@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="/support.js"></script>
 <link rel="stylesheet" href="/mobile-experience.css">
+<link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/fonts.css">
 <script defer src="/mobile-experience.js"></script>
 </head>
 <body>
@@ -29,7 +33,7 @@
     position: fixed; inset: 0; z-index: 2147483000;
     display: flex; align-items: center; justify-content: center;
     background: #0A0908; color: #E7DFD2;
-    font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   #im-site-gate.imsg-hidden { display: none; }
@@ -45,17 +49,17 @@
     gap: 18px; width: 360px; max-width: 86vw; padding: 24px;
   }
   #im-site-gate .imsg-mark {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 500;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif; font-weight: 500;
     font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase; color: #BF9A4A;
   }
   #im-site-gate .imsg-logo { margin: 4px 0 0; display: flex; flex-direction: column; align-items: center; gap: 2px; line-height: 0.9; }
   #im-site-gate .imsg-logo-1 {
-    font-family: 'Bodoni Moda', Didot, Georgia, serif; font-weight: 700;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif; font-weight: 700;
     font-size: clamp(2.6rem, 9vw, 3.6rem); letter-spacing: 0.02em; color: #F3E8CC;
     text-shadow: 0 0 6px #FFFBF2, 0 0 22px rgba(234,217,168,0.5), 0 0 60px rgba(191,154,74,0.35);
   }
   #im-site-gate .imsg-logo-2 {
-    font-family: 'Bodoni Moda', Didot, Georgia, serif; font-style: italic; font-weight: 400;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif; font-style: italic; font-weight: 400;
     font-size: clamp(1.5rem, 5vw, 2rem); letter-spacing: 0.06em; color: #EAF1F8; margin-top: 2px;
   }
   #im-site-gate .imsg-sub { font-style: italic; font-size: 1.02rem; color: #9C9387; margin: 2px 0 10px; }
@@ -66,7 +70,7 @@
   #im-site-gate .imsg-input {
     width: 100%; box-sizing: border-box; background: transparent; border: none;
     padding: 12px 68px; text-align: center; color: #F4EFE6;
-    font-family: 'EB Garamond', Georgia, serif; font-size: 1.1rem; letter-spacing: 0.16em;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif; font-size: 1.1rem; letter-spacing: 0.16em;
     outline: none;
   }
   #im-site-gate .imsg-input::placeholder { color: #645C52; letter-spacing: 0.12em; }
@@ -75,7 +79,7 @@
   #im-site-gate .imsg-toggle {
     position: absolute; top: 50%; right: 0; min-width: 58px; min-height: 36px;
     transform: translateY(-50%); cursor: pointer; border: 0; background: transparent;
-    color: #8E826F; padding: 0 2px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #8E826F; padding: 0 2px; font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif;
     font-weight: 600; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
     transition: color .25s ease, opacity .25s ease;
   }
@@ -84,7 +88,7 @@
   #im-site-gate .imsg-btn {
     width: 100%; margin-top: 4px; cursor: pointer; border: 1px solid #BF9A4A;
     background: #BF9A4A; color: #0A0908; padding: 13px;
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 600;
+    font-family: 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif; font-weight: 600;
     font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase;
     transition: background .35s ease, color .35s ease, box-shadow .35s ease;
   }
@@ -226,10 +230,15 @@ section[data-screen-label] { min-height: 100vh; box-sizing: border-box; }
 .im-data-room-button:active { transform: scale(0.96); }
 @media (min-width: 901px) {
   body:not(.im-export-mode) section[data-screen-label] h2 {
-    font-weight: 560 !important;
+    font-weight: 650 !important;
     -webkit-text-stroke: 0.14px currentColor;
     paint-order: stroke fill;
     text-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 0 22px rgba(244,239,230,0.08);
+  }
+  body:not(.im-export-mode) section[data-screen-label="Closing"] p[style*="font-size:clamp(2.1rem"] {
+    font-weight: 650 !important;
+    -webkit-text-stroke: 0.14px currentColor;
+    paint-order: stroke fill;
   }
 }
 .im-stat__num,
@@ -560,7 +569,7 @@ body.im-site-unlocked [data-hero-reveal] {
   <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
     <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Marker" hint-size="auto,16px" tone="lumen" index="NO. 004">The Location · Las Vegas</x-import>
     <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); margin:18px 0 0;">Prime Las Vegas Location</h2>
-    <p style="font-family:var(--im-font-serif); font-weight:400; font-size:clamp(1.05rem,1.45vw,1.2rem); line-height:1.65; color:var(--im-ivory-300); max-width:860px; margin:24px 0 0; text-wrap:pretty;">Equity investors acquire an interest in a hard real estate asset in one of the world's most supply-constrained entertainment corridors, along with full participation in the operating economics.</p>
+    <p style="font-family:var(--im-font-serif); font-weight:400; font-size:clamp(1.05rem,1.45vw,1.2rem); line-height:1.65; color:var(--im-ivory-300); max-width:860px; margin:24px 0 0; text-wrap:pretty;">Equity investors acquire an interest in a hard real estate asset in one of the world's most supply&#8209;constrained entertainment corridors, along with full participation in the operating economics.</p>
     <div style="display:flex; gap:clamp(28px,6vw,80px); margin:42px 0 0; flex-wrap:wrap; justify-content:center;">
       <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Stat" hint-size="200px,90px" value="$50B+" label="In surrounding resort &amp; casino infrastructure" size="lg" align="center" tone="cream"></x-import>
     </div>
