@@ -276,10 +276,33 @@ body.im-export-desktop #format .im-format-card > div:not(.im-format-art) > div:n
 body.im-export-desktop #format button {
   display: none !important;
 }
+body.im-export-desktop #genesis > div[style*="max-width:860px"][style*="margin:48px auto 0"] {
+  max-width: 1060px !important;
+}
+body.im-export-desktop #genesis > div[style*="max-width:860px"][style*="margin:48px auto 0"] p {
+  font-size: 1.55rem !important;
+  line-height: 1.32 !important;
+  white-space: nowrap !important;
+}
+body.im-export-desktop #genesis > div:last-of-type {
+  width: 100% !important;
+  max-width: 1240px !important;
+}
+body.im-export-desktop #genesis > div:last-of-type > * {
+  width: 100% !important;
+}
+body.im-export-desktop #genesis > div:last-of-type p {
+  font-size: 1.38rem !important;
+  line-height: 1.28 !important;
+  white-space: nowrap !important;
+}
 body.im-export-desktop #location {
   padding-top: 66px !important;
   padding-bottom: 32px !important;
   justify-content: flex-start !important;
+}
+body.im-export-desktop #location > div:nth-of-type(2) {
+  max-width: 1280px !important;
 }
 body.im-export-desktop #location h2 {
   font-size: 2.92rem !important;
@@ -287,9 +310,11 @@ body.im-export-desktop #location h2 {
   margin-top: 8px !important;
 }
 body.im-export-desktop #location p[style*="font-size:clamp(1.05rem"] {
-  font-size: 1rem !important;
-  line-height: 1.48 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.42 !important;
+  max-width: 1320px !important;
   margin-top: 14px !important;
+  white-space: nowrap !important;
 }
 body.im-export-desktop #location p[style*="font-size:clamp(1.15rem"] {
   font-size: 1.18rem !important;
@@ -317,7 +342,7 @@ body.im-export-desktop #location img[src="/land-location-night.png"] {
 }
 body.im-export-desktop #conviction [style*="margin:36px auto 0"] { margin-top: 24px !important; }
 body.im-export-desktop #conviction {
-  padding: 96px 72px 22px !important;
+  padding: 122px 72px 22px !important;
   justify-content: flex-start !important;
 }
 body.im-export-desktop #conviction h2 {
@@ -368,6 +393,15 @@ body.im-export-desktop #conviction > div:nth-of-type(6) p {
   font-size: 0.9rem !important;
   line-height: 1.28 !important;
 }
+body.im-export-desktop #conviction > div:last-of-type {
+  max-width: 1240px !important;
+  margin-top: 18px !important;
+}
+body.im-export-desktop #conviction > div:last-of-type p {
+  font-size: 0.86rem !important;
+  line-height: 1.24 !important;
+  white-space: nowrap !important;
+}
 body.im-export-desktop #model h2 {
   font-size: 2.68rem !important;
   line-height: 1.08 !important;
@@ -391,6 +425,10 @@ body.im-export-desktop #model p[data-reveal] {
   color: #E7DFD2 !important;
   font-weight: 500 !important;
 }
+body.im-export-desktop #model > div:first-child p {
+  max-width: 1180px !important;
+  white-space: nowrap !important;
+}
 body.im-export-desktop #raise [style*="margin:40px auto 0"] { margin-top: 28px !important; }
 	`;
 }
@@ -413,6 +451,26 @@ async function preparePage(page, mode, localOrigin) {
     document.querySelectorAll('a[href="/dataroom/"], a[href="/dataroom"]').forEach((anchor) => {
       anchor.href = dataroomUrl;
     });
+
+    const modelFootnote = document.querySelector('#model > p[data-reveal]');
+    if (modelFootnote) {
+      modelFootnote.innerHTML = modelFootnote.textContent.replace(
+        ' entirely. Cost estimates',
+        ' entirely.<br>Cost estimates'
+      );
+    }
+
+    const locationSubhead = Array.from(document.querySelectorAll('#location p'))
+      .find((paragraph) => paragraph.textContent.includes('Equity investors acquire an interest'));
+    if (locationSubhead) {
+      locationSubhead.innerHTML = "Equity investors acquire an interest in a hard real estate asset in one of the world's<br>most supply-constrained entertainment corridors, along with full participation in the operating economics.";
+    }
+
+    const nashvilleDescription = Array.from(document.querySelectorAll('#format .im-format-card p'))
+      .find((paragraph) => paragraph.textContent.includes('genre') && paragraph.textContent.includes('colliding'));
+    if (nashvilleDescription) {
+      nashvilleDescription.textContent = nashvilleDescription.textContent.replace(' in one impossible night.', '.');
+    }
 
     document.querySelectorAll('video').forEach((video) => {
       const poster = video.getAttribute('poster');
