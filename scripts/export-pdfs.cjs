@@ -247,6 +247,15 @@ body.im-export-desktop #format p {
   font-size: 0.84rem !important;
   line-height: 1.34 !important;
 }
+body.im-export-desktop #format > div:nth-of-type(2) p {
+  font-family: var(--im-font-sans) !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 0.94rem !important;
+  line-height: 1.42 !important;
+  color: #E7DFD2 !important;
+  max-width: 1100px !important;
+}
 body.im-export-desktop #format [style*="padding:2.4rem 2.6rem 2.8rem"] > div:first-child,
 body.im-export-desktop #format [style*="padding: 2.4rem 2.6rem 2.8rem"] > div:first-child,
 body.im-export-desktop #format .im-format-card > div:not(.im-format-art) > div:first-child {
@@ -315,6 +324,15 @@ body.im-export-desktop #location p[style*="font-size:clamp(1.05rem"] {
   max-width: 1320px !important;
   margin-top: 14px !important;
   white-space: nowrap !important;
+}
+body.im-export-desktop #location .im-location-subhead-pdf {
+  display: block !important;
+  width: 100% !important;
+  max-width: 1320px !important;
+  font-size: 0.9rem !important;
+  line-height: 1.42 !important;
+  white-space: nowrap !important;
+  text-wrap: nowrap !important;
 }
 body.im-export-desktop #location p[style*="font-size:clamp(1.15rem"] {
   font-size: 1.18rem !important;
@@ -463,7 +481,13 @@ async function preparePage(page, mode, localOrigin) {
     const locationSubhead = Array.from(document.querySelectorAll('#location p'))
       .find((paragraph) => paragraph.textContent.includes('Equity investors acquire an interest'));
     if (locationSubhead) {
+      locationSubhead.classList.add('im-location-subhead-pdf');
       locationSubhead.innerHTML = "Equity investors acquire an interest in a hard real estate asset in one of the world's<br>most supply-constrained entertainment corridors, along with full participation in the operating economics.";
+    }
+
+    const formatIntro = document.querySelector('#format > div:nth-of-type(2) p');
+    if (formatIntro) {
+      formatIntro.textContent = 'Permanent shows built around moments no tour can deliver. The same venue is designed to support multiple shows starting with One Night in Nashville.';
     }
 
     const nashvilleDescription = Array.from(document.querySelectorAll('#format .im-format-card p'))
