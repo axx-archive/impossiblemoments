@@ -342,19 +342,19 @@ body.im-export-desktop #location [style*="margin:48px auto 0"] {
   margin-top: 12px !important;
 }
 body.im-export-desktop #location .im-frame {
-  max-width: 720px !important;
+  max-width: 980px !important;
   margin-left: auto !important;
   margin-right: auto !important;
-  transform: translateX(-5%) !important;
+  transform: none !important;
 }
 body.im-export-desktop #location .im-frame + div {
   transform: translateX(0) !important;
 }
-body.im-export-desktop #location img[src="/land-location-night.png"] {
+body.im-export-desktop #location img[src="/land.png"] {
   width: 100% !important;
   max-width: 100% !important;
-  height: 205px !important;
-  object-fit: cover !important;
+  height: auto !important;
+  object-fit: contain !important;
   object-position: center !important;
   transform: none !important;
 }
@@ -478,11 +478,9 @@ async function preparePage(page, mode, localOrigin) {
       );
     }
 
-    const locationSubhead = Array.from(document.querySelectorAll('#location p'))
-      .find((paragraph) => paragraph.textContent.includes('Equity investors acquire an interest'));
-    if (locationSubhead) {
-      locationSubhead.classList.add('im-location-subhead-pdf');
-      locationSubhead.innerHTML = "Equity investors acquire an interest in a hard real estate asset in one of the world's<br>most supply-constrained entertainment corridors, along with full participation in the operating economics.";
+    const locationDescription = document.querySelector('#location .im-location-description');
+    if (locationDescription) {
+      locationDescription.classList.add('im-location-subhead-pdf');
     }
 
     const formatIntro = document.querySelector('#format > div:nth-of-type(2) p');
