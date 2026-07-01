@@ -169,21 +169,19 @@
     justify-content: center;
   }
   .im-land-photo-thumb {
-    width: min(310px, 82vw);
-    min-height: 78px;
-    padding: 14px 18px;
-    background:
-      linear-gradient(180deg, rgba(8,6,5,0.12), rgba(8,6,5,0.7)),
-      url('/land-location-night.png') center/cover no-repeat !important;
+    width: auto;
+    min-height: 44px;
+    padding: 0 18px;
+    background: rgba(10,9,8,0.38) !important;
     box-shadow: 0 18px 42px rgba(0,0,0,0.32), inset 0 0 0 1px rgba(255,255,255,0.08);
   }
   .im-land-photo-thumb span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 32px;
-    padding: 0 12px;
-    background: rgba(10,9,8,0.72);
+    min-height: auto;
+    padding: 0;
+    background: transparent;
     color: var(--im-gilt-100);
   }
 
