@@ -627,29 +627,9 @@ body.im-site-unlocked [data-hero-reveal] {
   <div data-reveal="1" style="position:relative; z-index:2; max-width:1160px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
     <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Marker" hint-size="auto,16px" tone="lumen" index="NO. 006">The Format</x-import>
     <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2.2rem,4.4vw,3.6rem); line-height:1.1; color:var(--im-ivory-100); margin:18px 0 0;">Two openings. One impossible format.</h2>
-    <p style="font-family:var(--im-font-serif); font-style:italic; font-weight:400; font-size:clamp(1rem,1.45vw,1.18rem); line-height:1.65; color:var(--im-ivory-400); max-width:980px; margin:18px 0 0;">Permanent shows built around moments no tour can deliver. We launch with One Night In Nashville, an immersive avatar experience featuring the greatest country music artists across eras. The same venue is designed to support additional shows, starting with one featuring global pop superstar Britney Spears.</p>
+    <p style="font-family:var(--im-font-serif); font-style:italic; font-weight:400; font-size:clamp(1rem,1.45vw,1.18rem); line-height:1.65; color:var(--im-ivory-400); max-width:980px; margin:18px 0 0;">Permanent shows built around moments no tour can deliver. The same venue is designed to support multiple shows.</p>
   </div>
   <div data-reveal-group="1" style="position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(330px,1fr)); gap:2px; max-width:1160px; width:100%; margin:52px auto 0;">
-
-    <!-- Nashville -->
-    <div class="im-format-card" style="background:var(--im-noir-850); border:1px solid var(--im-border-faint); text-align:left; overflow:hidden; display:flex; flex-direction:column; transition:transform .45s var(--im-ease), border-color .45s var(--im-ease), box-shadow .45s var(--im-ease);" style-hover="transform:translateY(-4px); border-color:var(--im-border-strong); box-shadow:var(--im-glow-gilt-sm);">
-      <div class="im-format-art" style="height:340px; position:relative; background-image:linear-gradient(160deg, rgba(10,7,6,0.42), rgba(10,7,6,0.62)), url('/assets/nashville-duet-square.png'); background-size:cover; background-position:center 18%; display:flex; align-items:flex-end; justify-content:center; filter:grayscale(0.2) contrast(1.06);">
-        <span class="im-format-ghost" style="font-family:var(--im-font-display); font-weight:700; font-size:5rem; line-height:0.9; opacity:0.2; color:#fff; margin-bottom:-0.04em;">Nashville</span>
-      </div>
-      <div style="padding:2.4rem 2.6rem 2.8rem; display:flex; flex-direction:column; flex:1;">
-        <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:8px;">One Night In</div>
-        <div style="font-family:var(--im-font-display); font-weight:700; font-size:2.6rem; line-height:1; color:var(--im-nashville); margin-bottom:16px;">Nashville</div>
-        <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.1rem; line-height:1.65; color:var(--im-ivory-400); margin:0 0 22px;">Legends past and present on one stage. A genre’s history colliding in one impossible night.</p>
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:20px; border-top:1px solid var(--im-border-faint); margin-top:auto;">
-          <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Stat" hint-size="150px,60px" value="139M+" label="U.S. country music consumers" size="sm"></x-import>
-          <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Badge" hint-size="120px,28px" variant="development" dot="true">Lead Show</x-import>
-        </div>
-        <button class="im-format-toggle" onClick="{{ toggleN }}" style="margin-top:22px; background:transparent; border:none; cursor:pointer; padding:0; font-family:var(--im-font-sans); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--im-gilt-300); display:inline-flex; align-items:center; gap:8px; transition:color .35s var(--im-ease); align-self:flex-start;" style-hover="color:var(--im-gilt-200);">{{ nLabel }}</button>
-        <sc-if value="{{ openN }}" hint-placeholder-val="{{ false }}">
-          <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.05rem; line-height:1.7; color:var(--im-ivory-200); margin:18px 0 0; padding-top:18px; border-top:1px solid var(--im-border-faint);">Country is the fastest-growing major genre with the most loyal cross-generational fan base in music. The impossible moments format was built for it — bringing together legends across eras in ways a traditional stage never could. The multi-artist format also means the show refreshes over time without rebuilding the core production.</p>
-        </sc-if>
-      </div>
-    </div>
 
     <!-- Britney -->
     <div class="im-format-card" style="background:var(--im-noir-850); border:1px solid var(--im-border-faint); text-align:left; overflow:hidden; display:flex; flex-direction:column; transition:transform .45s var(--im-ease), border-color .45s var(--im-ease), box-shadow .45s var(--im-ease);" style-hover="transform:translateY(-4px); border-color:var(--im-border-strong); box-shadow:var(--im-glow-gilt-sm);">
@@ -662,11 +642,29 @@ body.im-site-unlocked [data-hero-reveal] {
         <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.1rem; line-height:1.65; color:var(--im-ivory-400); margin:0 0 22px;">A single icon with enough cultural gravity to sustain a permanent residency.</p>
         <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:20px; border-top:1px solid var(--im-border-faint); margin-top:auto;">
           <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Stat" hint-size="150px,60px" value="50M+" label="Monthly Spotify listeners" size="sm"></x-import>
-          <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Badge" hint-size="120px,28px" variant="pending" dot="true">Additional Option</x-import>
         </div>
         <button class="im-format-toggle" onClick="{{ toggleB }}" style="margin-top:22px; background:transparent; border:none; cursor:pointer; padding:0; font-family:var(--im-font-sans); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--im-gilt-300); display:inline-flex; align-items:center; gap:8px; transition:color .35s var(--im-ease); align-self:flex-start;" style-hover="color:var(--im-gilt-200);">{{ bLabel }}</button>
         <sc-if value="{{ openB }}" hint-placeholder-val="{{ false }}">
           <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.05rem; line-height:1.7; color:var(--im-ivory-200); margin:18px 0 0; padding-top:18px; border-top:1px solid var(--im-border-faint);">Her prior Las Vegas residency grossed $137.7M across 248 shows and sold more than 916,000 tickets. Demand is proven. The format is natural. And the version of Britney her fans want most — the one from her peak years — is the version only Impossible Moments can deliver.</p>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- Nashville -->
+    <div class="im-format-card" style="background:var(--im-noir-850); border:1px solid var(--im-border-faint); text-align:left; overflow:hidden; display:flex; flex-direction:column; transition:transform .45s var(--im-ease), border-color .45s var(--im-ease), box-shadow .45s var(--im-ease);" style-hover="transform:translateY(-4px); border-color:var(--im-border-strong); box-shadow:var(--im-glow-gilt-sm);">
+      <div class="im-format-art" style="height:340px; position:relative; background-image:linear-gradient(160deg, rgba(10,7,6,0.42), rgba(10,7,6,0.62)), url('/assets/nashville-duet-square.png'); background-size:cover; background-position:center 18%; display:flex; align-items:flex-end; justify-content:center; filter:grayscale(0.2) contrast(1.06);">
+        <span class="im-format-ghost" style="font-family:var(--im-font-display); font-weight:700; font-size:5rem; line-height:0.9; opacity:0.2; color:#fff; margin-bottom:-0.04em;">Nashville</span>
+      </div>
+      <div style="padding:2.4rem 2.6rem 2.8rem; display:flex; flex-direction:column; flex:1;">
+        <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:8px;">One Night In</div>
+        <div style="font-family:var(--im-font-display); font-weight:700; font-size:2.6rem; line-height:1; color:var(--im-nashville); margin-bottom:16px;">Nashville</div>
+        <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.1rem; line-height:1.65; color:var(--im-ivory-400); margin:0 0 22px;">Legends past and present on one stage. A genre’s history colliding in one impossible night.</p>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:20px; border-top:1px solid var(--im-border-faint); margin-top:auto;">
+          <x-import component-from-global-scope="ImpossibleMomentsDesignSystem_f55fdc.Stat" hint-size="150px,60px" value="139M+" label="U.S. country music consumers" size="sm"></x-import>
+        </div>
+        <button class="im-format-toggle" onClick="{{ toggleN }}" style="margin-top:22px; background:transparent; border:none; cursor:pointer; padding:0; font-family:var(--im-font-sans); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--im-gilt-300); display:inline-flex; align-items:center; gap:8px; transition:color .35s var(--im-ease); align-self:flex-start;" style-hover="color:var(--im-gilt-200);">{{ nLabel }}</button>
+        <sc-if value="{{ openN }}" hint-placeholder-val="{{ false }}">
+          <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.05rem; line-height:1.7; color:var(--im-ivory-200); margin:18px 0 0; padding-top:18px; border-top:1px solid var(--im-border-faint);">Country is the fastest-growing major genre with the most loyal cross-generational fan base in music. The impossible moments format was built for it — bringing together legends across eras in ways a traditional stage never could. The multi-artist format also means the show refreshes over time without rebuilding the core production.</p>
         </sc-if>
       </div>
     </div>

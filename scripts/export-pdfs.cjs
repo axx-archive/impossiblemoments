@@ -487,7 +487,7 @@ async function preparePage(page, mode, localOrigin) {
 
     const formatIntro = document.querySelector('#format > div:nth-of-type(2) p');
     if (formatIntro) {
-      formatIntro.textContent = 'Permanent shows built around moments no tour can deliver. The same venue is designed to support multiple shows starting with One Night in Nashville.';
+      formatIntro.textContent = 'Permanent shows built around moments no tour can deliver. The same venue is designed to support multiple shows.';
     }
 
     const nashvilleDescription = Array.from(document.querySelectorAll('#format .im-format-card p'))
