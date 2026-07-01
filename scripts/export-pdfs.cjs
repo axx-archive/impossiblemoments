@@ -458,7 +458,7 @@ async function preparePage(page, mode, localOrigin) {
   await page.goto(`${localOrigin}/?pdf=${mode.name}`, { waitUntil: 'networkidle' });
   await page.waitForFunction(() => {
     return !document.querySelector('x-dc') &&
-      document.querySelectorAll('section[data-screen-label]').length >= 10;
+      document.querySelectorAll('section[data-screen-label]:not([data-hidden-section])').length >= 10;
   }, null, { timeout: 15000 });
   await page.emulateMedia({ media: 'screen' });
   await page.addStyleTag({ content: exportCss(mode) });
@@ -609,7 +609,7 @@ function buildSlidePdf({ mode, images, sectionLinks }) {
 
 async function collectSectionLinks(page) {
   return page.evaluate(({ dataroomUrl }) => {
-    return Array.from(document.querySelectorAll('section[data-screen-label]')).map((section) => {
+    return Array.from(document.querySelectorAll('section[data-screen-label]:not([data-hidden-section])')).map((section) => {
       const sectionRect = section.getBoundingClientRect();
       return Array.from(section.querySelectorAll('a[href]'))
         .map((anchor) => {
@@ -633,7 +633,7 @@ async function collectSectionLinks(page) {
 }
 
 async function captureSlideImages(page, quality) {
-  const sections = await page.$$('section[data-screen-label]');
+  const sections = await page.$$('section[data-screen-label]:not([data-hidden-section])');
   const images = [];
   for (const section of sections) {
     images.push(await section.screenshot({

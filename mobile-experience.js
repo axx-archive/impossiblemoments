@@ -98,7 +98,7 @@
   }
 
   function sectionList() {
-    return Array.prototype.slice.call(document.querySelectorAll('section[data-screen-label]'));
+    return Array.prototype.slice.call(document.querySelectorAll('section[data-screen-label]:not([data-hidden-section])'));
   }
 
   // The positioned z-index:0 backdrop layer for a section (duotone on hero,
@@ -243,6 +243,7 @@
     ];
     var html = '<div class="me-overlay-kicker">Impossible Moments</div>';
     for (var i = 0; i < links.length; i++) {
+      if (links[i][0].charAt(0) === '#' && document.querySelector(links[i][0] + '[data-hidden-section]')) continue;
       var isPdf = links[i][2] === 'pdf';
       var isDR = links[i][0].charAt(0) !== '#';
       var attrs = isPdf ? ' class="me-overlay-pdf" download' : (isDR ? ' class="me-overlay-dr"' : '');
