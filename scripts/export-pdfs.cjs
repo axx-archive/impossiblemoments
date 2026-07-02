@@ -306,15 +306,15 @@ body.im-export-desktop #genesis > div:last-of-type p {
   white-space: nowrap !important;
 }
 body.im-export-desktop #location {
-  padding-top: 66px !important;
-  padding-bottom: 32px !important;
+  padding-top: 54px !important;
+  padding-bottom: 24px !important;
   justify-content: flex-start !important;
 }
 body.im-export-desktop #location > div:nth-of-type(2) {
   max-width: 1280px !important;
 }
 body.im-export-desktop #location h2 {
-  font-size: 2.92rem !important;
+  font-size: 2.68rem !important;
   line-height: 1.04 !important;
   margin-top: 8px !important;
 }
@@ -329,20 +329,26 @@ body.im-export-desktop #location .im-location-subhead-pdf {
   display: block !important;
   width: 100% !important;
   max-width: 1320px !important;
-  font-size: 0.9rem !important;
-  line-height: 1.42 !important;
+  font-size: 0.86rem !important;
+  line-height: 1.34 !important;
   white-space: nowrap !important;
   text-wrap: nowrap !important;
 }
+body.im-export-desktop #location .im-location-investor-copy {
+  font-size: 0.82rem !important;
+  line-height: 1.32 !important;
+  max-width: 1180px !important;
+  margin-top: 10px !important;
+}
 body.im-export-desktop #location p[style*="font-size:clamp(1.15rem"] {
-  font-size: 1.18rem !important;
-  margin-top: 20px !important;
+  font-size: 1rem !important;
+  margin-top: 14px !important;
 }
 body.im-export-desktop #location [style*="margin:48px auto 0"] {
   margin-top: 12px !important;
 }
 body.im-export-desktop #location .im-frame {
-  max-width: 980px !important;
+  max-width: 900px !important;
   margin-left: auto !important;
   margin-right: auto !important;
   transform: none !important;
