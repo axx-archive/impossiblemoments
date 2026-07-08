@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Impossible — Concerts · Films · Fights</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230A0908'/%3E%3Ccircle cx='32' cy='32' r='13' fill='none' stroke='%23BF9A4A' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_24pt-SemiBold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/assets/fonts/google-sans-flex/static/GoogleSansFlex_120pt-Bold.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/fonts.css">
+<link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/colors.css">
+<link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/typography.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  /* ============================================================
+     Impossible — platform triptych. Self-contained; no runtime
+     bundle. Class prefix: plat-. No password gate on this page:
+     each destination carries its own.
+     ============================================================ */
+  :root {
+    --im-neon-text: 0 0 6px var(--im-filament), 0 0 18px rgba(234, 217, 168, 0.6), 0 0 48px rgba(191, 154, 74, 0.45), 0 0 110px rgba(191, 154, 74, 0.22);
+    --im-vignette: radial-gradient(ellipse 78% 68% at 50% 42%, transparent 0%, rgba(10,9,8,0.35) 60%, rgba(6,6,6,0.85) 100%);
+    --im-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --im-grain-opacity: 0.03;
+    --im-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    --plat-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    margin: 0;
+    background: var(--im-noir-950);
+    color: var(--im-ivory-200);
+    font-family: var(--im-font-serif);
+    overflow: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+  ::selection { background: rgba(196, 148, 60, 0.3); color: var(--im-ivory-100); }
+
+  .im-grain { position: fixed; inset: 0; pointer-events: none; z-index: 9000; overflow: hidden; }
+  .im-grain::after {
+    content: ''; position: absolute; inset: -150%; width: 400%; height: 400%;
+    background-image: var(--im-grain); background-size: 200px 200px;
+    opacity: var(--im-grain-opacity); animation: plat-grain-drift 6s steps(8) infinite;
+  }
+  .im-vignette { position: fixed; inset: 0; pointer-events: none; z-index: 40; background: var(--im-vignette); }
+
+  /* ---- Top wordmark ---- */
+  .plat-mark {
+    position: fixed;
+    top: clamp(22px, 4.5vh, 44px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+    text-align: center;
+  }
+  .plat-mark__word {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--im-filament);
+    text-shadow: var(--im-neon-text);
+    margin: 0;
+  }
+  .plat-mark__sub {
+    font-family: var(--im-font-sans);
+    font-weight: 500;
+    font-size: 0.6rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--im-ivory-400);
+    margin: 0;
+  }
+
+  /* ---- Triptych ---- */
+  .plat-triptych {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+  }
+  .plat-panel {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    text-decoration: none;
+    outline: none;
+    border-left: 1px solid rgba(191, 154, 74, 0.22);
+    transition: flex-grow 0.85s var(--plat-ease);
+  }
+  .plat-panel:first-child { border-left: 0; }
+
+  .plat-panel__img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.48) saturate(0.92);
+    transform: scale(1.02);
+    transition: filter 0.9s var(--plat-ease), transform 1.3s var(--plat-ease);
+  }
+  .plat-panel__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(10,9,8,0.42) 0%, rgba(10,9,8,0.18) 45%, rgba(6,6,6,0.88) 100%);
+    transition: opacity 0.9s var(--plat-ease);
+  }
+
+  .plat-panel__stack {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px clamp(48px, 9vh, 96px);
+    width: 100%;
+    text-align: center;
+  }
+  .plat-panel__label {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.2vw, 3.1rem);
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--im-ivory-100);
+    text-shadow: 0 2px 24px rgba(0,0,0,0.65);
+    white-space: nowrap;
+    transition: letter-spacing 0.85s var(--plat-ease), color 0.6s var(--plat-ease), text-shadow 0.6s var(--plat-ease);
+  }
+  .plat-panel__rule {
+    width: 34px;
+    height: 1px;
+    background: var(--im-gilt-500);
+    opacity: 0.55;
+    transition: width 0.85s var(--plat-ease), opacity 0.6s var(--plat-ease);
+  }
+  .plat-panel__sub {
+    font-family: var(--im-font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+    color: var(--im-ivory-200);
+    margin: 0;
+    max-width: 34ch;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.7s var(--plat-ease), transform 0.7s var(--plat-ease);
+  }
+  .plat-panel__enter {
+    font-family: var(--im-font-sans);
+    font-weight: 600;
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--im-gilt-400);
+    border: 1px solid rgba(191, 154, 74, 0.5);
+    padding: 9px 18px;
+    margin-top: 6px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.7s var(--plat-ease) 0.08s, transform 0.7s var(--plat-ease) 0.08s, background 0.35s ease, color 0.35s ease;
+  }
+
+  /* ---- Active state (JS-driven; :hover/:focus-visible as fallback) ---- */
+  .plat-panel.is-active { flex-grow: 2.3; }
+  .plat-panel.is-active .plat-panel__img { filter: brightness(0.78) saturate(1.05); transform: scale(1.07); }
+  .plat-panel.is-active .plat-panel__shade { opacity: 0.85; }
+  .plat-panel.is-active .plat-panel__label { letter-spacing: 0.22em; color: var(--im-gilt-100); text-shadow: 0 0 6px rgba(255,251,242,0.55), 0 0 26px rgba(234,217,168,0.4), 0 2px 24px rgba(0,0,0,0.65); }
+  .plat-panel.is-active .plat-panel__rule { width: 72px; opacity: 1; }
+  .plat-panel.is-active .plat-panel__sub,
+  .plat-panel.is-active .plat-panel__enter { opacity: 1; transform: translateY(0); }
+  .plat-panel.is-active .plat-panel__enter:hover { background: var(--im-gilt-500); color: #0A0908; }
+
+  html:not(.js) .plat-panel:hover { flex-grow: 2.3; }
+  html:not(.js) .plat-panel:hover .plat-panel__sub,
+  html:not(.js) .plat-panel:hover .plat-panel__enter { opacity: 1; transform: translateY(0); }
+  .plat-panel:focus-visible { box-shadow: inset 0 0 0 2px rgba(203, 167, 94, 0.8); }
+
+  /* ---- Intro reveal ---- */
+  html.js .plat-panel { opacity: 0; transform: translateY(26px); }
+  html.js .plat-panel.is-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.9s var(--plat-ease), transform 0.9s var(--plat-ease), flex-grow 0.85s var(--plat-ease);
+  }
+  html.js .plat-mark { opacity: 0; transition: opacity 1.1s var(--plat-ease) 0.55s; }
+  html.js .plat-mark.is-in { opacity: 1; }
+
+  /* ---- Mobile: stacked, tap to expand ---- */
+  @media (max-width: 820px) {
+    .plat-triptych { flex-direction: column; }
+    .plat-panel { border-left: 0; border-top: 1px solid rgba(191, 154, 74, 0.22); }
+    .plat-panel:first-child { border-top: 0; }
+    .plat-panel__stack { padding-bottom: clamp(26px, 5vh, 48px); }
+    .plat-panel__label { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+    .plat-panel.is-active { flex-grow: 2.1; }
+    .plat-mark { top: 16px; }
+  }
+
+  @keyframes plat-grain-drift {
+    0% { transform: translate(0, 0); } 12.5% { transform: translate(-2%, 3%); }
+    25% { transform: translate(3%, -2%); } 37.5% { transform: translate(-3%, -3%); }
+    50% { transform: translate(2%, 2%); } 62.5% { transform: translate(-2%, 1%); }
+    75% { transform: translate(3%, 3%); } 87.5% { transform: translate(-1%, -2%); }
+    100% { transform: translate(0, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plat-panel, .plat-panel__img, .plat-panel__label, .plat-panel__rule, .plat-panel__sub, .plat-panel__enter { transition: none !important; }
+    html.js .plat-panel { opacity: 1; transform: none; }
+    html.js .plat-mark { opacity: 1; transition: none; }
+    .im-grain::after { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="im-grain" aria-hidden="true"></div>
+<div class="im-vignette" aria-hidden="true"></div>
+
+<header class="plat-mark" id="plat-mark">
+  <h1 class="plat-mark__word">Impossible</h1>
+  <p class="plat-mark__sub">Est. 2026 · Las Vegas</p>
+</header>
+
+<main class="plat-triptych" id="plat-triptych" aria-label="Choose an Impossible experience">
+
+  <a class="plat-panel" href="/" aria-label="Impossible Moments — Concerts">
+    <img class="plat-panel__img" src="/assets/britney-snake.webp" alt="" aria-hidden="true" fetchpriority="high">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Concerts</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The past, made present.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+  <a class="plat-panel" href="/films" aria-label="Impossible Films">
+    <img class="plat-panel__img" src="/assets/films/sinatra-noir.jpg" alt="" aria-hidden="true" style="object-position:center 22%;">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Films</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The legends, returned to the screen.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+  <a class="plat-panel" href="/fights" aria-label="Impossible Fights">
+    <img class="plat-panel__img" src="/assets/fights/bout-ali-tyson.webp" alt="" aria-hidden="true" style="object-position:center 30%;">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Fights</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The arguments of a century, settled live.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+</main>
+
+<script>
+  (function () {
+    var triptych = document.getElementById('plat-triptych');
+    var panels = Array.prototype.slice.call(triptych.querySelectorAll('.plat-panel'));
+    var touchMode = window.matchMedia('(hover: none)').matches;
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+    function setActive(target) {
+      panels.forEach(function (p) { p.classList.toggle('is-active', p === target); });
+    }
+
+    panels.forEach(function (panel) {
+      panel.addEventListener('mouseenter', function () { if (!touchMode) setActive(panel); });
+      panel.addEventListener('focus', function () { setActive(panel); });
+      panel.addEventListener('click', function (e) {
+        if (touchMode && !panel.classList.contains('is-active')) {
+          e.preventDefault();
+          setActive(panel);
+        }
+      });
+    });
+    triptych.addEventListener('mouseleave', function () { if (!touchMode) setActive(null); });
+
+    /* Staggered intro */
+    var mark = document.getElementById('plat-mark');
+    if (reduce) {
+      panels.forEach(function (p) { p.classList.add('is-in'); });
+      mark.classList.add('is-in');
+    } else {
+      panels.forEach(function (p, i) {
+        setTimeout(function () { p.classList.add('is-in'); }, 140 + i * 150);
+      });
+      setTimeout(function () { mark.classList.add('is-in'); }, 220);
+    }
+  })();
+</script>
+
+</body>
+</html>
