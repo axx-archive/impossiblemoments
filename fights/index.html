@@ -18,9 +18,11 @@
      Impossible Fights — self-contained page styles.
      Effects / base tokens inlined from the IM design system so no
      runtime bundle is required. Class prefix: imfi-.
-     No video and no audio anywhere on this page.
+     Hero video + optional Rumble score; both gated behind the
+     password unlock.
      ============================================================ */
   :root {
+    --im-shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.65);
     --im-glow-gilt-sm: 0 0 14px rgba(191, 154, 74, 0.2), 0 0 36px rgba(191, 154, 74, 0.1);
     --im-neon-text: 0 0 6px var(--im-filament), 0 0 18px rgba(234, 217, 168, 0.6), 0 0 48px rgba(191, 154, 74, 0.45), 0 0 110px rgba(191, 154, 74, 0.22);
     --im-neon-text-soft: 0 0 4px rgba(234, 217, 168, 0.7), 0 0 16px rgba(191, 154, 74, 0.4), 0 0 44px rgba(191, 154, 74, 0.18);
@@ -149,6 +151,70 @@
     position: relative;
     padding: clamp(80px, 12vh, 160px) max(40px, 6vw);
     overflow: hidden;
+  }
+  .imfi-thesis-video {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.22) contrast(1.08) brightness(0.86);
+  }
+  .imfi-thesis-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(rgba(10,7,6,0.55), rgba(10,7,6,0.78));
+  }
+  .imfi-stats {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(28px, 6vw, 80px);
+    max-width: 1140px;
+    margin: 48px auto 0;
+    text-align: center;
+  }
+  .imfi-stat { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .imfi-stat__value {
+    font-family: var(--im-font-display);
+    font-weight: 500;
+    font-size: clamp(2.1rem, 3.6vw, 3rem);
+    line-height: 1;
+    color: var(--im-gilt-200);
+  }
+  .imfi-stat__label {
+    font-family: var(--im-font-sans);
+    font-weight: 500;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--im-ivory-600);
+  }
+  .imfi-glass {
+    position: relative;
+    z-index: 2;
+    max-width: 860px;
+    margin: 48px auto 0;
+    padding: clamp(28px, 4vw, 44px);
+    background: rgba(14, 12, 10, 0.55);
+    border: 1px solid var(--im-border-faint);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--im-shadow-lg);
+  }
+  .imfi-glass p {
+    font-family: var(--im-font-display);
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    line-height: 1.4;
+    color: var(--im-gilt-200);
+    margin: 0;
+    text-align: center;
   }
   .imfi-section-head {
     position: relative;
@@ -334,6 +400,137 @@
     margin: 0;
   }
 
+  /* ---- Revenue grid: seven compact model cards, rows of 4 + 3 ---- */
+  .imfi-grid--revenue { grid-template-columns: repeat(12, 1fr); max-width: 1140px; }
+  .imfi-grid--revenue .imfi-model-card { grid-column: span 3; padding: 2rem 1.7rem; }
+  .imfi-grid--revenue .imfi-model-card:nth-child(n+5) { grid-column: span 4; }
+  .imfi-grid--revenue .imfi-model-card__no { margin-bottom: 12px; }
+  .imfi-grid--revenue .imfi-model-card__title { margin-bottom: 10px; }
+  .imfi-grid--revenue .imfi-model-card__body { font-size: 0.98rem; line-height: 1.6; }
+  @media (max-width: 1000px) and (min-width: 641px) {
+    .imfi-grid--revenue .imfi-model-card,
+    .imfi-grid--revenue .imfi-model-card:nth-child(n+5) { grid-column: span 6; }
+    .imfi-grid--revenue .imfi-model-card:last-child { grid-column: span 12; }
+  }
+  @media (max-width: 640px) {
+    .imfi-grid--revenue .imfi-model-card,
+    .imfi-grid--revenue .imfi-model-card:nth-child(n+5),
+    .imfi-grid--revenue .imfi-model-card:last-child { grid-column: auto; }
+  }
+
+  /* ---- Launch-slate chip on the bill (same idiom as the MMA Rules qualifier) ---- */
+  .imfi-bout__qualifier--slate {
+    border-color: rgba(191, 154, 74, 0.45);
+    color: var(--im-gilt-300);
+  }
+
+  /* ---- The Launch Slate: full-width film-still frames ---- */
+  .imfi-slate-wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 1140px;
+    width: 100%;
+    margin: 56px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(36px, 5.4vw, 60px);
+  }
+  .imfi-still {
+    --_pad: clamp(12px, 2.4vw, 18px);
+    position: relative;
+    margin: 0;
+    padding: var(--_pad);
+    --im-mark-len: 22px;
+    --im-mark-color: var(--im-border-strong);
+  }
+  .imfi-still__media {
+    position: relative;
+    overflow: hidden;
+    background: var(--im-noir-850);
+    border: 1px solid var(--im-border-faint);
+    box-shadow: var(--im-shadow-lg);
+  }
+  .imfi-still__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    filter: brightness(0.94) saturate(1.02);
+  }
+  .imfi-still__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(6,6,6,0.14) 0%, transparent 26%, transparent 48%, rgba(6,6,6,0.82) 100%);
+  }
+  .imfi-still__credit {
+    position: absolute;
+    left: var(--_pad);
+    right: var(--_pad);
+    bottom: var(--_pad);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: clamp(18px, 3vw, 30px) clamp(18px, 3.4vw, 34px);
+    text-align: left;
+  }
+  .imfi-still__bout {
+    display: flex;
+    align-items: baseline;
+    column-gap: 16px;
+    row-gap: 4px;
+    flex-wrap: wrap;
+  }
+  .imfi-still__no {
+    font-family: var(--im-font-mono);
+    font-weight: 400;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--im-gilt-400);
+  }
+  .imfi-still__name {
+    font-family: var(--im-font-display);
+    font-weight: 600;
+    font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+    line-height: 1.14;
+    color: var(--im-gilt-200);
+    text-wrap: balance;
+    text-shadow: 0 1px 14px rgba(6,6,6,0.6);
+  }
+  .imfi-still__line {
+    font-family: var(--im-font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--im-ivory-200);
+    max-width: 620px;
+    margin: 0;
+    text-wrap: pretty;
+    text-shadow: 0 1px 12px rgba(6,6,6,0.65);
+  }
+  @media (min-width: 901px) {
+    .imfi-still__name {
+      font-weight: 650;
+      -webkit-text-stroke: 0.14px currentColor;
+      paint-order: stroke fill;
+    }
+  }
+  @media (max-width: 640px) {
+    .imfi-slate-wrap { margin-top: 44px; }
+    .imfi-still__credit { position: static; padding: 16px 2px 2px; }
+    .imfi-still__media::after {
+      background: linear-gradient(180deg, rgba(6,6,6,0.12) 0%, transparent 30%, transparent 72%, rgba(6,6,6,0.3) 100%);
+    }
+    .imfi-still__name { color: var(--im-gilt-300); text-shadow: none; }
+    .imfi-still__line { color: var(--im-ivory-400); text-shadow: none; }
+  }
+
   /* ---- Hero + closing full-bleeds ---- */
   .imfi-fullbleed {
     position: relative;
@@ -484,9 +681,12 @@
   /* ---- Section backgrounds ---- */
   #top { background: var(--im-noir-950); }
   #thesis { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), var(--im-noir-950); }
+  #format { background: var(--im-noir-900); }
   #card { background: var(--im-noir-950); }
+  #slate { background: var(--im-noir-900); }
+  #tko { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), var(--im-noir-950); }
   #authorization { background: var(--im-noir-900); }
-  #event { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), linear-gradient(180deg, var(--im-noir-850), var(--im-noir-900)); }
+  #model { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), linear-gradient(180deg, var(--im-noir-850), var(--im-noir-900)); }
   #closing { background: linear-gradient(180deg, var(--im-noir-900) 0%, var(--im-noir-950) 62%, var(--im-noir-950) 100%); }
 
   /* ---- Reveal on scroll (JS-gated so content is visible without JS) ---- */
@@ -505,6 +705,9 @@
   html.js [data-reveal-group].is-visible > *:nth-child(2) { transition-delay: 90ms; }
   html.js [data-reveal-group].is-visible > *:nth-child(3) { transition-delay: 180ms; }
   html.js [data-reveal-group].is-visible > *:nth-child(4) { transition-delay: 270ms; }
+  html.js [data-reveal-group].is-visible > *:nth-child(5) { transition-delay: 360ms; }
+  html.js [data-reveal-group].is-visible > *:nth-child(6) { transition-delay: 450ms; }
+  html.js [data-reveal-group].is-visible > *:nth-child(7) { transition-delay: 540ms; }
 
   /* ---- Hero reveal stagger ---- */
   @keyframes imHeroRise {
@@ -552,6 +755,7 @@
   /* ---- Responsive ---- */
   @media (max-width: 640px) {
     .imfi-section { padding: clamp(72px, 11vh, 120px) 22px; }
+    .imfi-hero-markers { flex-direction: column; gap: 10px; bottom: 68px; }
     .imfi-grid { grid-template-columns: 1fr; gap: 14px; background: transparent; }
     .imfi-model-card { padding: 2.2rem 1.6rem; }
     .imfi-bill-wrap { margin-top: 44px; }
@@ -576,7 +780,7 @@
   <form class="imsg-inner" id="imsg-form" autocomplete="off">
     <div class="imsg-mark">Private Preview</div>
     <h1 class="imsg-logo"><span class="imsg-logo-1">Impossible</span><span class="imsg-logo-2">Fights</span></h1>
-    <p class="imsg-sub">The arguments of a century, settled.</p>
+    <p class="imsg-sub">The arguments of a century, settled live.</p>
     <div class="imsg-password-row" id="imsg-password-row">
       <input id="imsg-input" class="imsg-input" type="password" placeholder="Enter password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Password">
       <button class="imsg-toggle" id="imsg-toggle" type="button" aria-label="Show password" aria-controls="imsg-input" aria-pressed="false">Show</button>
@@ -754,32 +958,57 @@
       <span class="im-neon imfi-wordmark__1">Impossible</span>
       <span class="im-lumen imfi-wordmark__2">Fights</span>
     </h1>
-    <p class="imfi-tagline" data-hero-reveal="1" style="--hero-delay:240ms;">The arguments of a century, settled.</p>
+    <p class="imfi-tagline" data-hero-reveal="1" style="--hero-delay:240ms;">The arguments of a century, settled live.</p>
   </div>
 
   <div class="imfi-hero-markers" data-hero-reveal="1" style="--hero-delay:660ms;">
     <span class="im-marker im-marker--sm"><span class="im-marker__dot" aria-hidden="true"></span><span class="im-marker__text">An Impossible Moments Company</span></span>
+    <span class="im-marker im-marker--sm"><span class="im-marker__dot" aria-hidden="true"></span><span class="im-marker__text">A Live Avatar Spectacle</span></span>
     <span class="im-marker im-marker--sm"><span class="im-marker__dot" aria-hidden="true"></span><span class="im-marker__text">Est. 2026</span></span>
   </div>
 </section>
 
 <!-- ============ 02 · THE THESIS ============ -->
 <section id="thesis" class="imfi-section">
+  <video class="imfi-thesis-video" autoplay muted loop playsinline preload="metadata" poster="/assets/posters/abba-voyage-stage-still.jpg" aria-hidden="true"><source src="/Downloads/abba-voyage-bg-compressed.mp4" type="video/mp4"></video>
+  <div class="imfi-thesis-overlay" aria-hidden="true"></div>
   <div class="imfi-section-head" data-reveal="1">
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 002</span><span class="im-marker__text">The Thesis</span></span>
-    <h2 class="imfi-h2" style="max-width:900px;">The greatest fights in history never happened.</h2>
-    <p class="imfi-deck" style="max-width:820px;">Every bar, every gym, every comment section. The same arguments, never settled.</p>
+    <h2 class="imfi-h2" style="max-width:780px;">The proof is already on stage.</h2>
   </div>
   <div data-reveal="1" style="position:relative; z-index:2;">
-    <p class="imfi-body">Who wins is the oldest question in sports. Across eras, across weight classes, across disciplines. The arguments were unanswerable for one reason: time lets each fighter exist once. One era. One body. One sport. Then the window closes.</p>
-    <p class="imfi-body">Likeness rights collapse that constraint. Every fighter, in their prime, available to be matched. The argument stops being an argument. It becomes a booking.</p>
+    <p class="imfi-body">In East London, a purpose-built arena has sold out for years. Four legends appear onstage in their prime, as avatars, performing live night after night. The audience knows exactly what it is watching. It buys tickets anyway. Then it comes back.</p>
+  </div>
+  <div class="imfi-stats" data-reveal="1">
+    <div class="imfi-stat"><span class="imfi-stat__value">$500M+</span><span class="imfi-stat__label">Total revenue since 2022</span></div>
+    <div class="imfi-stat"><span class="imfi-stat__value">$175M</span><span class="imfi-stat__label">Initial build investment</span></div>
+    <div class="imfi-stat"><span class="imfi-stat__value">$135M</span><span class="imfi-stat__label">Annual revenue</span></div>
+  </div>
+  <div class="imfi-glass" data-reveal="1">
+    <p>ABBA Voyage proved people will buy tickets to see legends return as avatars. Impossible Fights does that for combat sports.</p>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; margin-top:48px;">
+    <p class="imfi-body">And combat holds something music never had. Every gym, every bar, every comment section already argues these matchups &mdash; who wins, prime against prime, era against era. ABBA answered a longing. A fight settles a bet. This audience has been warming up for a hundred years.</p>
   </div>
 </section>
 
-<!-- ============ 03 · THE CARD ============ -->
+<!-- ============ 03 · THE FORMAT ============ -->
+<section id="format" class="imfi-section">
+  <div class="imfi-section-head" data-reveal="1">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 003</span><span class="im-marker__text">The Format</span></span>
+    <h2 class="imfi-h2" style="max-width:780px;">An arena event. Not a film.</h2>
+    <p class="imfi-deck" style="max-width:820px;">No one in the building knows how it ends.</p>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2;">
+    <p class="imfi-body">Impossible Fights is a new live-event format. Two fighters, restored to their primes, meet in front of a full arena &mdash; the walkouts, the corners, the announcer, the bell. The crowd is real. The night is real. The fight is impossible.</p>
+    <p class="imfi-body">Dozens of endings are filmed for every bout. The knockout in the second. The war that goes the distance. The comeback off the canvas. On fight night one of them happens, and nobody in the building knows which &mdash; not the crowd, not the crew, not the arena staff. A film has an ending. A fight has a result.</p>
+  </div>
+</section>
+
+<!-- ============ 04 · THE CARD ============ -->
 <section id="card" class="imfi-section">
   <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 003</span><span class="im-marker__text">The Card</span></span>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Card</span></span>
     <h2 class="imfi-h2">Ten bouts. A century of argument.</h2>
     <p class="imfi-deck" style="max-width:820px;">Every fighter in their prime. Every bout impossible until now.</p>
   </div>
@@ -795,6 +1024,7 @@
             <span class="imfi-bout__vs">vs</span>
             <span class="imfi-bout__name">Mike Tyson</span>
           </h3>
+          <div class="imfi-bout__qualifier imfi-bout__qualifier--slate">Launch Slate</div>
           <p class="imfi-bout__flavor">Speed and angles against peak violence. The argument every other argument descends from.</p>
         </article>
 
@@ -805,6 +1035,7 @@
             <span class="imfi-bout__vs">vs</span>
             <span class="imfi-bout__name">Jon Jones</span>
           </h3>
+          <div class="imfi-bout__qualifier imfi-bout__qualifier--slate">Launch Slate</div>
           <p class="imfi-bout__flavor">Freak-show strength against the greatest to ever do it.</p>
         </article>
 
@@ -815,6 +1046,7 @@
             <span class="imfi-bout__vs">vs</span>
             <span class="imfi-bout__name">Shaquille O&rsquo;Neal</span>
           </h3>
+          <div class="imfi-bout__qualifier imfi-bout__qualifier--slate">Launch Slate</div>
           <p class="imfi-bout__flavor">The two biggest attractions who ever lived, in any era you choose.</p>
         </article>
 
@@ -894,39 +1126,122 @@
   </div>
 </section>
 
-<!-- ============ 04 · THE AUTHORIZATION ============ -->
-<section id="authorization" class="imfi-section">
+<!-- ============ 05 · THE LAUNCH SLATE ============ -->
+<section id="slate" class="imfi-section">
   <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Authorization</span></span>
-    <h2 class="imfi-h2">Every name, authorized.</h2>
-    <p class="imfi-deck" style="max-width:820px;">The living license directly. The departed, through their estates.</p>
-    <p class="imfi-body" style="max-width:720px;">No fighter enters this ring without an agreement in place. The decision belongs to the athlete, or to the family that carries the name. Asked once. Honored always.</p>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 005</span><span class="im-marker__text">The Launch Slate</span></span>
+    <h2 class="imfi-h2">The first three fight nights.</h2>
+    <p class="imfi-deck" style="max-width:820px;">Bouts one, two, and three, produced as full arena events.</p>
+  </div>
+
+  <div class="imfi-slate-wrap">
+
+    <figure class="im-frame imfi-still" data-reveal="1">
+      <div class="imfi-still__media">
+        <img class="imfi-still__img" src="/assets/fights/bout-ali-tyson.webp" width="1344" height="896" loading="lazy" decoding="async" alt="Muhammad Ali and Mike Tyson nose to nose at the ropes of a boxing ring, pyrotechnics climbing over a packed arena.">
+      </div>
+      <figcaption class="imfi-still__credit">
+        <span class="imfi-still__bout"><span class="imfi-still__no">Bout 01</span><span class="imfi-still__name">Muhammad Ali vs Mike Tyson</span></span>
+        <p class="imfi-still__line">Nose to nose at the ropes while the pyro climbs. The oldest question in sports, finally on a ticket.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="im-frame imfi-still" data-reveal="1">
+      <div class="imfi-still__media">
+        <img class="imfi-still__img" src="/assets/fights/bout-lesnar-jones.webp" width="1344" height="896" loading="lazy" decoding="async" alt="Brock Lesnar and Jon Jones in silhouette above the octagon, a wall of pyrotechnic fire rising behind them.">
+      </div>
+      <figcaption class="imfi-still__credit">
+        <span class="imfi-still__bout"><span class="imfi-still__no">Bout 02</span><span class="imfi-still__name">Brock Lesnar vs Jon Jones</span></span>
+        <p class="imfi-still__line">Two silhouettes over the octagon, a wall of fire behind them. The heavyweight problem no era could book.</p>
+      </figcaption>
+    </figure>
+
+    <figure class="im-frame imfi-still" data-reveal="1">
+      <div class="imfi-still__media">
+        <img class="imfi-still__img" src="/assets/fights/bout-andre-shaq.webp" width="1344" height="896" loading="lazy" decoding="async" alt="Andre the Giant and Shaquille O&rsquo;Neal face to face in the ring, two giants towering over the canvas as pyro erupts around them.">
+      </div>
+      <figcaption class="imfi-still__credit">
+        <span class="imfi-still__bout"><span class="imfi-still__no">Bout 03</span><span class="imfi-still__name">Andre the Giant vs Shaquille O&rsquo;Neal</span></span>
+        <p class="imfi-still__line">Two giants, face to face, close enough to touch. The night the biggest men who ever lived make an arena feel small.</p>
+      </figcaption>
+    </figure>
+
+  </div>
+
+  <div data-reveal="1" style="position:relative; z-index:2;">
+    <p class="imfi-body" style="margin-top:44px;">Each night carries its own undercard, its own broadcast, and its own set of endings no one has seen.</p>
   </div>
 </section>
 
-<!-- ============ 05 · THE EVENT ============ -->
-<section id="event" class="imfi-section">
+<!-- ============ 06 · THE HOME ============ -->
+<section id="tko" class="imfi-section">
   <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 005</span><span class="im-marker__text">The Event</span></span>
-    <h2 class="imfi-h2">Each bout is a produced event.</h2>
-    <p class="imfi-deck">Film craft. Fight science. Fight night.</p>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Home</span></span>
+    <h2 class="imfi-h2" style="max-width:940px;">Every generation has argued about fights that could never happen.</h2>
+    <p class="imfi-deck" style="max-width:820px;">TKO can finally sell tickets to them.</p>
   </div>
-  <div class="imfi-grid imfi-grid--model" data-reveal-group="1">
+  <div data-reveal="1" style="position:relative; z-index:2;">
+    <p class="imfi-body">TKO put UFC and WWE under one roof. Most of this card built its legend inside that world &mdash; the champions, the giants, the loudest men of their eras. The promotions, the fighters, the arenas, the broadcast machine: one company already owns the supply chain of fight night.</p>
+    <p class="imfi-body">Impossible Fights was built for that home. One partner. One rights ecosystem. A century of arguments the company is uniquely positioned to settle.</p>
+  </div>
+</section>
+
+<!-- ============ 07 · THE AUTHORIZATION ============ -->
+<section id="authorization" class="imfi-section">
+  <div class="imfi-section-head" data-reveal="1">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 007</span><span class="im-marker__text">The Authorization</span></span>
+    <h2 class="imfi-h2">Every name, authorized.</h2>
+    <p class="imfi-deck" style="max-width:820px;">The living license directly. The departed, through their estates.</p>
+    <p class="imfi-body" style="max-width:720px;">No fighter enters this ring without an agreement in place. Fully licensed estates for the departed. Talent participation for the living &mdash; every fighter, every family, a partner in the night that carries the name. Asked once. Honored always.</p>
+  </div>
+</section>
+
+<!-- ============ 08 · THE MODEL ============ -->
+<section id="model" class="imfi-section">
+  <div class="imfi-section-head" data-reveal="1">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 008</span><span class="im-marker__text">The Model</span></span>
+    <h2 class="imfi-h2">Every fight night pays seven ways.</h2>
+    <p class="imfi-deck" style="max-width:820px;">Fight-night economics on the Voyage engine.</p>
+  </div>
+  <div class="imfi-grid imfi-grid--model imfi-grid--revenue" data-reveal-group="1">
     <div class="imfi-model-card">
       <div class="imfi-model-card__no">No. 01</div>
-      <div class="imfi-model-card__title">The Film</div>
-      <p class="imfi-model-card__body">Feature craft, frame by frame. Two fighters in their primes, rendered to the pore.</p>
+      <div class="imfi-model-card__title">Tickets</div>
+      <p class="imfi-model-card__body">An arena of seats sold on an argument no screen can settle.</p>
     </div>
     <div class="imfi-model-card">
       <div class="imfi-model-card__no">No. 02</div>
-      <div class="imfi-model-card__title">The Simulation</div>
-      <p class="imfi-model-card__body">The outcome is computed, not scripted. The deepest fight model ever built decides the rounds.</p>
+      <div class="imfi-model-card__title">VIP</div>
+      <p class="imfi-model-card__body">Ringside, suites, the floor before the first bell. The closest seats to a fight no one alive has seen.</p>
     </div>
     <div class="imfi-model-card">
       <div class="imfi-model-card__no">No. 03</div>
-      <div class="imfi-model-card__title">The Spectacle</div>
-      <p class="imfi-model-card__body">The walkouts. The corners. The call. A broadcast built around a bout the century demanded.</p>
+      <div class="imfi-model-card__title">Sponsorship</div>
+      <p class="imfi-model-card__body">The canvas, the corners, the card, the broadcast. Full fight-night inventory, brand-safe by design.</p>
     </div>
+    <div class="imfi-model-card">
+      <div class="imfi-model-card__no">No. 04</div>
+      <div class="imfi-model-card__title">Merchandise</div>
+      <p class="imfi-model-card__body">Walkout merch for both corners. Fight posters for bouts history never printed.</p>
+    </div>
+    <div class="imfi-model-card">
+      <div class="imfi-model-card__no">No. 05</div>
+      <div class="imfi-model-card__title">Media</div>
+      <p class="imfi-model-card__body">Broadcast, documentary, and archive rights to fights a century asked for.</p>
+    </div>
+    <div class="imfi-model-card">
+      <div class="imfi-model-card__no">No. 06</div>
+      <div class="imfi-model-card__title">Touring &amp; Residency</div>
+      <p class="imfi-model-card__body">A permanent room where fight fans travel. A touring production where they don&rsquo;t. The format does both.</p>
+    </div>
+    <div class="imfi-model-card">
+      <div class="imfi-model-card__no">No. 07</div>
+      <div class="imfi-model-card__title">Collectibles</div>
+      <p class="imfi-model-card__body">The gloves, the trunks, the poster &mdash; numbered to the night and to the ending that played.</p>
+    </div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2;">
+    <p class="imfi-body" style="margin-top:48px;">The first room opens in one of four cities: Las Vegas, London, Riyadh, or New York. Each already stages the biggest nights in combat sports. The choice is being made now, and the format is built to travel to the other three.</p>
   </div>
 </section>
 
@@ -948,7 +1263,7 @@
     <span class="imfi-footer-logo__1">Impossible</span>
     <span class="imfi-footer-logo__2">Fights</span>
   </span>
-  <p class="imfi-footer-tagline">The arguments of a century, settled.</p>
+  <p class="imfi-footer-tagline">The arguments of a century, settled live.</p>
   <div class="imfi-footer-divider" aria-hidden="true"></div>
   <div class="imfi-footer-meta">
     <span>An Impossible Moments Company</span>
