@@ -113,27 +113,6 @@
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.97);
   }
-  .plat-thesis__orn {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .plat-thesis__orn::before,
-  .plat-thesis__orn::after {
-    content: '';
-    height: 1px;
-    width: clamp(44px, 9vw, 130px);
-  }
-  .plat-thesis__orn::before { background: linear-gradient(90deg, transparent, rgba(203,167,94,0.85)); }
-  .plat-thesis__orn::after { background: linear-gradient(90deg, rgba(203,167,94,0.85), transparent); }
-  .plat-thesis__gem {
-    width: 6px;
-    height: 6px;
-    transform: rotate(45deg);
-    background: var(--im-gilt-400);
-    box-shadow: 0 0 10px rgba(203,167,94,0.9), 0 0 26px rgba(191,154,74,0.5);
-    animation: plat-gem 5s ease-in-out infinite;
-  }
   .plat-thesis__line {
     font-family: var(--im-font-display);
     font-style: italic;
@@ -174,18 +153,10 @@
     transform: translateY(0);
     filter: blur(0);
   }
-  html.js .plat-thesis__orn { opacity: 0; transition: opacity 1s var(--plat-ease); }
-  html.js .plat-thesis__orn--top { transition-delay: 0.55s; }
-  html.js .plat-thesis__orn--btm { transition-delay: 1.7s; }
-  html.js .plat-thesis.is-in .plat-thesis__orn { opacity: 1; }
 
   @keyframes plat-breathe {
     0%, 100% { text-shadow: 0 0 5px rgba(255,251,242,0.5), 0 0 20px rgba(234,217,168,0.5), 0 0 52px rgba(191,154,74,0.35), 0 1px 4px rgba(6,6,6,0.9); }
     50% { text-shadow: 0 0 7px rgba(255,251,242,0.85), 0 0 30px rgba(234,217,168,0.75), 0 0 80px rgba(191,154,74,0.55), 0 1px 4px rgba(6,6,6,0.9); }
-  }
-  @keyframes plat-gem {
-    0%, 100% { box-shadow: 0 0 10px rgba(203,167,94,0.9), 0 0 26px rgba(191,154,74,0.5); }
-    50% { box-shadow: 0 0 16px rgba(234,217,168,1), 0 0 44px rgba(191,154,74,0.8); }
   }
 
   /* ---- Triptych ---- */
@@ -340,8 +311,7 @@
     html.js .plat-panel { opacity: 1; transform: none; }
     html.js .plat-mark { opacity: 1; transition: none; }
     html.js .plat-thesis__line .w { opacity: 1; transform: none; filter: none; transition: none; }
-    html.js .plat-thesis__orn { opacity: 1; transition: none; }
-    .plat-thesis__hl, .plat-thesis__gem { animation: none !important; }
+    .plat-thesis__hl { animation: none !important; }
     .im-grain::after { animation: none !important; }
   }
 </style>
@@ -357,11 +327,9 @@
 </header>
 
 <div class="plat-thesis" id="plat-thesis">
-  <span class="plat-thesis__orn plat-thesis__orn--top" aria-hidden="true"><span class="plat-thesis__gem"></span></span>
   <p class="plat-thesis__line">
     <span class="w" style="--d:0.75s">We </span><span class="w" style="--d:0.89s">bring </span><span class="w plat-thesis__hl" style="--d:1.05s">icons</span><span class="w" style="--d:1.05s"> </span><span class="w" style="--d:1.21s">back.</span>
   </p>
-  <span class="plat-thesis__orn plat-thesis__orn--btm" aria-hidden="true"><span class="plat-thesis__gem"></span></span>
 </div>
 
 <main class="plat-triptych" id="plat-triptych" aria-label="Choose an Impossible experience">
