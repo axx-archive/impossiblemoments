@@ -111,35 +111,6 @@
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.97);
   }
-  .plat-thesis__line {
-    font-family: var(--im-font-display);
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(2rem, 3.6vw, 3.2rem);
-    line-height: 1.35;
-    color: var(--im-ivory-100);
-    text-shadow: 0 1px 4px rgba(6,6,6,0.9), 0 2px 30px rgba(6,6,6,0.8);
-    text-wrap: balance;
-    margin: 0;
-    white-space: nowrap;
-  }
-  @media (max-width: 480px) {
-    .plat-thesis__line { white-space: normal; }
-  }
-  .plat-thesis__hl {
-    font-weight: 500;
-    color: var(--im-gilt-200);
-    text-shadow: 0 0 5px rgba(255,251,242,0.5), 0 0 20px rgba(234,217,168,0.5), 0 0 52px rgba(191,154,74,0.35), 0 1px 4px rgba(6,6,6,0.9);
-    animation: plat-breathe 6s ease-in-out infinite;
-  }
-  .plat-thesis__hl--2 { animation-delay: 2s; }
-  .plat-thesis__hl--3 { animation-delay: 4s; }
-
-
-  @keyframes plat-breathe {
-    0%, 100% { text-shadow: 0 0 5px rgba(255,251,242,0.5), 0 0 20px rgba(234,217,168,0.5), 0 0 52px rgba(191,154,74,0.35), 0 1px 4px rgba(6,6,6,0.9); }
-    50% { text-shadow: 0 0 7px rgba(255,251,242,0.85), 0 0 30px rgba(234,217,168,0.75), 0 0 80px rgba(191,154,74,0.55), 0 1px 4px rgba(6,6,6,0.9); }
-  }
 
   /* ---- Triptych ---- */
   .plat-triptych {
@@ -262,17 +233,32 @@
   /* ---- Closing thesis: lives inside the bottom triptych ---- */
   .plat-triptych--closing { position: relative; }
   .plat-thesis--closing { position: absolute; }
-  .plat-thesis__unlit {
-    color: rgba(231, 223, 210, 0.14);
-    text-shadow: none;
-    animation: plat-unlit-flicker 11s linear infinite;
+  .plat-logo-close {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
   }
-  @keyframes plat-unlit-flicker {
-    0%, 90%, 100% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
-    91% { color: var(--im-gilt-200); text-shadow: 0 0 6px rgba(255,251,242,0.5), 0 0 20px rgba(234,217,168,0.45); }
-    92%, 93.5% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
-    94% { color: rgba(234, 217, 168, 0.5); text-shadow: 0 0 10px rgba(234,217,168,0.28); }
-    95% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
+  .plat-logo-close__1 {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    color: var(--im-filament);
+    text-shadow: var(--im-neon-text);
+  }
+  .plat-logo-close__2 {
+    font-family: var(--im-font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.6rem, 4vw, 3.4rem);
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+    color: var(--im-lumen-100, #EAF1F8);
+    text-shadow: var(--im-lumen-text);
   }
 
   /* ---- Category venn: Pophouse x Sphere, us in the overlap ---- */
@@ -639,8 +625,6 @@
     .plat-panel, .plat-panel__img, .plat-panel__label, .plat-panel__rule, .plat-panel__sub { transition: none !important; }
     html.js .plat-panel { opacity: 1; transform: none; }
     html.js .plat-mark { opacity: 1; transition: none; }
-    .plat-thesis__hl { animation: none !important; }
-    .plat-thesis__unlit { animation: none !important; }
     .im-grain::after { animation: none !important; }
     html.js [data-reveal],
     html.js [data-reveal-group] > * { opacity: 1; transform: none; transition: none; }
@@ -838,7 +822,10 @@
 <section class="plat-triptych plat-triptych--closing" aria-label="Choose an Impossible experience">
 
   <div class="plat-thesis plat-thesis--closing">
-    <p class="plat-thesis__line">See what&rsquo;s <span class="plat-thesis__hl"><span class="plat-thesis__unlit">I</span>mpossible</span></p>
+    <p class="plat-logo-close">
+      <span class="plat-logo-close__1">Impossible</span>
+      <span class="plat-logo-close__2">Moments</span>
+    </p>
   </div>
 
   <a class="plat-panel" href="/" aria-label="Impossible Moments — Concerts">
