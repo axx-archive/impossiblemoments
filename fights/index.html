@@ -299,7 +299,7 @@
     text-wrap: pretty;
   }
   @media (min-width: 901px) {
-    .imfi-h2, .imfi-close-line, .imfi-bout__name {
+    .imfi-h2, .imfi-bout__name {
       font-weight: 650;
       -webkit-text-stroke: 0.14px currentColor;
       paint-order: stroke fill;
@@ -556,12 +556,6 @@
     z-index: 1;
     background: radial-gradient(ellipse 72% 72% at 50% 46%, transparent 0%, rgba(10,9,8,0.35) 66%, rgba(6,6,6,0.7) 100%);
   }
-  .imfi-overlay-closing {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: radial-gradient(ellipse 86% 82% at 50% 46%, transparent 0%, rgba(10,7,6,0.4) 55%, rgba(8,6,5,0.78) 100%);
-  }
   .imfi-corner-frame { position: absolute; z-index: 2; inset: 26px; --im-mark-len: 22px; --im-mark-color: var(--im-border-strong); pointer-events: none; }
 
   .imfi-hero-stack { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; }
@@ -607,26 +601,6 @@
     padding: 0 24px;
   }
 
-  .imfi-close-line {
-    font-family: var(--im-font-display);
-    font-weight: 400;
-    font-size: clamp(2.1rem, 5.2vw, 5rem);
-    line-height: 1.04;
-    color: var(--im-ivory-100);
-    margin: 0 0 clamp(36px, 5vw, 56px);
-    text-align: center;
-    text-wrap: balance;
-  }
-  .imfi-close-line em { color: var(--im-gilt-300); font-style: italic; }
-  .imfi-close-marker { margin-bottom: clamp(22px, 3.4vw, 32px); }
-
-  /* ---- Footer ---- */
-  /* ---- Reveal on scroll (JS-gated so content is visible without JS) ---- */
-  html.js [data-reveal] {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity var(--im-dur-slow) var(--im-ease), transform var(--im-dur-slow) var(--im-ease);
-  }
   html.js [data-reveal].is-visible { opacity: 1; transform: none; }
   html.js [data-reveal-group] > * {
     opacity: 0;
@@ -1371,6 +1345,8 @@
 
 <!-- ============ 04 · THE MODEL ============ -->
 <section id="model" class="imfi-section">
+  <img class="imfi-section-bg" src="/assets/fights/bg-model.webp" width="1920" height="1280" loading="lazy" decoding="async" alt="" aria-hidden="true" style="filter:brightness(0.5) saturate(0.9);">
+  <div class="imfi-section-bg-overlay" aria-hidden="true" style="background:radial-gradient(ellipse 80% 75% at 50% 45%, rgba(10,7,6,0.62), rgba(10,7,6,0.9));"></div>
   <div class="imfi-section-head" data-reveal="1">
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Model</span></span>
     <h2 class="imfi-h2">Every fight night pays seven ways.</h2>
@@ -1433,6 +1409,8 @@
 
 <!-- ============ 06 · THE RAISE ============ -->
 <section id="raise" class="imfi-section">
+  <img class="imfi-section-bg" src="/assets/fights/bg-tko.webp" width="1344" height="896" loading="lazy" decoding="async" alt="" aria-hidden="true" style="filter:brightness(0.55) saturate(0.95); object-position:center 30%;">
+  <div class="imfi-section-bg-overlay" aria-hidden="true" style="background:linear-gradient(180deg, rgba(10,7,6,0.82) 0%, rgba(10,7,6,0.68) 46%, rgba(10,7,6,0.9) 100%);"></div>
   <div class="imfi-section-head" data-reveal="1">
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Raise</span></span>
     <h2 class="imfi-h2" style="max-width:900px;">One platform on top. Hard assets underneath.</h2>
@@ -1475,18 +1453,6 @@
   </div>
 </section>
 
-<!-- ============ CLOSING ============ -->
-<section id="closing" class="imfi-fullbleed">
-  <div class="imfi-overlay-spot" aria-hidden="true"></div>
-  <div class="imfi-overlay-closing" aria-hidden="true"></div>
-  <div class="im-frame imfi-corner-frame" aria-hidden="true"></div>
-  <div style="position:relative; z-index:3; padding:0 24px; display:flex; flex-direction:column; align-items:center;">
-    <span class="im-marker im-marker--sm imfi-close-marker"><span class="im-marker__dot" aria-hidden="true"></span><span class="im-marker__text">The Bell</span></span>
-    <p class="imfi-close-line">The fights that could never happen.<br><em>And then the bell rings.</em></p>
-    <div><a class="im-btn im-btn--primary im-btn--lg" href="mailto:fights@impossiblemoments.com">Contact Impossible Fights</a></div>
-  </div>
-</section>
-
 <!-- ============ THE TRIPTYCH ============ -->
 <section class="plat-triptych" aria-label="Choose an Impossible experience">
 
@@ -1497,7 +1463,6 @@
       <span class="plat-panel__label">Concerts</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The past, made present.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -1508,7 +1473,6 @@
       <span class="plat-panel__label">Films</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The legends, returned to the screen.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -1519,7 +1483,6 @@
       <span class="plat-panel__label">Fights</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The arguments of a century, settled live.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 

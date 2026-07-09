@@ -42,6 +42,7 @@ const MODE = {
   name: 'desktop',
   width: 1440,
   height: 810,
+  pixelRatio: 2,
   output: 'impossible-fights-desktop.pdf',
 };
 
@@ -285,7 +286,7 @@ function buildSlidePdf({ mode, images, sectionLinks }) {
   for (let i = 0; i < images.length; i++) {
     const image = images[i];
     const imageId = addObject(Buffer.concat([
-      Buffer.from(`<< /Type /XObject /Subtype /Image /Width ${mode.width} /Height ${mode.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${image.length} >>\nstream\n`),
+      Buffer.from(`<< /Type /XObject /Subtype /Image /Width ${mode.width * (mode.pixelRatio || 1)} /Height ${mode.height * (mode.pixelRatio || 1)} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${image.length} >>\nstream\n`),
       image,
       Buffer.from('\nendstream'),
     ]));
@@ -373,7 +374,7 @@ async function captureSlideImages(page, selector, quality) {
       quality,
       animations: 'disabled',
       caret: 'hide',
-      scale: 'css',
+      scale: 'device',
     }));
   }
   return images;
@@ -390,7 +391,7 @@ async function main() {
     browser = await chromium.launch(launchOptions);
     const page = await browser.newPage({
       viewport: { width: MODE.width, height: MODE.height },
-      deviceScaleFactor: 1,
+      deviceScaleFactor: MODE.pixelRatio || 1,
     });
     await preparePage(page, MODE, origin);
     const sectionLinks = await collectSectionLinks(page, SLIDE_SELECTOR);

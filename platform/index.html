@@ -87,15 +87,6 @@
     margin: 0;
     white-space: nowrap;
   }
-  .plat-mark__sub {
-    font-family: var(--im-font-sans);
-    font-weight: 500;
-    font-size: 0.6rem;
-    letter-spacing: 0.32em;
-    text-transform: uppercase;
-    color: var(--im-ivory-400);
-    margin: 0;
-  }
 
   /* ---- Center thesis: marquee plate ---- */
   .plat-thesis {
@@ -135,10 +126,6 @@
   @media (max-width: 480px) {
     .plat-thesis__line { white-space: normal; }
   }
-  .plat-thesis__line .w {
-    display: inline-block;
-    white-space: pre;
-  }
   .plat-thesis__hl {
     font-weight: 500;
     color: var(--im-gilt-200);
@@ -148,18 +135,6 @@
   .plat-thesis__hl--2 { animation-delay: 2s; }
   .plat-thesis__hl--3 { animation-delay: 4s; }
 
-  /* Word-by-word blur-up reveal */
-  html.js .plat-thesis__line .w {
-    opacity: 0;
-    transform: translateY(16px);
-    filter: blur(7px);
-    transition: opacity 0.7s var(--plat-ease) var(--d, 0s), transform 0.7s var(--plat-ease) var(--d, 0s), filter 0.7s var(--plat-ease) var(--d, 0s);
-  }
-  html.js .plat-thesis.is-in .plat-thesis__line .w {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
 
   @keyframes plat-breathe {
     0%, 100% { text-shadow: 0 0 5px rgba(255,251,242,0.5), 0 0 20px rgba(234,217,168,0.5), 0 0 52px rgba(191,154,74,0.35), 0 1px 4px rgba(6,6,6,0.9); }
@@ -250,34 +225,16 @@
     transform: translateY(10px);
     transition: opacity 0.7s var(--plat-ease), transform 0.7s var(--plat-ease);
   }
-  .plat-panel__enter {
-    font-family: var(--im-font-sans);
-    font-weight: 600;
-    font-size: 0.6rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--im-gilt-400);
-    border: 1px solid rgba(191, 154, 74, 0.5);
-    padding: 9px 18px;
-    margin-top: 6px;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.7s var(--plat-ease) 0.08s, transform 0.7s var(--plat-ease) 0.08s, background 0.35s ease, color 0.35s ease;
-  }
-
   /* ---- Active state (JS-driven; :hover/:focus-visible as fallback) ---- */
   .plat-panel.is-active { flex-grow: 2.3; }
   .plat-panel.is-active .plat-panel__img { filter: brightness(0.78) saturate(1.05); transform: scale(1.07); }
   .plat-panel.is-active .plat-panel__shade { opacity: 0.85; }
   .plat-panel.is-active .plat-panel__label { letter-spacing: 0.22em; color: var(--im-gilt-100); text-shadow: 0 0 6px rgba(255,251,242,0.55), 0 0 26px rgba(234,217,168,0.4), 0 2px 24px rgba(0,0,0,0.65); }
   .plat-panel.is-active .plat-panel__rule { width: 72px; opacity: 1; }
-  .plat-panel.is-active .plat-panel__sub,
-  .plat-panel.is-active .plat-panel__enter { opacity: 1; transform: translateY(0); }
-  .plat-panel.is-active .plat-panel__enter:hover { background: var(--im-gilt-500); color: #0A0908; }
+  .plat-panel.is-active .plat-panel__sub { opacity: 1; transform: translateY(0); }
 
   html:not(.js) .plat-panel:hover { flex-grow: 2.3; }
-  html:not(.js) .plat-panel:hover .plat-panel__sub,
-  html:not(.js) .plat-panel:hover .plat-panel__enter { opacity: 1; transform: translateY(0); }
+  html:not(.js) .plat-panel:hover .plat-panel__sub { opacity: 1; transform: translateY(0); }
   .plat-panel:focus-visible { box-shadow: inset 0 0 0 2px rgba(203, 167, 94, 0.8); }
 
   /* ---- Intro reveal ---- */
@@ -295,12 +252,114 @@
 
   /* ---- Scroll-linked hiding of the fixed hero chrome ---- */
   html.js body.plat-scrolled .plat-mark,
-  html.js body.plat-scrolled .plat-thesis,
-  body.plat-scrolled .plat-mark,
-  body.plat-scrolled .plat-thesis {
+  body.plat-scrolled .plat-mark {
     opacity: 0 !important;
     pointer-events: none;
     transition-delay: 0s;
+  }
+
+
+  /* ---- Closing thesis: lives inside the bottom triptych ---- */
+  .plat-triptych--closing { position: relative; }
+  .plat-thesis--closing { position: absolute; }
+  .plat-thesis__unlit {
+    color: rgba(231, 223, 210, 0.14);
+    text-shadow: none;
+    animation: plat-unlit-flicker 11s linear infinite;
+  }
+  @keyframes plat-unlit-flicker {
+    0%, 90%, 100% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
+    91% { color: var(--im-gilt-200); text-shadow: 0 0 6px rgba(255,251,242,0.5), 0 0 20px rgba(234,217,168,0.45); }
+    92%, 93.5% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
+    94% { color: rgba(234, 217, 168, 0.5); text-shadow: 0 0 10px rgba(234,217,168,0.28); }
+    95% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
+  }
+
+  /* ---- Category venn: Sphere x Pophouse, us in the overlap ---- */
+  .plat-venn {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 56px auto 0;
+    aspect-ratio: 900 / 550;
+  }
+  .plat-venn__circle {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid rgba(191, 154, 74, 0.34);
+    background: radial-gradient(circle at 50% 42%, rgba(20, 16, 11, 0.5), rgba(10, 9, 8, 0.18) 70%);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.35);
+  }
+  .plat-venn__circle--left { left: 0; }
+  .plat-venn__circle--right { right: 0; border-color: rgba(174, 192, 214, 0.28); }
+  .plat-venn__side {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 27%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .plat-venn__side--left { left: 5.5%; }
+  .plat-venn__side--right { right: 5.5%; }
+  .plat-venn__center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(320px, 34%);
+    padding: 26px 22px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    background: rgba(14, 12, 10, 0.78);
+    border: 1px solid var(--im-gilt-500);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 34px rgba(191, 154, 74, 0.14), 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+  .plat-venn__kicker {
+    font-family: var(--im-font-sans);
+    font-weight: 500;
+    font-size: 0.66rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--im-ivory-400);
+  }
+  .plat-venn__kicker--gilt { color: var(--im-gilt-500); }
+  .plat-venn__name {
+    font-family: var(--im-font-display);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    line-height: 1.05;
+    color: var(--im-ivory-100);
+  }
+  .plat-venn__name--gilt { color: var(--im-gilt-200); }
+  .plat-venn__copy {
+    font-family: var(--im-font-serif);
+    font-weight: 400;
+    font-size: clamp(0.92rem, 1.15vw, 1.05rem);
+    line-height: 1.55;
+    color: var(--im-ivory-400);
+    margin: 0;
+  }
+  .plat-venn__copy--center { color: var(--im-ivory-200); }
+  @media (max-width: 720px) {
+    .plat-venn { aspect-ratio: auto; display: flex; flex-direction: column; gap: 12px; }
+    .plat-venn__circle { display: none; }
+    .plat-venn__side, .plat-venn__center { position: static; transform: none; width: 100%; }
+    .plat-venn__side { padding: 24px 18px; border: 1px solid var(--im-border-faint); background: rgba(10, 7, 6, 0.82); }
+    .plat-venn__side--left { order: 1; }
+    .plat-venn__center { order: 2; width: 100%; }
+    .plat-venn__side--right { order: 3; }
   }
 
   /* ---- Mobile: stacked, tap to expand ---- */
@@ -316,10 +375,6 @@
     /* The fixed thesis line sits over the middle stacked panel: while the
        thesis is showing, fade that panel's label/rule so the two texts
        never overlap. Label returns on scroll or when a panel activates. */
-    html.js body:not(.plat-scrolled):not(.plat-has-active) #plat-thesis.is-in ~ #plat-triptych .plat-panel:nth-child(2) .plat-panel__label,
-    html.js body:not(.plat-scrolled):not(.plat-has-active) #plat-thesis.is-in ~ #plat-triptych .plat-panel:nth-child(2) .plat-panel__rule {
-      opacity: 0;
-    }
   }
 
   @keyframes plat-grain-drift {
@@ -591,11 +646,11 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .plat-panel, .plat-panel__img, .plat-panel__label, .plat-panel__rule, .plat-panel__sub, .plat-panel__enter { transition: none !important; }
+    .plat-panel, .plat-panel__img, .plat-panel__label, .plat-panel__rule, .plat-panel__sub { transition: none !important; }
     html.js .plat-panel { opacity: 1; transform: none; }
     html.js .plat-mark { opacity: 1; transition: none; }
-    html.js .plat-thesis__line .w { opacity: 1; transform: none; filter: none; transition: none; }
     .plat-thesis__hl { animation: none !important; }
+    .plat-thesis__unlit { animation: none !important; }
     .im-grain::after { animation: none !important; }
     html.js [data-reveal],
     html.js [data-reveal-group] > * { opacity: 1; transform: none; transition: none; }
@@ -612,14 +667,8 @@
 
 <header class="plat-mark" id="plat-mark">
   <h1 class="plat-mark__word">Impossible Moments</h1>
-  <p class="plat-mark__sub">A Next Generation Entertainment Company</p>
 </header>
 
-<div class="plat-thesis" id="plat-thesis">
-  <p class="plat-thesis__line">
-    <span class="w" style="--d:0.75s">We </span><span class="w" style="--d:0.89s">bring </span><span class="w plat-thesis__hl" style="--d:1.05s">icons</span><span class="w" style="--d:1.05s"> </span><span class="w" style="--d:1.21s">back.</span>
-  </p>
-</div>
 
 <div id="im-land-photo-viewer" class="im-land-photo-viewer" aria-hidden="true">
   <button type="button" class="im-land-photo-viewer__backdrop" data-land-photo-close="1" aria-label="Close land photo"></button>
@@ -638,7 +687,6 @@
       <span class="plat-panel__label">Concerts</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The past, made present.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -649,7 +697,6 @@
       <span class="plat-panel__label">Films</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The legends, returned to the screen.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -660,7 +707,6 @@
       <span class="plat-panel__label">Fights</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The arguments of a century, settled live.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -677,21 +723,23 @@
     <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">Audiences demand the impossible from entertainment.</h2>
     <p style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.3rem,2.2vw,1.9rem); color:var(--im-gilt-500); margin:20px 0 0;">A new category has emerged.</p>
   </div>
-  <div data-reveal-group="1" style="position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap:1px; background:var(--im-border-faint); max-width:1140px; width:100%; margin:52px auto 0;">
-    <div class="plat-hov-card" style="padding:2.8rem 2.4rem; background:rgba(10,7,6,0.82); text-align:left; transition:background .4s var(--im-ease);">
-      <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:18px;">The Impossible Venue</div>
-      <div style="font-family:var(--im-font-display); font-size:1.6rem; color:var(--im-ivory-100); margin-bottom:14px;">Sphere</div>
-      <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.08rem; line-height:1.65; color:var(--im-ivory-400); margin:0;">A $2.3 billion structure where the building itself is the show.</p>
+  <div class="plat-venn" data-reveal="1" role="img" aria-label="Venn diagram: Sphere, the impossible venue, overlaps with Pophouse, the icon economy behind ABBA Voyage. Impossible Moments sits in the overlap.">
+    <div class="plat-venn__circle plat-venn__circle--left" aria-hidden="true"></div>
+    <div class="plat-venn__circle plat-venn__circle--right" aria-hidden="true"></div>
+    <div class="plat-venn__side plat-venn__side--left">
+      <div class="plat-venn__kicker">The Impossible Venue</div>
+      <div class="plat-venn__name">Sphere</div>
+      <p class="plat-venn__copy">A $2.3 billion structure where the building itself is the show.</p>
     </div>
-    <div class="plat-hov-card" style="padding:2.8rem 2.4rem; background:rgba(10,7,6,0.82); text-align:left; transition:background .4s var(--im-ease);">
-      <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:18px;">The Impossible Immersion</div>
-      <div style="font-family:var(--im-font-display); font-size:1.6rem; color:var(--im-ivory-100); margin-bottom:14px;">Disneyland</div>
-      <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.08rem; line-height:1.65; color:var(--im-ivory-400); margin:0;">Alternate worlds without a fixed path or runtime. Immersion as mass entertainment.</p>
+    <div class="plat-venn__side plat-venn__side--right">
+      <div class="plat-venn__kicker">The Icon Economy</div>
+      <div class="plat-venn__name">Pophouse</div>
+      <p class="plat-venn__copy">Behind ABBA Voyage &mdash; investing in artist likenesses to drive a new generation of fans.</p>
     </div>
-    <div style="padding:2.8rem 2.4rem; background:var(--im-accent-tint); border-top:1px solid var(--im-gilt-500); text-align:left;">
-      <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:18px;">The Impossible Performance</div>
-      <div style="font-family:var(--im-font-display); font-size:1.6rem; color:var(--im-gilt-200); margin-bottom:14px;">Impossible Moments</div>
-      <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.08rem; line-height:1.65; color:var(--im-ivory-200); margin:0;">A living performance from a moment in time that no longer exists.</p>
+    <div class="plat-venn__center">
+      <div class="plat-venn__kicker plat-venn__kicker--gilt">The Impossible Performance</div>
+      <div class="plat-venn__name plat-venn__name--gilt">Impossible Moments</div>
+      <p class="plat-venn__copy plat-venn__copy--center">A living performance from a moment in time that no longer exists.</p>
     </div>
   </div>
 </section>
@@ -793,6 +841,10 @@
 <!-- ============ CLOSING · THE TRIPTYCH, AGAIN ============ -->
 <section class="plat-triptych plat-triptych--closing" aria-label="Choose an Impossible experience">
 
+  <div class="plat-thesis plat-thesis--closing">
+    <p class="plat-thesis__line">See what&rsquo;s <span class="plat-thesis__hl"><span class="plat-thesis__unlit">I</span>mpossible</span></p>
+  </div>
+
   <a class="plat-panel" href="/" aria-label="Impossible Moments — Concerts">
     <img class="plat-panel__img" src="/assets/britney-snake.webp" alt="" aria-hidden="true" loading="lazy">
     <div class="plat-panel__shade" aria-hidden="true"></div>
@@ -800,7 +852,6 @@
       <span class="plat-panel__label">Concerts</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The past, made present.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -811,7 +862,6 @@
       <span class="plat-panel__label">Films</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The legends, returned to the screen.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -822,7 +872,6 @@
       <span class="plat-panel__label">Fights</span>
       <span class="plat-panel__rule" aria-hidden="true"></span>
       <span class="plat-panel__sub">The arguments of a century, settled live.</span>
-      <span class="plat-panel__enter">Enter</span>
     </span>
   </a>
 
@@ -855,13 +904,16 @@
       triptych.addEventListener('mouseleave', function () { if (!touchMode) setActive(null); });
 
       /* Panel intro: hero staggers on load; closing staggers when scrolled into view */
+      var closingThesis = triptych.querySelector('.plat-thesis--closing');
       function stagger() {
         panels.forEach(function (p, i) {
           setTimeout(function () { p.classList.add('is-in'); }, 140 + i * 150);
         });
+        if (closingThesis) setTimeout(function () { closingThesis.classList.add('is-in'); }, 720);
       }
       if (reduce || !('IntersectionObserver' in window)) {
         panels.forEach(function (p) { p.classList.add('is-in'); });
+        if (closingThesis) closingThesis.classList.add('is-in');
       } else if (tIndex === 0) {
         stagger();
       } else {
@@ -874,15 +926,12 @@
       }
     });
 
-    /* ---- Mark + thesis intro ---- */
+    /* ---- Mark intro ---- */
     var mark = document.getElementById('plat-mark');
-    var thesis = document.getElementById('plat-thesis');
     if (reduce) {
       mark.classList.add('is-in');
-      thesis.classList.add('is-in');
     } else {
       setTimeout(function () { mark.classList.add('is-in'); }, 220);
-      setTimeout(function () { thesis.classList.add('is-in'); }, 700);
     }
 
     /* ---- Scroll-linked hiding of fixed hero chrome ---- */
