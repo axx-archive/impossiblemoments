@@ -393,7 +393,7 @@
   /* ---- Section grammar ---- */
   section[data-screen-label] { min-height: 100vh; box-sizing: border-box; }
   @media (min-width: 901px) {
-    #category, #genesis, #conviction, #location, #arena {
+    #category, #genesis, #sphere, #conviction, #location, #arena {
       min-height: 100svh;
       display: flex;
       flex-direction: column;
@@ -811,24 +811,11 @@
   </div>
 </section>
 
-<!-- ============ 06 · THE ARENA ============ -->
-<section id="arena" data-screen-label="The Arena" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px; background:var(--im-noir-950);">
-  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
-    <video autoplay muted loop playsinline preload="metadata" poster="/assets/posters/arena-exterior-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.72) saturate(1.04);"><source src="/assets/arena-exterior.mp4" type="video/mp4"></video>
-    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,7,6,0.78) 0%, rgba(10,7,6,0.5) 42%, rgba(10,7,6,0.85) 100%);"></div>
-  </div>
-  <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Arena</span></span>
-    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">An arena built for the Impossible.</h2>
-    <p style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.3rem,2.2vw,1.9rem); color:var(--im-gilt-500); margin:20px 0 0;">Powered by ILM, the team behind ABBA Voyage.</p>
-  </div>
-</section>
-
-<!-- ============ 07 · THE LOCATION ============ -->
+<!-- ============ 06 · THE LOCATION ============ -->
 <section id="location" data-screen-label="The Location" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px; background:var(--im-noir-950);">
   <div style="position:absolute; inset:0; z-index:0; overflow:hidden;"><video autoplay muted loop playsinline preload="auto" poster="/assets/posters/location-vegas-night-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.8) saturate(1.04);"><source src="/assets/location-vegas-night.mp4" type="video/mp4"></video><div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,7,6,0.78) 0%, rgba(10,7,6,0.5) 42%, rgba(10,7,6,0.85) 100%);"></div></div>
   <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 007</span><span class="im-marker__text">The Location · Las Vegas</span></span>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Location · Las Vegas</span></span>
     <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); margin:18px 0 0;">Prime Las Vegas Location</h2>
     <p class="im-location-description" style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.15rem,1.8vw,1.5rem); line-height:1.38; color:var(--im-ivory-200); max-width:980px; margin:24px 0 0; text-wrap:balance;">Built on the best land in Vegas at the center of the Strip, <span style="font-style:normal; font-weight:700; color:var(--im-gilt-500);">50M+</span> foot traffic per year</p>
     <p class="im-location-investor-copy" style="font-family:var(--im-font-serif); font-weight:400; font-size:clamp(1rem,1.32vw,1.12rem); line-height:1.62; color:var(--im-ivory-300, var(--im-ivory-200)); max-width:900px; margin:16px 0 0; text-wrap:pretty;">Equity investors acquire an interest in a hard real estate asset in one of the world's most supply&#8209;constrained entertainment corridors, along with full participation in the operating economics.</p>
@@ -846,6 +833,19 @@
       </div>
     </div>
     <div style="display:flex; justify-content:center; margin-top:18px;"><span class="im-marker im-marker--sm"><span class="im-marker__dot" aria-hidden="true"></span><span class="im-marker__text">Mid-Strip site · Las Vegas Blvd S</span></span></div>
+  </div>
+</section>
+
+<!-- ============ 07 · THE ARENA ============ -->
+<section id="arena" data-screen-label="The Arena" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px; background:var(--im-noir-950);">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+    <video autoplay muted loop playsinline preload="metadata" poster="/assets/posters/arena-exterior-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.72) saturate(1.04);"><source src="/assets/arena-exterior.mp4" type="video/mp4"></video>
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,7,6,0.78) 0%, rgba(10,7,6,0.5) 42%, rgba(10,7,6,0.85) 100%);"></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 007</span><span class="im-marker__text">The Arena</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">An arena built for the Impossible.</h2>
+    <p style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.3rem,2.2vw,1.9rem); color:var(--im-gilt-500); margin:20px 0 0;">Powered by ILM, the team behind ABBA Voyage.</p>
   </div>
 </section>
 

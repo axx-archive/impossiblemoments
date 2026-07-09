@@ -200,20 +200,6 @@ body.im-export-mode #economics .imfi-econ__big { font-size: 1.5rem !important; m
 body.im-export-mode #economics .imfi-econ__line { font-size: 1.05rem !important; }
 body.im-export-mode #economics .imfi-body { margin-top: 18px !important; font-size: 0.92rem !important; }
 
-/* Raise: tighten the structure chart */
-body.im-export-mode #raise { padding: 36px 72px !important; }
-body.im-export-mode #raise .imfi-struct { margin-top: 24px !important; }
-body.im-export-mode #raise .imfi-struct__row { grid-template-columns: repeat(4, 1fr) !important; }
-body.im-export-mode #raise .imfi-struct__topco { padding: 16px 22px 14px !important; gap: 6px !important; max-width: 430px !important; }
-body.im-export-mode #raise .imfi-struct__name { font-size: 1.3rem !important; }
-body.im-export-mode #raise .imfi-struct__role { font-size: 0.85rem !important; line-height: 1.4 !important; }
-body.im-export-mode #raise .imfi-struct__stem { height: 20px !important; }
-body.im-export-mode #raise .imfi-struct__co { margin-top: 18px !important; padding: 14px 14px 12px !important; gap: 6px !important; }
-body.im-export-mode #raise .imfi-struct__co::before { top: -18px !important; height: 18px !important; }
-body.im-export-mode #raise .imfi-struct__co-name { font-size: 1.05rem !important; }
-body.im-export-mode #raise .imfi-struct__co-role { font-size: 0.8rem !important; line-height: 1.4 !important; }
-body.im-export-mode #raise .imfi-struct__chip { font-size: 0.5rem !important; padding: 4px 8px !important; }
-body.im-export-mode #raise .imfi-body { margin-top: 16px !important; font-size: 0.9rem !important; }
   `;
 }
 

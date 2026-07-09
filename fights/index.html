@@ -190,74 +190,6 @@
     z-index: 1;
     background: linear-gradient(180deg, rgba(10,7,6,0.78) 0%, rgba(10,7,6,0.6) 46%, rgba(10,7,6,0.85) 100%);
   }
-  .imfi-rest {
-    position: relative;
-    z-index: 2;
-    max-width: 860px;
-    margin: 56px auto 0;
-  }
-  .imfi-rest__label {
-    font-family: var(--im-font-sans);
-    font-weight: 500;
-    font-size: 0.68rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--im-ivory-600);
-    text-align: center;
-    margin-bottom: 18px;
-  }
-  .imfi-rest__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--im-border-faint);
-  }
-  .imfi-rest__row {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    padding: 15px 10px;
-    border-bottom: 1px solid var(--im-border-faint);
-    transition: background .35s ease;
-  }
-  .imfi-rest__row:hover { background: rgba(20, 16, 11, 0.6); }
-  .imfi-rest__no {
-    font-family: var(--im-font-mono, ui-monospace, monospace);
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    color: var(--im-gilt-600);
-    white-space: nowrap;
-  }
-  .imfi-rest__names {
-    font-family: var(--im-font-display);
-    font-weight: 500;
-    font-size: clamp(1.05rem, 1.7vw, 1.3rem);
-    color: var(--im-ivory-100);
-    text-align: center;
-  }
-  .imfi-rest__names em {
-    font-style: italic;
-    font-weight: 400;
-    font-size: 0.8em;
-    color: var(--im-gilt-500);
-    padding: 0 6px;
-  }
-  .imfi-rest__chip {
-    font-family: var(--im-font-sans);
-    font-weight: 600;
-    font-size: 0.56rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--im-gilt-400);
-    border: 1px solid rgba(191, 154, 74, 0.42);
-    padding: 3px 8px;
-    white-space: nowrap;
-  }
-  @media (max-width: 640px) {
-    .imfi-rest__row { flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; }
-  }
   .imfi-section-head {
     position: relative;
     z-index: 2;
@@ -416,12 +348,13 @@
   .imfi-slate-wrap {
     position: relative;
     z-index: 2;
-    max-width: 1140px;
+    max-width: 1240px;
     width: 100%;
     margin: 56px auto 0;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(36px, 5.4vw, 60px);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: clamp(14px, 2vw, 24px);
+    align-items: start;
   }
   .imfi-still {
     --_pad: clamp(12px, 2.4vw, 18px);
@@ -686,6 +619,7 @@
   .imfi-flywheel__ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .imfi-flywheel__ring circle { fill: none; stroke: rgba(191, 154, 74, 0.4); stroke-width: 0.3; stroke-dasharray: 0.7 1.1; }
   .imfi-flywheel__ring path { fill: none; stroke: var(--im-gilt-500); stroke-width: 0.55; stroke-linecap: round; stroke-linejoin: round; }
+  .imfi-flywheel__spokes line { stroke: rgba(191, 154, 74, 0.42); stroke-width: 0.26; }
   .imfi-flywheel__spin { transform-origin: 50% 50%; animation: imfi-flywheel-spin 80s linear infinite; }
   @keyframes imfi-flywheel-spin { to { transform: rotate(360deg); } }
   .imfi-flywheel__hub {
@@ -771,6 +705,7 @@
     .imfi-flywheel__node { position: static; transform: none; min-width: 0; padding: 14px 10px; }
     .imfi-flywheel__name { white-space: normal; }
     .imfi-flywheel__name br { display: none; }
+    .imfi-flywheel__node--tour { display: none; }
   }
 
   /* ---- The Economics: the one-show model, carried from the main site ---- */
@@ -831,91 +766,6 @@
   @media (max-width: 640px) {
     .imfi-econ__panel { padding: 1.8rem 1.4rem; }
     .imfi-econ__big { min-width: 96px; font-size: 1.6rem; }
-  }
-
-  /* ---- The Raise: TopCo / asset-vehicle structure ---- */
-  .imfi-struct { position: relative; z-index: 2; max-width: 1100px; margin: 56px auto 0; }
-  .imfi-struct__topco {
-    position: relative;
-    max-width: 470px;
-    margin: 0 auto;
-    padding: 30px 30px 26px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    background: linear-gradient(180deg, rgba(30, 23, 14, 0.9), rgba(12, 10, 8, 0.95));
-    border: 1px solid rgba(191, 154, 74, 0.6);
-    box-shadow: 0 0 34px rgba(191, 154, 74, 0.14), var(--im-shadow-lg);
-  }
-  .imfi-struct__kicker {
-    font-family: var(--im-font-sans);
-    font-weight: 600;
-    font-size: 0.56rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--im-gilt-500);
-  }
-  .imfi-struct__name {
-    font-family: var(--im-font-display);
-    font-weight: 700;
-    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-    line-height: 1.05;
-    color: var(--im-filament);
-    text-shadow: var(--im-neon-text-soft);
-  }
-  .imfi-struct__role { font-family: var(--im-font-serif); font-size: 0.98rem; line-height: 1.55; color: var(--im-ivory-400); margin: 0; }
-  .imfi-struct__chip {
-    font-family: var(--im-font-sans);
-    font-weight: 600;
-    font-size: 0.56rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--im-gilt-400);
-    border: 1px solid rgba(191, 154, 74, 0.42);
-    padding: 5px 10px;
-    margin-top: 4px;
-  }
-  .imfi-struct__stem { width: 1px; height: 34px; margin: 0 auto; background: linear-gradient(180deg, rgba(191, 154, 74, 0.7), rgba(191, 154, 74, 0.32)); }
-  .imfi-struct__rail { height: 1px; margin: 0 11%; background: linear-gradient(90deg, transparent, rgba(191, 154, 74, 0.45) 10%, rgba(191, 154, 74, 0.45) 90%, transparent); }
-  .imfi-struct__row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(225px, 100%), 1fr));
-    gap: 14px;
-  }
-  .imfi-struct__co {
-    position: relative;
-    margin-top: 26px;
-    padding: 26px 22px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    background: var(--im-noir-850);
-    border: 1px solid var(--im-border-faint);
-    transition: border-color 0.35s ease, box-shadow 0.35s ease;
-  }
-  .imfi-struct__co::before {
-    content: '';
-    position: absolute;
-    top: -26px;
-    left: 50%;
-    width: 1px;
-    height: 26px;
-    background: rgba(191, 154, 74, 0.4);
-  }
-  .imfi-struct__co:hover { border-color: rgba(203, 167, 94, 0.55); box-shadow: var(--im-glow-gilt-sm); }
-  .imfi-struct__co--next { border-style: dashed; background: rgba(13, 11, 9, 0.55); }
-  .imfi-struct__co--next .imfi-struct__co-name { color: var(--im-ivory-400); }
-  .imfi-struct__co-name { font-family: var(--im-font-display); font-weight: 700; font-size: 1.3rem; color: var(--im-ivory-100); }
-  .imfi-struct__co-role { font-family: var(--im-font-serif); font-size: 0.95rem; line-height: 1.55; color: var(--im-ivory-400); margin: 0; flex: 1; }
-  @media (max-width: 720px) {
-    .imfi-struct__stem, .imfi-struct__rail { display: none; }
-    .imfi-struct__row { margin-top: 14px; gap: 12px; }
-    .imfi-struct__co { margin-top: 0; }
-    .imfi-struct__co::before { display: none; }
   }
 
   /* ---- The triptych ending (ported from /platform) ---- */
@@ -1283,8 +1133,7 @@
 <section id="slate" class="imfi-section">
   <div class="imfi-section-head" data-reveal="1">
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 003</span><span class="im-marker__text">The Launch Slate</span></span>
-    <h2 class="imfi-h2">The first three fight nights.</h2>
-    <p class="imfi-deck" style="max-width:820px;">Bouts one, two, and three, produced as full arena events.</p>
+    <h2 class="imfi-h2">The Impossible Bouts.</h2>
   </div>
 
   <div class="imfi-slate-wrap">
@@ -1301,11 +1150,11 @@
 
     <figure class="im-frame imfi-still" data-reveal="1">
       <div class="imfi-still__media">
-        <img class="imfi-still__img" src="/assets/fights/bout-lesnar-jones.webp" width="1344" height="896" loading="lazy" decoding="async" alt="Brock Lesnar and Jon Jones in silhouette above the octagon, a wall of pyrotechnic fire rising behind them.">
+        <img class="imfi-still__img" src="/assets/fights/bout-austin-mcgregor.webp" width="1344" height="896" loading="lazy" decoding="async" alt="Stone Cold Steve Austin and Conor McGregor facing off in the ring of a packed arena as pyrotechnics rise.">
       </div>
       <figcaption class="imfi-still__credit">
-        <span class="imfi-still__bout"><span class="imfi-still__no">Bout 02</span><span class="imfi-still__name">Brock Lesnar vs Jon Jones</span></span>
-        <p class="imfi-still__line">Two silhouettes over the octagon, a wall of fire behind them. The heavyweight problem no era could book.</p>
+        <span class="imfi-still__bout"><span class="imfi-still__no">Bout 02</span><span class="imfi-still__name">Stone Cold Steve Austin vs Conor McGregor</span></span>
+        <p class="imfi-still__line">Two eras of trash talk, one bell. The loudest men who ever did it, finally in the same ring.</p>
       </figcaption>
     </figure>
 
@@ -1321,18 +1170,6 @@
 
   </div>
 
-  <div class="imfi-rest" data-reveal="1">
-    <div class="imfi-rest__label">And the card runs deeper</div>
-    <ul class="imfi-rest__list">
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 04</span><span class="imfi-rest__names">Stone Cold Steve Austin <em>vs</em> Conor McGregor</span></li>
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 05</span><span class="imfi-rest__names">Khabib Nurmagomedov <em>vs</em> Georges St-Pierre</span></li>
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 06</span><span class="imfi-rest__names">The Rock <em>vs</em> Mike Tyson</span></li>
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 07</span><span class="imfi-rest__names">Floyd Mayweather <em>vs</em> Conor McGregor</span><span class="imfi-rest__chip">MMA Rules</span></li>
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 08</span><span class="imfi-rest__names">The Undertaker <em>vs</em> Francis Ngannou</span></li>
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 09</span><span class="imfi-rest__names">Muhammad Ali <em>vs</em> Conor McGregor</span></li>
-      <li class="imfi-rest__row"><span class="imfi-rest__no">BOUT 10</span><span class="imfi-rest__names">Ronda Rousey <em>vs</em> Chyna</span></li>
-    </ul>
-  </div>
 
   <div data-reveal="1" style="position:relative; z-index:2;">
     <p class="imfi-body" style="margin-top:44px;">Each night carries its own undercard, its own broadcast, and its own set of endings no one has seen.</p>
@@ -1346,10 +1183,23 @@
   <div class="imfi-section-head" data-reveal="1">
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Model</span></span>
     <h2 class="imfi-h2">Every fight night pays seven ways.</h2>
-    <p class="imfi-deck" style="max-width:820px;">Fight-night economics on the Voyage engine.</p>
   </div>
   <div class="imfi-flywheel" data-reveal="1" role="img" aria-label="Flywheel diagram: Impossible Fights at the center, feeding seven revenue streams — tickets, VIP, sponsorship, merchandise, media, touring and residency, and collectibles — and each night funds the next.">
     <svg class="imfi-flywheel__ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <defs>
+        <marker id="imfi-fw-arrow" viewBox="0 0 6 6" refX="4.6" refY="3" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 1.2 1.2 L 4.8 3 L 1.2 4.8" fill="none" stroke="#BF9A4A" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"></path>
+        </marker>
+      </defs>
+      <g class="imfi-flywheel__spokes">
+        <line x1="50.00" y1="28.00" x2="50.00" y2="14.00" marker-end="url(#imfi-fw-arrow)"></line>
+        <line x1="67.20" y1="36.28" x2="78.15" y2="27.55" marker-end="url(#imfi-fw-arrow)"></line>
+        <line x1="71.45" y1="54.90" x2="85.10" y2="58.01" marker-end="url(#imfi-fw-arrow)"></line>
+        <line x1="59.55" y1="69.82" x2="65.62" y2="82.43" marker-end="url(#imfi-fw-arrow)"></line>
+        <line x1="40.45" y1="69.82" x2="34.38" y2="82.43" marker-end="url(#imfi-fw-arrow)"></line>
+        <line x1="28.55" y1="54.90" x2="14.90" y2="58.01" marker-end="url(#imfi-fw-arrow)"></line>
+        <line x1="32.80" y1="36.28" x2="21.85" y2="27.55" marker-end="url(#imfi-fw-arrow)"></line>
+      </g>
       <g class="imfi-flywheel__spin">
         <circle cx="50" cy="50" r="43"></circle>
         <path d="M 48.9 5.6 L 52.2 7 L 48.9 8.4" transform="rotate(25.7 50 50)"></path>
@@ -1367,11 +1217,8 @@
     <div class="imfi-flywheel__node" style="--fx:91.9%; --fy:59.6%;"><span class="imfi-flywheel__no">03</span><span class="imfi-flywheel__name">Sponsorship</span></div>
     <div class="imfi-flywheel__node" style="--fx:68.7%; --fy:88.7%;"><span class="imfi-flywheel__no">04</span><span class="imfi-flywheel__name">Merchandise</span></div>
     <div class="imfi-flywheel__node" style="--fx:31.3%; --fy:88.7%;"><span class="imfi-flywheel__no">05</span><span class="imfi-flywheel__name">Media</span></div>
-    <div class="imfi-flywheel__node" style="--fx:8.1%; --fy:59.6%;"><span class="imfi-flywheel__no">06</span><span class="imfi-flywheel__name">Touring &amp;<br>Residency</span></div>
-    <div class="imfi-flywheel__node" style="--fx:16.4%; --fy:23.2%;"><span class="imfi-flywheel__no">07</span><span class="imfi-flywheel__name">Collectibles</span></div>
-  </div>
-  <div data-reveal="1" style="position:relative; z-index:2;">
-    <p class="imfi-body" style="margin-top:48px;">The first room opens in one of four cities: Las Vegas, London, Riyadh, or New York. Each already stages the biggest nights in combat sports. The choice is being made now, and the format is built to travel to the other three.</p>
+    <div class="imfi-flywheel__node" style="--fx:8.1%; --fy:59.6%;"><span class="imfi-flywheel__no">06</span><span class="imfi-flywheel__name">Collectibles</span></div>
+    <div class="imfi-flywheel__node imfi-flywheel__node--tour" style="--fx:16.4%; --fy:23.2%;"><span class="imfi-flywheel__no">07</span><span class="imfi-flywheel__name">Touring &amp;<br>Residency</span></div>
   </div>
 </section>
 
@@ -1400,52 +1247,6 @@
   </div>
   <div data-reveal="1" style="position:relative; z-index:2;">
     <p class="imfi-body" style="margin-top:44px; font-style:italic;">All figures are based on one show and exclude sponsorship, advertising, and signage revenue entirely. Cost estimates are intentionally conservative.</p>
-  </div>
-</section>
-
-<!-- ============ 06 · THE RAISE ============ -->
-<section id="raise" class="imfi-section">
-  <img class="imfi-section-bg" src="/assets/fights/bg-tko.webp" width="1344" height="896" loading="lazy" decoding="async" alt="" aria-hidden="true" style="filter:brightness(0.55) saturate(0.95); object-position:center 30%;">
-  <div class="imfi-section-bg-overlay" aria-hidden="true" style="background:linear-gradient(180deg, rgba(10,7,6,0.82) 0%, rgba(10,7,6,0.68) 46%, rgba(10,7,6,0.9) 100%);"></div>
-  <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Raise</span></span>
-    <h2 class="imfi-h2" style="max-width:900px;">One platform on top. Hard assets underneath.</h2>
-    <p class="imfi-deck" style="max-width:860px;">TopCo owns the vision. The hard assets live in asset-specific vehicles &mdash; and each investor type gets the right risk and return.</p>
-  </div>
-  <div class="imfi-struct" data-reveal="1" role="img" aria-label="Capital structure diagram: Impossible Moments TopCo sits on top as the platform that owns the vision and originates and governs every deal. Beneath it, the hard assets live in asset-specific vehicles — Arena Co holds the venue and land, Rights Co holds the licenses, a dedicated SPV holds each show — with room for the vehicles that come next.">
-    <div class="imfi-struct__topco">
-      <span class="imfi-struct__kicker">TopCo</span>
-      <span class="imfi-struct__name">Impossible Moments</span>
-      <p class="imfi-struct__role">The platform. It owns the vision, originates every deal, and governs the system.</p>
-      <span class="imfi-struct__chip">Platform equity &middot; the compounding position</span>
-    </div>
-    <div class="imfi-struct__stem" aria-hidden="true"></div>
-    <div class="imfi-struct__rail" aria-hidden="true"></div>
-    <div class="imfi-struct__row">
-      <div class="imfi-struct__co">
-        <span class="imfi-struct__co-name">Arena Co</span>
-        <p class="imfi-struct__co-role">The venue and the land. A hard real-estate asset at the center of the Strip.</p>
-        <span class="imfi-struct__chip">Real-asset yield &middot; core equity &amp; debt</span>
-      </div>
-      <div class="imfi-struct__co">
-        <span class="imfi-struct__co-name">Rights Co</span>
-        <p class="imfi-struct__co-role">The licenses. Exclusive NIL and estate rights, secured once and staged night after night.</p>
-        <span class="imfi-struct__chip">IP royalties &middot; long-duration cash flow</span>
-      </div>
-      <div class="imfi-struct__co">
-        <span class="imfi-struct__co-name">Show SPVs</span>
-        <p class="imfi-struct__co-role">One vehicle per production. Impossible Fights is the first.</p>
-        <span class="imfi-struct__chip">Per-show upside &middot; film-style returns</span>
-      </div>
-      <div class="imfi-struct__co imfi-struct__co--next">
-        <span class="imfi-struct__co-name">What&rsquo;s Next</span>
-        <p class="imfi-struct__co-role">Films. Moments. Every new vehicle the platform originates.</p>
-        <span class="imfi-struct__chip">Optionality &middot; priced deal by deal</span>
-      </div>
-    </div>
-  </div>
-  <div data-reveal="1" style="position:relative; z-index:2;">
-    <p class="imfi-body" style="margin-top:48px;">TopCo is the engine. Every vehicle beneath it is a deal the platform originated and governs &mdash; so real-estate capital can hold the arena, rights capital can hold the library, and event capital can back a single night.</p>
   </div>
 </section>
 
