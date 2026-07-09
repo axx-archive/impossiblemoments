@@ -275,14 +275,14 @@
     95% { color: rgba(231, 223, 210, 0.14); text-shadow: none; }
   }
 
-  /* ---- Category venn: Sphere x Pophouse, us in the overlap ---- */
+  /* ---- Category venn: Pophouse x Sphere, us in the overlap ---- */
   .plat-venn {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 900px;
+    max-width: 860px;
     margin: 56px auto 0;
-    aspect-ratio: 900 / 550;
+    aspect-ratio: 860 / 550;
   }
   .plat-venn__circle {
     position: absolute;
@@ -300,65 +300,55 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 27%;
+    width: 26%;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
   }
-  .plat-venn__side--left { left: 5.5%; }
-  .plat-venn__side--right { right: 5.5%; }
+  .plat-venn__side--left { left: 7%; }
+  .plat-venn__side--right { right: 7%; }
   .plat-venn__center {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(320px, 34%);
-    padding: 26px 22px;
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
-    background: rgba(14, 12, 10, 0.78);
-    border: 1px solid var(--im-gilt-500);
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 0 34px rgba(191, 154, 74, 0.14), 0 24px 60px rgba(0, 0, 0, 0.5);
+    gap: 4px;
+    text-align: center;
   }
-  .plat-venn__kicker {
-    font-family: var(--im-font-sans);
-    font-weight: 500;
-    font-size: 0.66rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--im-ivory-400);
-  }
-  .plat-venn__kicker--gilt { color: var(--im-gilt-500); }
   .plat-venn__name {
     font-family: var(--im-font-display);
-    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
     line-height: 1.05;
     color: var(--im-ivory-100);
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.65);
   }
-  .plat-venn__name--gilt { color: var(--im-gilt-200); }
-  .plat-venn__copy {
-    font-family: var(--im-font-serif);
+  .plat-venn__im-1 {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 2.7vw, 2.2rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--im-filament);
+    text-shadow: var(--im-neon-text);
+  }
+  .plat-venn__im-2 {
+    font-family: var(--im-font-display);
+    font-style: italic;
     font-weight: 400;
-    font-size: clamp(0.92rem, 1.15vw, 1.05rem);
-    line-height: 1.55;
-    color: var(--im-ivory-400);
-    margin: 0;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    letter-spacing: 0.06em;
+    color: var(--im-lumen-100, #EAF1F8);
+    text-shadow: var(--im-lumen-text);
   }
-  .plat-venn__copy--center { color: var(--im-ivory-200); }
   @media (max-width: 720px) {
     .plat-venn { aspect-ratio: auto; display: flex; flex-direction: column; gap: 12px; }
     .plat-venn__circle { display: none; }
     .plat-venn__side, .plat-venn__center { position: static; transform: none; width: 100%; }
-    .plat-venn__side { padding: 24px 18px; border: 1px solid var(--im-border-faint); background: rgba(10, 7, 6, 0.82); }
+    .plat-venn__side { padding: 26px 18px; border: 1px solid var(--im-border-faint); background: rgba(10, 7, 6, 0.82); }
     .plat-venn__side--left { order: 1; }
-    .plat-venn__center { order: 2; width: 100%; }
+    .plat-venn__center { order: 2; padding: 30px 18px; border: 1px solid var(--im-gilt-500); background: rgba(14, 12, 10, 0.78); }
     .plat-venn__side--right { order: 3; }
   }
 
@@ -757,23 +747,18 @@
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The New Experiential Economy</span></span>
     <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">A new category has emerged.</h2>
   </div>
-  <div class="plat-venn" data-reveal="1" role="img" aria-label="Venn diagram: Sphere, the impossible venue, overlaps with Pophouse, the icon economy behind ABBA Voyage. Impossible Moments sits in the overlap.">
+  <div class="plat-venn" data-reveal="1" role="img" aria-label="Venn diagram: Pophouse and Sphere overlap, with Impossible Moments in the middle.">
     <div class="plat-venn__circle plat-venn__circle--left" aria-hidden="true"></div>
     <div class="plat-venn__circle plat-venn__circle--right" aria-hidden="true"></div>
     <div class="plat-venn__side plat-venn__side--left">
-      <div class="plat-venn__kicker">The Impossible Venue</div>
-      <div class="plat-venn__name">Sphere</div>
-      <p class="plat-venn__copy">A $2.3 billion structure where the building itself is the show.</p>
+      <div class="plat-venn__name">Pophouse</div>
     </div>
     <div class="plat-venn__side plat-venn__side--right">
-      <div class="plat-venn__kicker">The Icon Economy</div>
-      <div class="plat-venn__name">Pophouse</div>
-      <p class="plat-venn__copy">Behind ABBA Voyage &mdash; investing in artist likenesses to drive a new generation of fans.</p>
+      <div class="plat-venn__name">Sphere</div>
     </div>
     <div class="plat-venn__center">
-      <div class="plat-venn__kicker plat-venn__kicker--gilt">The Impossible Performance</div>
-      <div class="plat-venn__name plat-venn__name--gilt">Impossible Moments</div>
-      <p class="plat-venn__copy plat-venn__copy--center">A living performance from a moment in time that no longer exists.</p>
+      <span class="plat-venn__im-1">Impossible</span>
+      <span class="plat-venn__im-2">Moments</span>
     </div>
   </div>
 </section>
@@ -844,7 +829,7 @@
   </div>
   <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
     <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 007</span><span class="im-marker__text">The Arena</span></span>
-    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">An arena built for the Impossible.</h2>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">A custom-built venue where impossible moments happen.</h2>
     <p style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.3rem,2.2vw,1.9rem); color:var(--im-gilt-500); margin:20px 0 0;">Powered by ILM, the team behind ABBA Voyage.</p>
   </div>
 </section>

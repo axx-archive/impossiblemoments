@@ -46,7 +46,7 @@ const MODE = {
   output: 'impossible-fights-desktop.pdf',
 };
 
-const SLIDE_SELECTOR = '#top, section.imfi-section, #closing';
+const SLIDE_SELECTOR = '#top, section.imfi-section';
 
 function serve(root) {
   const server = http.createServer((req, res) => {
@@ -112,8 +112,7 @@ body.im-export-mode .imfi-vignette {
   display: none !important;
 }
 body.im-export-mode #top,
-body.im-export-mode section.imfi-section,
-body.im-export-mode #closing {
+body.im-export-mode section.imfi-section {
   width: ${mode.width}px !important;
   height: ${mode.height}px !important;
   min-height: ${mode.height}px !important;
@@ -127,16 +126,16 @@ body.im-export-mode #closing {
   justify-content: center !important;
   padding: 56px 72px !important;
 }
-body.im-export-mode #closing {
+body.im-export-mode section.imfi-section:last-of-type {
   page-break-after: auto;
   break-after: auto;
 }
 body.im-export-mode #top *,
 body.im-export-mode section.imfi-section *,
-body.im-export-mode #closing *,
 body.im-export-mode #top *::before,
 body.im-export-mode section.imfi-section *::before,
-body.im-export-mode #closing *::after {
+body.im-export-mode #top *::after,
+body.im-export-mode section.imfi-section *::after {
   animation: none !important;
   transition-duration: 0s !important;
   caret-color: transparent !important;
@@ -163,23 +162,19 @@ body.im-export-mode .imfi-body { font-size: 1.02rem !important; line-height: 1.5
 /* Restore full width under the export flex layout too */
 body.im-export-mode section.imfi-section > * { width: 100%; box-sizing: border-box; }
 
-/* Slate: three stills side by side + the deeper card in one frame */
+/* Slate: carousel flattened to three stills side by side */
 body.im-export-mode #slate { padding: 36px 64px !important; }
-body.im-export-mode #slate .imfi-h2 { font-size: 1.9rem !important; }
-body.im-export-mode #slate .imfi-deck { font-size: 1rem !important; margin-top: 8px !important; }
-body.im-export-mode #slate .imfi-slate-wrap { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; margin-top: 18px !important; }
+body.im-export-mode #slate .imfi-h2 { font-size: 2.2rem !important; }
+body.im-export-mode #slate .imfi-carousel { max-width: 100% !important; margin-top: 28px !important; }
+body.im-export-mode #slate .imfi-carousel__track { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; overflow: visible !important; }
+body.im-export-mode #slate .imfi-carousel__slide { flex: none !important; width: auto !important; }
 body.im-export-mode #slate figure { margin: 0 !important; }
-body.im-export-mode #slate .imfi-still__media img,
-body.im-export-mode #slate .imfi-still__img { height: 150px !important; width: 100% !important; object-fit: cover !important; }
-body.im-export-mode #slate .imfi-still__credit { padding: 8px 10px 6px !important; }
+body.im-export-mode #slate .imfi-still__img { width: 100% !important; height: auto !important; object-fit: cover !important; }
+body.im-export-mode #slate .imfi-still__credit { padding: 10px 10px 6px !important; }
 body.im-export-mode #slate .imfi-still__no { font-size: 0.55rem !important; }
 body.im-export-mode #slate .imfi-still__name { font-size: 0.92rem !important; }
-body.im-export-mode #slate .imfi-still__line { display: none !important; }
-body.im-export-mode #slate .imfi-rest { margin-top: 14px !important; }
-body.im-export-mode #slate .imfi-rest__label { margin-bottom: 6px !important; }
-body.im-export-mode #slate .imfi-rest__row { padding: 4px 8px !important; }
-body.im-export-mode #slate .imfi-rest__names { font-size: 0.88rem !important; }
-body.im-export-mode #slate .imfi-body { display: none !important; }
+body.im-export-mode #slate .imfi-carousel__arrow,
+body.im-export-mode #slate .imfi-carousel__dots { display: none !important; }
 
 /* Model: the flywheel scaled to fit a slide */
 body.im-export-mode #model { padding: 40px 72px !important; }
@@ -190,15 +185,6 @@ body.im-export-mode #model .imfi-flywheel__hub-sub { font-size: 0.7rem !importan
 body.im-export-mode #model .imfi-flywheel__node { min-width: 84px !important; padding: 8px 10px !important; gap: 3px !important; }
 body.im-export-mode #model .imfi-flywheel__no { font-size: 0.5rem !important; }
 body.im-export-mode #model .imfi-flywheel__name { font-size: 0.58rem !important; }
-body.im-export-mode #model .imfi-body { display: none !important; }
-
-/* Economics: tighten the two panels */
-body.im-export-mode #economics .imfi-econ { margin-top: 26px !important; }
-body.im-export-mode #economics .imfi-econ__panel { padding: 1.6rem !important; }
-body.im-export-mode #economics .imfi-econ__row { padding: 9px 0 !important; }
-body.im-export-mode #economics .imfi-econ__big { font-size: 1.5rem !important; min-width: 100px !important; }
-body.im-export-mode #economics .imfi-econ__line { font-size: 1.05rem !important; }
-body.im-export-mode #economics .imfi-body { margin-top: 18px !important; font-size: 0.92rem !important; }
 
   `;
 }
