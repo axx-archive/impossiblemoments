@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/fonts.css">
 <link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/colors.css">
 <link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/typography.css">
+<link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/spacing.css">
+<link rel="stylesheet" href="/_ds/impossible-moments-design-system-f55fdcb8-4b8e-49ff-8847-4fd1edd9ade8/tokens/effects.css">
 <script>document.documentElement.classList.add('js');</script>
 <style>
   /* ============================================================
@@ -36,13 +38,18 @@
     -moz-osx-font-smoothing: grayscale;
     font-optical-sizing: auto;
     text-rendering: optimizeLegibility;
+    scrollbar-width: thin;
+    scrollbar-color: var(--im-gilt-600) var(--im-noir-900);
   }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--im-noir-900); }
+  ::-webkit-scrollbar-thumb { background: var(--im-gilt-600); border-radius: 2px; }
   body {
     margin: 0;
     background: var(--im-noir-950);
     color: var(--im-ivory-200);
     font-family: var(--im-font-serif);
-    overflow: hidden;
+    overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
   }
   ::selection { background: rgba(196, 148, 60, 0.3); color: var(--im-ivory-100); }
@@ -222,7 +229,7 @@
     color: var(--im-ivory-100);
     text-shadow: 0 2px 24px rgba(0,0,0,0.65);
     white-space: nowrap;
-    transition: letter-spacing 0.85s var(--plat-ease), color 0.6s var(--plat-ease), text-shadow 0.6s var(--plat-ease);
+    transition: letter-spacing 0.85s var(--plat-ease), color 0.6s var(--plat-ease), text-shadow 0.6s var(--plat-ease), opacity 0.6s var(--plat-ease);
   }
   .plat-panel__rule {
     width: 34px;
@@ -286,6 +293,16 @@
   html.js .plat-thesis.is-in { opacity: 1; }
   html.js .plat-has-active .plat-thesis.is-in { opacity: 0; }
 
+  /* ---- Scroll-linked hiding of the fixed hero chrome ---- */
+  html.js body.plat-scrolled .plat-mark,
+  html.js body.plat-scrolled .plat-thesis,
+  body.plat-scrolled .plat-mark,
+  body.plat-scrolled .plat-thesis {
+    opacity: 0 !important;
+    pointer-events: none;
+    transition-delay: 0s;
+  }
+
   /* ---- Mobile: stacked, tap to expand ---- */
   @media (max-width: 820px) {
     .plat-triptych { flex-direction: column; }
@@ -296,6 +313,13 @@
     .plat-panel__label { font-size: clamp(1.6rem, 8vw, 2.4rem); }
     .plat-panel.is-active { flex-grow: 2.1; }
     .plat-mark { top: 16px; }
+    /* The fixed thesis line sits over the middle stacked panel: while the
+       thesis is showing, fade that panel's label/rule so the two texts
+       never overlap. Label returns on scroll or when a panel activates. */
+    html.js body:not(.plat-scrolled):not(.plat-has-active) #plat-thesis.is-in ~ #plat-triptych .plat-panel:nth-child(2) .plat-panel__label,
+    html.js body:not(.plat-scrolled):not(.plat-has-active) #plat-thesis.is-in ~ #plat-triptych .plat-panel:nth-child(2) .plat-panel__rule {
+      opacity: 0;
+    }
   }
 
   @keyframes plat-grain-drift {
@@ -306,6 +330,292 @@
     100% { transform: translate(0, 0); }
   }
 
+  /* ============================================================
+     Below the fold — sections carried from the main site.
+     Static port: no dc runtime, no React, no bundle.
+     ============================================================ */
+
+  /* ---- Section grammar ---- */
+  section[data-screen-label] { min-height: 100vh; box-sizing: border-box; }
+  @media (min-width: 901px) {
+    #category, #genesis, #conviction, #location, #arena {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    section[data-screen-label] h2 {
+      font-weight: 650 !important;
+      -webkit-text-stroke: 0.14px currentColor;
+      paint-order: stroke fill;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 0 22px rgba(244,239,230,0.08);
+    }
+  }
+  #conviction h2 {
+    font-weight: 700 !important;
+    font-style: normal !important;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0.012em;
+  }
+
+  @keyframes im-kenburns { from { transform: scale(1.02); } to { transform: scale(1.08); } }
+
+  /* ---- Reveal on scroll (JS-gated so no-JS users see content) ---- */
+  html.js [data-reveal] {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity var(--im-dur-slow) var(--im-ease), transform var(--im-dur-slow) var(--im-ease);
+  }
+  html.js [data-reveal].is-visible { opacity: 1; transform: none; }
+  html.js [data-reveal-group] > * {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity var(--im-dur-slow) var(--im-ease), transform var(--im-dur-slow) var(--im-ease);
+  }
+  html.js [data-reveal-group].is-visible > * { opacity: 1; transform: none; }
+  html.js [data-reveal-group].is-visible > *:nth-child(2) { transition-delay: 90ms; }
+  html.js [data-reveal-group].is-visible > *:nth-child(3) { transition-delay: 180ms; }
+  html.js [data-reveal-group].is-visible > *:nth-child(4) { transition-delay: 270ms; }
+
+  /* ---- Marker (the archival mono timecode label) ---- */
+  .im-marker {
+    font-family: var(--im-font-mono);
+    font-weight: 400;
+    font-size: 0.7rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    color: var(--im-ivory-400);
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .im-marker--lumen { color: var(--im-lumen-300); }
+  .im-marker--sm { font-size: 0.62rem; letter-spacing: 0.2em; }
+  .im-marker__idx { color: var(--im-gilt-500); }
+  .im-marker--lumen .im-marker__idx { color: inherit; }
+  .im-marker__dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+
+  /* ---- Stat ---- */
+  .im-stat { display: flex; flex-direction: column; gap: 0.5rem; }
+  .im-stat--center { align-items: center; text-align: center; }
+  .im-stat__num {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-style: normal;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0.012em;
+    line-height: 0.95;
+    color: var(--im-gilt-500);
+    text-shadow: 0 0 22px rgba(196,148,60,0.22), 0 1px 0 rgba(255,255,255,0.06);
+    -webkit-text-stroke: 0.24px currentColor;
+    paint-order: stroke fill;
+  }
+  .im-stat--sm .im-stat__num { font-size: 1.9rem; }
+  .im-stat--lg .im-stat__num { font-size: clamp(2.8rem, 4vw, 3.6rem); }
+  .im-stat__label {
+    font-family: var(--im-font-sans);
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+    color: var(--im-ivory-400);
+    max-width: 200px;
+  }
+  .im-stat--center .im-stat__label { margin-inline: auto; }
+
+  /* ---- Display numbers (tabular gilt treatment) ---- */
+  .im-display-number {
+    font-family: var(--im-font-display);
+    font-weight: 700 !important;
+    font-style: normal !important;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0.012em;
+    color: var(--im-gilt-500);
+    text-shadow: 0 0 22px rgba(196,148,60,0.22), 0 1px 0 rgba(255,255,255,0.06) !important;
+    -webkit-text-stroke: 0.24px currentColor;
+    paint-order: stroke fill;
+  }
+
+  /* ---- Glass card ---- */
+  .im-card {
+    position: relative;
+    background: var(--im-surface);
+    border: 1px solid var(--im-border-faint);
+    border-radius: var(--im-radius-sm);
+    padding: 2.4rem 2.6rem;
+    transition: background var(--im-dur) var(--im-ease), border-color var(--im-dur) var(--im-ease),
+                transform var(--im-dur) var(--im-ease), box-shadow var(--im-dur) var(--im-ease);
+  }
+  .im-card--glass {
+    background: rgba(196,148,60,0.05);
+    border-color: var(--im-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .im-card--glass::before {
+    content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+    background: linear-gradient(135deg, rgba(196,148,60,0.14), transparent 58%);
+  }
+  .im-card__inner { position: relative; z-index: 1; }
+
+  /* ---- Crop-mark frame ---- */
+  .im-frame {
+    --_l: var(--im-mark-len);
+    --_w: var(--im-mark-weight);
+    --_c: var(--im-mark-color);
+    background:
+      linear-gradient(var(--_c) 0 0) 0 0 / var(--_l) var(--_w) no-repeat,
+      linear-gradient(var(--_c) 0 0) 0 0 / var(--_w) var(--_l) no-repeat,
+      linear-gradient(var(--_c) 0 0) 100% 0 / var(--_l) var(--_w) no-repeat,
+      linear-gradient(var(--_c) 0 0) 100% 0 / var(--_w) var(--_l) no-repeat,
+      linear-gradient(var(--_c) 0 0) 0 100% / var(--_l) var(--_w) no-repeat,
+      linear-gradient(var(--_c) 0 0) 0 100% / var(--_w) var(--_l) no-repeat,
+      linear-gradient(var(--_c) 0 0) 100% 100% / var(--_l) var(--_w) no-repeat,
+      linear-gradient(var(--_c) 0 0) 100% 100% / var(--_w) var(--_l) no-repeat;
+  }
+
+  /* ---- Hover states (static replacements for style-hover) ---- */
+  @media (hover: hover) {
+    .plat-hov-card:hover { background: rgba(20,16,11,0.92) !important; }
+  }
+  .im-format-card .im-format-art {
+    overflow: hidden;
+    transition: transform .65s cubic-bezier(.22,1,.36,1), border-color .45s ease, box-shadow .45s ease;
+  }
+  .im-format-card .im-format-art > img,
+  .im-format-card .im-format-art .im-format-ghost {
+    transition: transform 1.2s cubic-bezier(.22,1,.36,1), opacity .55s ease;
+  }
+  .im-format-card .im-format-toggle {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  @media (pointer: fine) {
+    .im-format-card:hover { transform: translateY(-4px); border-color: var(--im-border-strong) !important; box-shadow: var(--im-glow-gilt-sm); }
+    .im-format-card:hover .im-format-art {
+      transform: translateY(-4px);
+      border-color: rgba(203,167,94,0.58) !important;
+      box-shadow: 0 22px 56px rgba(0,0,0,0.36), 0 0 34px rgba(191,154,74,0.12);
+    }
+    .im-format-card:hover .im-format-art > img,
+    .im-format-card:hover .im-format-art .im-format-ghost {
+      transform: scale(1.035);
+    }
+    .im-format-toggle:hover { color: var(--im-gilt-200) !important; }
+  }
+
+  /* ---- Land photo button + modal viewer ---- */
+  .im-land-photo-mobile { display: none; }
+  .im-land-photo-button {
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid rgba(191,154,74,0.52);
+    background: rgba(10,9,8,0.38);
+    color: var(--im-gilt-200);
+    font-family: var(--im-font-sans);
+    font-weight: 700;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(191,154,74,0.12), inset 0 0 0 1px rgba(255,255,255,0.04);
+    transition: color .24s var(--im-ease), border-color .24s var(--im-ease), background-color .24s var(--im-ease), transform .18s var(--im-ease), box-shadow .24s var(--im-ease);
+  }
+  .im-land-photo-button:hover,
+  .im-land-photo-button:focus-visible {
+    color: var(--im-gilt-100);
+    border-color: rgba(203,167,94,0.82);
+    background: rgba(20,16,11,0.78);
+    box-shadow: 0 0 26px rgba(191,154,74,0.18);
+    outline: none;
+  }
+  .im-land-photo-button:active { transform: scale(0.96); }
+  .im-land-photo-viewer {
+    position: fixed;
+    inset: 0;
+    z-index: 2147482450;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .24s var(--im-ease), visibility .24s var(--im-ease);
+  }
+  .im-land-photo-viewer.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .im-land-photo-viewer__backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(5,4,4,0.86);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+  .im-land-photo-viewer__panel {
+    position: relative;
+    width: min(1060px, 94vw);
+    max-height: 90svh;
+    border: 1px solid rgba(191,154,74,0.28);
+    background: rgba(10,9,8,0.96);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.62), 0 0 0 1px rgba(255,255,255,0.04);
+    padding: 12px;
+    transform: translateY(10px) scale(0.98);
+    transition: transform .24s var(--im-ease);
+  }
+  .im-land-photo-viewer.is-open .im-land-photo-viewer__panel { transform: none; }
+  .im-land-photo-viewer__close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(10,9,8,0.72);
+    color: var(--im-ivory-200);
+    font-size: 1.45rem;
+    line-height: 1;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transition: color .2s var(--im-ease), border-color .2s var(--im-ease), transform .18s var(--im-ease);
+  }
+  .im-land-photo-viewer__close:hover,
+  .im-land-photo-viewer__close:focus-visible {
+    color: var(--im-gilt-100);
+    border-color: rgba(203,167,94,0.7);
+    outline: none;
+  }
+  .im-land-photo-viewer__close:active { transform: scale(0.96); }
+  .im-land-photo-viewer img {
+    display: block;
+    width: 100%;
+    max-height: calc(90svh - 24px);
+    object-fit: contain;
+    outline: 1px solid rgba(255,255,255,0.1);
+    outline-offset: -1px;
+  }
+  @media (max-width: 820px) {
+    .im-land-photo-mobile {
+      display: flex;
+      justify-content: center;
+      margin-top: 24px;
+    }
+  }
+
+  /* Mobile: let letterspaced markers wrap & center instead of clipping off-screen */
+  @media (max-width: 600px) {
+    .im-marker { flex-wrap: wrap; justify-content: center; max-width: 100%; row-gap: 6px; }
+    .im-marker__text { white-space: normal; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .plat-panel, .plat-panel__img, .plat-panel__label, .plat-panel__rule, .plat-panel__sub, .plat-panel__enter { transition: none !important; }
     html.js .plat-panel { opacity: 1; transform: none; }
@@ -313,6 +623,14 @@
     html.js .plat-thesis__line .w { opacity: 1; transform: none; filter: none; transition: none; }
     .plat-thesis__hl { animation: none !important; }
     .im-grain::after { animation: none !important; }
+    html.js [data-reveal],
+    html.js [data-reveal-group] > * { opacity: 1; transform: none; transition: none; }
+    section[data-screen-label] img,
+    section[data-screen-label] video { animation: none !important; }
+    .im-format-card .im-format-art,
+    .im-format-card .im-format-art > img,
+    .im-format-card .im-format-art .im-format-ghost { transition: none; }
+    video { animation: none !important; }
   }
 </style>
 </head>
@@ -330,6 +648,14 @@
   <p class="plat-thesis__line">
     <span class="w" style="--d:0.75s">We </span><span class="w" style="--d:0.89s">bring </span><span class="w plat-thesis__hl" style="--d:1.05s">icons</span><span class="w" style="--d:1.05s"> </span><span class="w" style="--d:1.21s">back.</span>
   </p>
+</div>
+
+<div id="im-land-photo-viewer" class="im-land-photo-viewer" aria-hidden="true">
+  <button type="button" class="im-land-photo-viewer__backdrop" data-land-photo-close="1" aria-label="Close land photo"></button>
+  <div class="im-land-photo-viewer__panel" role="dialog" aria-modal="true" aria-label="Las Vegas Strip land photo" tabindex="-1">
+    <button type="button" class="im-land-photo-viewer__close" data-land-photo-close="1" aria-label="Close land photo">×</button>
+    <img src="/land.png" alt="Aerial site plan showing the Future Site, BLVD Complex, Las Vegas Strip, MGM Grand, and Aria Resort and Casino" loading="lazy">
+  </div>
 </div>
 
 <main class="plat-triptych" id="plat-triptych" aria-label="Choose an Impossible experience">
@@ -369,45 +695,376 @@
 
 </main>
 
+<!-- ============ 02 · THE NEW EXPERIENTIAL ECONOMY ============ -->
+<section id="category" data-screen-label="The Category" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px;">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+    <img src="/assets/sec2-category-hologram.jpg" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 42%; filter:brightness(0.72) saturate(1.05); animation:im-kenburns 34s ease-in-out infinite alternate;">
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,7,6,0.74) 0%, rgba(10,7,6,0.52) 46%, rgba(10,7,6,0.82) 100%);"></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:1140px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 002</span><span class="im-marker__text">The New Experiential Economy</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">Audiences demand the impossible from entertainment.</h2>
+    <p style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.3rem,2.2vw,1.9rem); color:var(--im-gilt-500); margin:20px 0 0;">A new category has emerged.</p>
+  </div>
+  <div data-reveal-group="1" style="position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap:1px; background:var(--im-border-faint); max-width:1140px; width:100%; margin:52px auto 0;">
+    <div class="plat-hov-card" style="padding:2.8rem 2.4rem; background:rgba(10,7,6,0.82); text-align:left; transition:background .4s var(--im-ease);">
+      <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:18px;">The Impossible Venue</div>
+      <div style="font-family:var(--im-font-display); font-size:1.6rem; color:var(--im-ivory-100); margin-bottom:14px;">Sphere</div>
+      <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.08rem; line-height:1.65; color:var(--im-ivory-400); margin:0;">A $2.3 billion structure where the building itself is the show.</p>
+    </div>
+    <div class="plat-hov-card" style="padding:2.8rem 2.4rem; background:rgba(10,7,6,0.82); text-align:left; transition:background .4s var(--im-ease);">
+      <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:18px;">The Impossible Immersion</div>
+      <div style="font-family:var(--im-font-display); font-size:1.6rem; color:var(--im-ivory-100); margin-bottom:14px;">Disneyland</div>
+      <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.08rem; line-height:1.65; color:var(--im-ivory-400); margin:0;">Alternate worlds without a fixed path or runtime. Immersion as mass entertainment.</p>
+    </div>
+    <div style="padding:2.8rem 2.4rem; background:var(--im-accent-tint); border-top:1px solid var(--im-gilt-500); text-align:left;">
+      <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.28em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:18px;">The Impossible Performance</div>
+      <div style="font-family:var(--im-font-display); font-size:1.6rem; color:var(--im-gilt-200); margin-bottom:14px;">Impossible Moments</div>
+      <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.08rem; line-height:1.65; color:var(--im-ivory-200); margin:0;">A living performance from a moment in time that no longer exists.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 · THE GENESIS ============ -->
+<section id="genesis" data-screen-label="The Genesis" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px;">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+    <video autoplay muted loop playsinline preload="auto" poster="/assets/posters/abba-voyage-stage-still.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:grayscale(0.22) contrast(1.08) brightness(0.86);"><source src="/Downloads/abba-voyage-bg-compressed.mp4" type="video/mp4"></video>
+    <div style="position:absolute; inset:0; background:linear-gradient(rgba(10,7,6,0.46), rgba(10,7,6,0.72));"></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:860px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 003</span><span class="im-marker__text">The Genesis · Stockholm 2022</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:780px; margin:18px 0 0; text-wrap:balance;">ABBA Voyage didn’t prove a model.<br>It revealed a category.</h2>
+    <p style="font-family:var(--im-font-serif); font-weight:400; font-size:clamp(1.15rem,1.7vw,1.4rem); line-height:1.8; color:var(--im-ivory-400); max-width:720px; margin:28px 0 0;">Four artists in their late seventies appeared as their younger selves. The audience knew. They did not care. For ninety minutes, it was 1977 again.</p>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; display:flex; gap:clamp(28px,6vw,80px); margin:48px auto 0; flex-wrap:wrap; justify-content:center;">
+    <div class="im-stat im-stat--lg im-stat--center"><span class="im-stat__num">$500M+</span><span class="im-stat__label">Total revenue since 2022</span></div>
+    <div class="im-stat im-stat--lg im-stat--center"><span class="im-stat__num">$175M</span><span class="im-stat__label">Initial build investment</span></div>
+    <div class="im-stat im-stat--lg im-stat--center"><span class="im-stat__num">$135M</span><span class="im-stat__label">Annual revenue</span></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:860px; margin:48px auto 0;">
+    <div class="im-card im-card--glass"><div class="im-card__inner">
+      <p style="font-family:var(--im-font-display); font-weight:500; font-style:italic; font-size:clamp(1.4rem,2.4vw,2rem); line-height:1.4; color:var(--im-gilt-200); margin:0; text-align:center;">ABBA proved people will pay a premium and travel for an Impossible Concert.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ 04 · THE CONVICTION ============ -->
+<section id="conviction" data-screen-label="The Conviction" style="position:relative; padding:clamp(68px,9vh,120px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px; background:var(--im-noir-950);">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+    <video autoplay muted loop playsinline preload="auto" poster="/assets/posters/conviction-vegas-strip-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 55%; filter:saturate(1.02) brightness(0.66);"><source src="/assets/conviction-vegas-strip.mp4" type="video/mp4"></video>
+    <div style="position:absolute; inset:0; background:radial-gradient(ellipse 82% 80% at 50% 38%, rgba(6,6,6,0.5), rgba(6,6,6,0.88));"></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:920px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Conviction</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2.2rem,4.6vw,3.8rem); line-height:1.08; color:var(--im-gilt-200); margin:18px 0 0; text-wrap:balance;">In one week, $35B poured into Vegas.</h2>
+  </div>
+  <div data-reveal-group="1" style="position:relative; z-index:2; display:flex; gap:2px; max-width:760px; width:100%; margin:34px auto 0; flex-wrap:wrap; justify-content:center;">
+    <div style="flex:1; min-width:240px; background:var(--im-noir-850); border:1px solid var(--im-border-faint); padding:1.6rem 1.9rem; text-align:left;">
+      <div style="font-family:var(--im-font-mono); font-size:0.62rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:14px;">May 2026</div>
+      <div class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:2.4rem; color:var(--im-gilt-500); line-height:1; text-shadow:0 0 30px rgba(196,148,60,0.18);">$17.6B</div>
+      <div style="font-family:var(--im-font-sans); font-size:0.8rem; color:var(--im-ivory-400); margin-top:8px;">Tilman Fertitta to acquire Caesars Entertainment</div>
+    </div>
+    <div style="flex:1; min-width:240px; background:var(--im-noir-850); border:1px solid var(--im-border-faint); padding:1.6rem 1.9rem; text-align:left;">
+      <div style="font-family:var(--im-font-mono); font-size:0.62rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--im-ivory-400); margin-bottom:14px;">Five days later</div>
+      <div class="im-display-number" style="font-family:var(--im-font-display); font-style:italic; font-size:2.4rem; color:var(--im-gilt-500); line-height:1; text-shadow:0 0 30px rgba(196,148,60,0.18);">$18B</div>
+      <div style="font-family:var(--im-font-sans); font-size:0.8rem; color:var(--im-ivory-400); margin-top:8px;">Barry Diller moves to take MGM private</div>
+    </div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:820px; margin:24px auto 0;">
+    <div class="im-card im-card--glass"><div class="im-card__inner">
+      <p style="font-family:var(--im-font-display); font-weight:500; font-style:italic; font-size:clamp(1.22rem,2.05vw,1.65rem); line-height:1.36; color:var(--im-lumen-200); margin:0; text-align:center;">“Real world assets that AI cannot easily replicate or disintermediate. That conviction has only strengthened.”</p>
+      <div style="font-family:var(--im-font-mono); font-size:0.62rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--im-ivory-400); margin-top:14px; text-align:center;">— Barry Diller</div>
+    </div></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:760px; margin:24px auto 0; text-align:center;">
+    <p style="font-family:var(--im-font-serif); font-weight:400; font-size:clamp(1.05rem,1.4vw,1.18rem); line-height:1.62; color:var(--im-ivory-200); margin:0;">A rights-backed, purpose-built entertainment asset on the Las Vegas Strip cannot be replicated at home or on a screen.</p>
+  </div>
+</section>
+
+<!-- ============ 05 · THE LOCATION ============ -->
+<section id="location" data-screen-label="The Location" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px; background:var(--im-noir-950);">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;"><video autoplay muted loop playsinline preload="auto" poster="/assets/posters/location-vegas-night-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.8) saturate(1.04);"><source src="/assets/location-vegas-night.mp4" type="video/mp4"></video><div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,7,6,0.78) 0%, rgba(10,7,6,0.5) 42%, rgba(10,7,6,0.85) 100%);"></div></div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 005</span><span class="im-marker__text">The Location · Las Vegas</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); margin:18px 0 0;">Prime Las Vegas Location</h2>
+    <p class="im-location-description" style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.15rem,1.8vw,1.5rem); line-height:1.38; color:var(--im-ivory-200); max-width:980px; margin:24px 0 0; text-wrap:balance;">Built on the best land in Vegas at the center of the Strip, <span style="font-style:normal; font-weight:700; color:var(--im-gilt-500);">50M+</span> foot traffic per year</p>
+    <p class="im-location-investor-copy" style="font-family:var(--im-font-serif); font-weight:400; font-size:clamp(1rem,1.32vw,1.12rem); line-height:1.62; color:var(--im-ivory-300, var(--im-ivory-200)); max-width:900px; margin:16px 0 0; text-wrap:pretty;">Equity investors acquire an interest in a hard real estate asset in one of the world's most supply&#8209;constrained entertainment corridors, along with full participation in the operating economics.</p>
+    <div class="im-land-photo-mobile">
+      <button type="button" class="im-land-photo-button im-land-photo-thumb" data-land-photo-trigger="1" aria-haspopup="dialog" aria-expanded="false"><span>View Land Photo</span></button>
+    </div>
+  </div>
+
+  <!-- Las Vegas Strip — aerial site plan -->
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:1040px; width:100%; margin:48px auto 0;">
+    <div class="im-frame" style="position:relative; padding:14px; --im-mark-len:22px; --im-mark-color:var(--im-border-strong);">
+      <div style="position:relative; overflow:hidden; border:1px solid var(--im-border-faint); box-shadow:var(--im-shadow-lg);">
+        <img src="/land.png" alt="Aerial site plan showing the Future Site, BLVD Complex, Las Vegas Strip, MGM Grand, and Aria Resort and Casino" style="display:block; width:100%; height:auto;">
+        <div style="position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse 85% 85% at 50% 50%, transparent 52%, rgba(6,6,6,0.5));"></div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; margin-top:18px;"><span class="im-marker im-marker--sm"><span class="im-marker__dot" aria-hidden="true"></span><span class="im-marker__text">Mid-Strip site · Las Vegas Blvd S</span></span></div>
+  </div>
+</section>
+
+<!-- ============ 06 · THE ARENA ============ -->
+<section id="arena" data-screen-label="The Arena" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px; background:var(--im-noir-950);">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
+    <video autoplay muted loop playsinline preload="metadata" poster="/assets/posters/arena-exterior-first-frame.jpg" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.72) saturate(1.04);"><source src="/assets/arena-exterior.mp4" type="video/mp4"></video>
+    <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(10,7,6,0.78) 0%, rgba(10,7,6,0.5) 42%, rgba(10,7,6,0.85) 100%);"></div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:1000px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Arena</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2rem,4vw,3.3rem); line-height:1.14; color:var(--im-ivory-100); max-width:980px; margin:18px 0 0; text-wrap:balance;">An arena built for the Impossible.</h2>
+    <p style="font-family:var(--im-font-display); font-style:italic; font-weight:400; font-size:clamp(1.3rem,2.2vw,1.9rem); color:var(--im-gilt-500); margin:20px 0 0;">Powered by ILM, the team behind ABBA Voyage.</p>
+  </div>
+</section>
+
+<!-- ============ 07 · THE FORMAT ============ -->
+<section id="format" data-screen-label="The Format" style="position:relative; padding:clamp(80px,12vh,160px) max(40px,6vw); overflow:hidden; scroll-margin-top:80px;">
+  <div style="position:absolute; inset:0; z-index:0; overflow:hidden;"><img src="/assets/sec6-format-concert.jpg" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 45%; filter:brightness(0.6) saturate(0.96); animation:im-kenburns 38s ease-in-out infinite alternate;"><div style="position:absolute; inset:0; background:radial-gradient(ellipse 95% 80% at 50% 28%, rgba(10,7,6,0.6), rgba(10,7,6,0.88));"></div></div>
+  <div data-reveal="1" style="position:relative; z-index:2; max-width:1160px; margin:0 auto; text-align:center; display:flex; flex-direction:column; align-items:center;">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 007</span><span class="im-marker__text">The Format</span></span>
+    <h2 style="font-family:var(--im-font-display); font-weight:400; font-size:clamp(2.2rem,4.4vw,3.6rem); line-height:1.1; color:var(--im-ivory-100); margin:18px 0 0;">Two openings. One impossible format.</h2>
+    <p style="font-family:var(--im-font-serif); font-style:italic; font-weight:400; font-size:clamp(1rem,1.45vw,1.18rem); line-height:1.65; color:var(--im-ivory-400); max-width:980px; margin:18px 0 0;">Permanent shows built around moments no tour can deliver. The same venue is designed to support multiple shows.</p>
+  </div>
+  <div data-reveal-group="1" style="position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(330px, 100%), 1fr)); gap:2px; max-width:1160px; width:100%; margin:52px auto 0;">
+
+    <!-- Britney -->
+    <div class="im-format-card" style="background:var(--im-noir-850); border:1px solid var(--im-border-faint); text-align:left; overflow:hidden; display:flex; flex-direction:column; transition:transform .45s var(--im-ease), border-color .45s var(--im-ease), box-shadow .45s var(--im-ease);">
+      <div class="im-format-art" style="height:340px; position:relative; background-image:linear-gradient(160deg, rgba(10,7,6,0.42), rgba(10,7,6,0.62)), url('/assets/britney-snake.webp'); background-size:cover; background-position:center 22%; display:flex; align-items:flex-end; justify-content:center; filter:grayscale(0.2) contrast(1.06);">
+        <span class="im-format-ghost" style="font-family:var(--im-font-display); font-weight:700; font-size:5rem; line-height:0.9; opacity:0.2; color:#fff; margin-bottom:-0.04em;">Britney</span>
+      </div>
+      <div style="padding:2.4rem 2.6rem 2.8rem; display:flex; flex-direction:column; flex:1;">
+        <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:8px;">The Megastar Return</div>
+        <div style="font-family:var(--im-font-display); font-weight:700; font-size:2.6rem; line-height:1; color:var(--im-britney); margin-bottom:16px;">Britney</div>
+        <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.1rem; line-height:1.65; color:var(--im-ivory-400); margin:0 0 22px;">A single icon with enough cultural gravity to sustain a permanent residency.</p>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:20px; border-top:1px solid var(--im-border-faint); margin-top:auto;">
+          <div class="im-stat im-stat--sm"><span class="im-stat__num">50M+</span><span class="im-stat__label">Monthly Spotify listeners</span></div>
+        </div>
+        <button class="im-format-toggle" type="button" aria-expanded="false" aria-controls="plat-why-britney" data-expander data-label-open="Why Britney?  +" data-label-close="Hide the thesis  &#8722;" style="margin-top:22px; background:transparent; border:none; cursor:pointer; padding:0; font-family:var(--im-font-sans); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--im-gilt-300); display:inline-flex; align-items:center; gap:8px; transition:color .35s var(--im-ease); align-self:flex-start;">Why Britney?  +</button>
+        <p id="plat-why-britney" hidden style="font-family:var(--im-font-serif); font-weight:400; font-size:1.05rem; line-height:1.7; color:var(--im-ivory-200); margin:18px 0 0; padding-top:18px; border-top:1px solid var(--im-border-faint);">Her prior Las Vegas residency grossed $137.7M across 248 shows and sold more than 916,000 tickets. Demand is proven. The format is natural. And the version of Britney her fans want most — the one from her peak years — is the version only Impossible Moments can deliver.</p>
+      </div>
+    </div>
+
+    <!-- Nashville -->
+    <div class="im-format-card" style="background:var(--im-noir-850); border:1px solid var(--im-border-faint); text-align:left; overflow:hidden; display:flex; flex-direction:column; transition:transform .45s var(--im-ease), border-color .45s var(--im-ease), box-shadow .45s var(--im-ease);">
+      <div class="im-format-art" style="height:340px; position:relative; background-image:linear-gradient(160deg, rgba(10,7,6,0.42), rgba(10,7,6,0.62)), url('/assets/nashville-duet-square.png'); background-size:cover; background-position:center 18%; display:flex; align-items:flex-end; justify-content:center; filter:grayscale(0.2) contrast(1.06);">
+        <span class="im-format-ghost" style="font-family:var(--im-font-display); font-weight:700; font-size:5rem; line-height:0.9; opacity:0.2; color:#fff; margin-bottom:-0.04em;">Nashville</span>
+      </div>
+      <div style="padding:2.4rem 2.6rem 2.8rem; display:flex; flex-direction:column; flex:1;">
+        <div style="font-family:var(--im-font-sans); font-weight:500; font-size:0.72rem; letter-spacing:0.4em; text-transform:uppercase; color:var(--im-gilt-500); margin-bottom:8px;">One Night In</div>
+        <div style="font-family:var(--im-font-display); font-weight:700; font-size:2.6rem; line-height:1; color:var(--im-nashville); margin-bottom:16px;">Nashville</div>
+        <p style="font-family:var(--im-font-serif); font-weight:400; font-size:1.1rem; line-height:1.65; color:var(--im-ivory-400); margin:0 0 22px;">Legends past and present on one stage. A genre’s history colliding in one impossible night.</p>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; padding-top:20px; border-top:1px solid var(--im-border-faint); margin-top:auto;">
+          <div class="im-stat im-stat--sm"><span class="im-stat__num">139M+</span><span class="im-stat__label">U.S. country music consumers</span></div>
+        </div>
+        <button class="im-format-toggle" type="button" aria-expanded="false" aria-controls="plat-why-nashville" data-expander data-label-open="Why Nashville?  +" data-label-close="Hide the thesis  &#8722;" style="margin-top:22px; background:transparent; border:none; cursor:pointer; padding:0; font-family:var(--im-font-sans); font-weight:600; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--im-gilt-300); display:inline-flex; align-items:center; gap:8px; transition:color .35s var(--im-ease); align-self:flex-start;">Why Nashville?  +</button>
+        <p id="plat-why-nashville" hidden style="font-family:var(--im-font-serif); font-weight:400; font-size:1.05rem; line-height:1.7; color:var(--im-ivory-200); margin:18px 0 0; padding-top:18px; border-top:1px solid var(--im-border-faint);">Country is the fastest-growing major genre with the most loyal cross-generational fan base in music. The impossible moments format was built for it — bringing together legends across eras in ways a traditional stage never could. The multi-artist format also means the show refreshes over time without rebuilding the core production.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CLOSING · THE TRIPTYCH, AGAIN ============ -->
+<section class="plat-triptych plat-triptych--closing" aria-label="Choose an Impossible experience">
+
+  <a class="plat-panel" href="/" aria-label="Impossible Moments — Concerts">
+    <img class="plat-panel__img" src="/assets/britney-snake.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Concerts</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The past, made present.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+  <a class="plat-panel" href="/films" aria-label="Impossible Films">
+    <img class="plat-panel__img" src="/assets/films/sinatra-noir.jpg" alt="" aria-hidden="true" loading="lazy" style="object-position:center 22%;">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Films</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The legends, returned to the screen.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+  <a class="plat-panel" href="/fights" aria-label="Impossible Fights">
+    <img class="plat-panel__img" src="/assets/fights/bout-ali-tyson.webp" alt="" aria-hidden="true" loading="lazy" style="object-position:center 30%;">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Fights</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The arguments of a century, settled live.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+</section>
+
 <script>
   (function () {
-    var triptych = document.getElementById('plat-triptych');
-    var panels = Array.prototype.slice.call(triptych.querySelectorAll('.plat-panel'));
+    /* ---- Triptychs: hero + closing, both fully interactive ---- */
+    var triptychs = Array.prototype.slice.call(document.querySelectorAll('.plat-triptych'));
     var touchMode = window.matchMedia('(hover: none)').matches;
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
-    function setActive(target) {
-      panels.forEach(function (p) { p.classList.toggle('is-active', p === target); });
-      document.body.classList.toggle('plat-has-active', !!target);
-    }
-
-    panels.forEach(function (panel) {
-      panel.addEventListener('mouseenter', function () { if (!touchMode) setActive(panel); });
-      panel.addEventListener('focus', function () { setActive(panel); });
-      panel.addEventListener('click', function (e) {
-        if (touchMode && !panel.classList.contains('is-active')) {
-          e.preventDefault();
-          setActive(panel);
-        }
+    triptychs.forEach(function (triptych, tIndex) {
+      var panels = Array.prototype.slice.call(triptych.querySelectorAll('.plat-panel'));
+      function setActive(target) {
+        panels.forEach(function (p) { p.classList.toggle('is-active', p === target); });
+        document.body.classList.toggle('plat-has-active', !!target);
+      }
+      panels.forEach(function (panel) {
+        panel.addEventListener('mouseenter', function () { if (!touchMode) setActive(panel); });
+        panel.addEventListener('focus', function () { setActive(panel); });
+        panel.addEventListener('click', function (e) {
+          if (touchMode && !panel.classList.contains('is-active')) {
+            e.preventDefault();
+            setActive(panel);
+          }
+        });
       });
-    });
-    triptych.addEventListener('mouseleave', function () { if (!touchMode) setActive(null); });
+      triptych.addEventListener('mouseleave', function () { if (!touchMode) setActive(null); });
 
-    /* Staggered intro */
+      /* Panel intro: hero staggers on load; closing staggers when scrolled into view */
+      function stagger() {
+        panels.forEach(function (p, i) {
+          setTimeout(function () { p.classList.add('is-in'); }, 140 + i * 150);
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        panels.forEach(function (p) { p.classList.add('is-in'); });
+      } else if (tIndex === 0) {
+        stagger();
+      } else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { stagger(); io.disconnect(); }
+          });
+        }, { threshold: 0.2 });
+        io.observe(triptych);
+      }
+    });
+
+    /* ---- Mark + thesis intro ---- */
     var mark = document.getElementById('plat-mark');
     var thesis = document.getElementById('plat-thesis');
     if (reduce) {
-      panels.forEach(function (p) { p.classList.add('is-in'); });
       mark.classList.add('is-in');
       thesis.classList.add('is-in');
     } else {
-      panels.forEach(function (p, i) {
-        setTimeout(function () { p.classList.add('is-in'); }, 140 + i * 150);
-      });
       setTimeout(function () { mark.classList.add('is-in'); }, 220);
       setTimeout(function () { thesis.classList.add('is-in'); }, 700);
     }
+
+    /* ---- Scroll-linked hiding of fixed hero chrome ---- */
+    var hero = triptychs[0];
+    var ticking = false;
+    function updateScrolled() {
+      ticking = false;
+      var past = (window.scrollY || document.documentElement.scrollTop || 0) > hero.offsetHeight * 0.35;
+      document.body.classList.toggle('plat-scrolled', past);
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(updateScrolled); }
+    }, { passive: true });
+    updateScrolled();
+  })();
+
+  (function () {
+    /* ---- Reveal on scroll ---- */
+    var els = document.querySelectorAll('[data-reveal], [data-reveal-group]');
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    if (reduce || !('IntersectionObserver' in window)) {
+      for (var i = 0; i < els.length; i++) els[i].classList.add('is-visible');
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      for (var j = 0; j < els.length; j++) io.observe(els[j]);
+    }
+
+    /* ---- Autoplay insurance: re-assert muted/loop/playsInline + play() ---- */
+    function nudgeVideos() {
+      try {
+        var vids = document.querySelectorAll('video');
+        for (var k = 0; k < vids.length; k++) {
+          vids[k].muted = true;
+          vids[k].loop = true;
+          vids[k].playsInline = true;
+          var p = vids[k].play();
+          if (p && p.catch) p.catch(function () {});
+        }
+      } catch (e) {}
+    }
+    if (document.readyState === 'complete') nudgeVideos();
+    else window.addEventListener('load', nudgeVideos);
+  })();
+
+  (function () {
+    /* ---- Why Britney / Why Nashville expanders ---- */
+    document.querySelectorAll('[data-expander]').forEach(function (btn) {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      if (!panel) return;
+      btn.addEventListener('click', function () {
+        var opening = panel.hasAttribute('hidden');
+        if (opening) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', '');
+        btn.setAttribute('aria-expanded', opening ? 'true' : 'false');
+        btn.textContent = opening ? btn.getAttribute('data-label-close') : btn.getAttribute('data-label-open');
+      });
+    });
+  })();
+
+  (function () {
+    /* ---- Land-photo modal viewer ---- */
+    var viewer = document.getElementById('im-land-photo-viewer');
+    if (!viewer) return;
+    var opener = null;
+    function setOpen(open, trigger) {
+      if (open && trigger) opener = trigger;
+      viewer.classList.toggle('is-open', open);
+      viewer.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.querySelectorAll('[data-land-photo-trigger]').forEach(function (el) {
+        el.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      if (open) {
+        var target = viewer.querySelector('.im-land-photo-viewer__close') || viewer.querySelector('.im-land-photo-viewer__panel');
+        if (target && target.focus) requestAnimationFrame(function () { target.focus(); });
+      } else if (opener && opener.focus) {
+        var restore = opener;
+        opener = null;
+        setTimeout(function () { restore.focus(); }, 40);
+      }
+    }
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      var trig = t.closest('[data-land-photo-trigger]');
+      if (trig) { e.preventDefault(); setOpen(true, trig); return; }
+      if (t.closest('[data-land-photo-close]')) { e.preventDefault(); setOpen(false); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { setOpen(false); return; }
+      if (e.key !== 'Tab' || !viewer.classList.contains('is-open')) return;
+      var f = Array.prototype.filter.call(
+        viewer.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+        function (el) { var r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; }
+      );
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   })();
 </script>
 
