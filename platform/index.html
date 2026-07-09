@@ -138,12 +138,16 @@
     font-family: var(--im-font-display);
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(1.5rem, 2.7vw, 2.45rem);
-    line-height: 1.42;
+    font-size: clamp(2rem, 3.6vw, 3.2rem);
+    line-height: 1.35;
     color: var(--im-ivory-100);
     text-shadow: 0 1px 4px rgba(6,6,6,0.9), 0 2px 30px rgba(6,6,6,0.8);
     text-wrap: balance;
     margin: 0;
+    white-space: nowrap;
+  }
+  @media (max-width: 480px) {
+    .plat-thesis__line { white-space: normal; }
   }
   .plat-thesis__line .w {
     display: inline-block;
@@ -355,7 +359,7 @@
 <div class="plat-thesis" id="plat-thesis">
   <span class="plat-thesis__orn plat-thesis__orn--top" aria-hidden="true"><span class="plat-thesis__gem"></span></span>
   <p class="plat-thesis__line">
-    <span class="w" style="--d:0.75s">We </span><span class="w" style="--d:0.83s">bring </span><span class="w" style="--d:0.91s">icons </span><span class="w" style="--d:0.99s">back </span><span class="w" style="--d:1.07s">to </span><span class="w" style="--d:1.15s">the </span><span class="w plat-thesis__hl" style="--d:1.3s">stage</span><span class="w" style="--d:1.3s">, </span><span class="w plat-thesis__hl plat-thesis__hl--2" style="--d:1.44s">screen</span><span class="w" style="--d:1.44s"> </span><span class="w" style="--d:1.5s">and </span><span class="w plat-thesis__hl plat-thesis__hl--3" style="--d:1.62s">arena</span><span class="w" style="--d:1.62s">.</span>
+    <span class="w" style="--d:0.75s">We </span><span class="w" style="--d:0.89s">bring </span><span class="w plat-thesis__hl" style="--d:1.05s">icons</span><span class="w" style="--d:1.05s"> </span><span class="w" style="--d:1.21s">back.</span>
   </p>
   <span class="plat-thesis__orn plat-thesis__orn--btm" aria-hidden="true"><span class="plat-thesis__gem"></span></span>
 </div>
