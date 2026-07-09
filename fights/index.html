@@ -152,6 +152,28 @@
     padding: clamp(80px, 12vh, 160px) max(40px, 6vw);
     overflow: hidden;
   }
+  /* Short sections still command a full screen: center content in a viewport-height room. */
+  @media (min-width: 901px) {
+    .imfi-section {
+      min-height: 100svh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  @media (max-width: 900px) {
+    .imfi-section {
+      min-height: 72svh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  /* Flex + auto side margins shrink children to fit-content; restore full width (max-widths still cap). */
+  .imfi-section > * { width: 100%; box-sizing: border-box; }
+  .imfi-section > .imfi-flywheel { width: min(740px, 100%); }
   .imfi-section-bg {
     position: absolute;
     inset: 0;
@@ -235,70 +257,6 @@
   }
   @media (max-width: 640px) {
     .imfi-rest__row { flex-direction: column; align-items: center; gap: 6px; padding: 14px 8px; }
-  }
-  .imfi-thesis-video {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(0.22) contrast(1.08) brightness(0.86);
-  }
-  .imfi-thesis-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(rgba(10,7,6,0.55), rgba(10,7,6,0.78));
-  }
-  .imfi-stats {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(28px, 6vw, 80px);
-    max-width: 1140px;
-    margin: 48px auto 0;
-    text-align: center;
-  }
-  .imfi-stat { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .imfi-stat__value {
-    font-family: var(--im-font-display);
-    font-weight: 500;
-    font-size: clamp(2.1rem, 3.6vw, 3rem);
-    line-height: 1;
-    color: var(--im-gilt-200);
-  }
-  .imfi-stat__label {
-    font-family: var(--im-font-sans);
-    font-weight: 500;
-    font-size: 0.66rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--im-ivory-600);
-  }
-  .imfi-glass {
-    position: relative;
-    z-index: 2;
-    max-width: 860px;
-    margin: 48px auto 0;
-    padding: clamp(28px, 4vw, 44px);
-    background: rgba(14, 12, 10, 0.55);
-    border: 1px solid var(--im-border-faint);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--im-shadow-lg);
-  }
-  .imfi-glass p {
-    font-family: var(--im-font-display);
-    font-weight: 500;
-    font-style: italic;
-    font-size: clamp(1.4rem, 2.4vw, 2rem);
-    line-height: 1.4;
-    color: var(--im-gilt-200);
-    margin: 0;
-    text-align: center;
   }
   .imfi-section-head {
     position: relative;
@@ -447,60 +405,6 @@
   }
 
   /* ---- Model cards (1px seams on a faint gilt field) ---- */
-  .imfi-grid {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    gap: 1px;
-    background: var(--im-border-faint);
-    max-width: 1140px;
-    width: 100%;
-    margin: 52px auto 0;
-  }
-  .imfi-grid--model { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); max-width: 1100px; }
-  .imfi-model-card { background: var(--im-noir-850); padding: 2.6rem 2.2rem; text-align: left; }
-  .imfi-model-card__no {
-    font-family: var(--im-font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.24em;
-    color: var(--im-gilt-500);
-    margin-bottom: 18px;
-  }
-  .imfi-model-card__title {
-    font-family: var(--im-font-sans);
-    font-weight: 600;
-    font-size: 0.82rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--im-ivory-100);
-    margin-bottom: 14px;
-  }
-  .imfi-model-card__body {
-    font-family: var(--im-font-serif);
-    font-weight: 400;
-    font-size: 1.08rem;
-    line-height: 1.65;
-    color: var(--im-ivory-400);
-    margin: 0;
-  }
-
-  /* ---- Revenue grid: seven compact model cards, rows of 4 + 3 ---- */
-  .imfi-grid--revenue { grid-template-columns: repeat(12, 1fr); max-width: 1140px; }
-  .imfi-grid--revenue .imfi-model-card { grid-column: span 3; padding: 2rem 1.7rem; }
-  .imfi-grid--revenue .imfi-model-card:nth-child(n+5) { grid-column: span 4; }
-  .imfi-grid--revenue .imfi-model-card__no { margin-bottom: 12px; }
-  .imfi-grid--revenue .imfi-model-card__title { margin-bottom: 10px; }
-  .imfi-grid--revenue .imfi-model-card__body { font-size: 0.98rem; line-height: 1.6; }
-  @media (max-width: 1000px) and (min-width: 641px) {
-    .imfi-grid--revenue .imfi-model-card,
-    .imfi-grid--revenue .imfi-model-card:nth-child(n+5) { grid-column: span 6; }
-    .imfi-grid--revenue .imfi-model-card:last-child { grid-column: span 12; }
-  }
-  @media (max-width: 640px) {
-    .imfi-grid--revenue .imfi-model-card,
-    .imfi-grid--revenue .imfi-model-card:nth-child(n+5),
-    .imfi-grid--revenue .imfi-model-card:last-child { grid-column: auto; }
-  }
 
   /* ---- Launch-slate chip on the bill (same idiom as the MMA Rules qualifier) ---- */
   .imfi-bout__qualifier--slate {
@@ -717,62 +621,6 @@
   .imfi-close-marker { margin-bottom: clamp(22px, 3.4vw, 32px); }
 
   /* ---- Footer ---- */
-  .imfi-footer {
-    position: relative;
-    z-index: 2;
-    padding: 80px max(24px, 4vw) 56px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    gap: 24px;
-    border-top: 1px solid var(--im-border-faint);
-    background: var(--im-noir-900);
-  }
-  .imfi-footer-logo { display: inline-flex; flex-direction: column; gap: 8px; line-height: 1; }
-  .imfi-footer-logo__1 {
-    font-family: var(--im-font-display);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    color: var(--im-filament);
-    text-shadow: var(--im-neon-text-soft);
-  }
-  .imfi-footer-logo__2 {
-    font-family: var(--im-font-sans);
-    font-weight: 400;
-    font-size: 0.6rem;
-    letter-spacing: 0.52em;
-    text-indent: 0.52em;
-    text-transform: uppercase;
-    color: var(--im-gilt-400);
-  }
-  .imfi-footer-tagline { font-family: var(--im-font-serif); font-style: italic; color: var(--im-ivory-400); margin: 0; font-size: 1.1rem; }
-  .imfi-footer-divider { width: 220px; height: 1px; background: var(--im-border); }
-  .imfi-footer-meta {
-    display: flex;
-    gap: 28px;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    font-family: var(--im-font-sans);
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--im-ivory-600);
-  }
-
-  /* ---- Section backgrounds ---- */
-  #top { background: var(--im-noir-950); }
-  #thesis { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), var(--im-noir-950); }
-  #format { background: var(--im-noir-900); }
-  #card { background: var(--im-noir-950); }
-  #slate { background: var(--im-noir-900); }
-  #tko { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), var(--im-noir-950); }
-  #authorization { background: var(--im-noir-900); }
-  #model { background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(191,154,74,0.08), transparent 60%), linear-gradient(180deg, var(--im-noir-850), var(--im-noir-900)); }
-  #closing { background: linear-gradient(180deg, var(--im-noir-900) 0%, var(--im-noir-950) 62%, var(--im-noir-950) 100%); }
-
   /* ---- Reveal on scroll (JS-gated so content is visible without JS) ---- */
   html.js [data-reveal] {
     opacity: 0;
@@ -840,8 +688,6 @@
   @media (max-width: 640px) {
     .imfi-section { padding: clamp(72px, 11vh, 120px) 22px; }
     .imfi-hero-markers { flex-direction: column; gap: 10px; bottom: 68px; }
-    .imfi-grid { grid-template-columns: 1fr; gap: 14px; background: transparent; }
-    .imfi-model-card { padding: 2.2rem 1.6rem; }
     .imfi-bill-wrap { margin-top: 44px; }
     .imfi-bout { padding: 2rem 1rem; }
     .imfi-bout__no { margin-bottom: 16px; }
@@ -853,6 +699,379 @@
     .im-marker { flex-wrap: wrap; justify-content: center; max-width: 100%; row-gap: 6px; font-size: 0.6rem; letter-spacing: 0.18em; }
     .im-marker__text { white-space: normal; }
     .im-btn--lg { padding: 0 28px; }
+  }
+
+  /* ---- The Model: revenue flywheel ---- */
+  .imfi-flywheel {
+    position: relative;
+    z-index: 2;
+    width: min(740px, 100%);
+    aspect-ratio: 1;
+    margin: 72px auto 0;
+  }
+  .imfi-flywheel__ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .imfi-flywheel__ring circle { fill: none; stroke: rgba(191, 154, 74, 0.4); stroke-width: 0.3; stroke-dasharray: 0.7 1.1; }
+  .imfi-flywheel__ring path { fill: none; stroke: var(--im-gilt-500); stroke-width: 0.55; stroke-linecap: round; stroke-linejoin: round; }
+  .imfi-flywheel__spin { transform-origin: 50% 50%; animation: imfi-flywheel-spin 80s linear infinite; }
+  @keyframes imfi-flywheel-spin { to { transform: rotate(360deg); } }
+  .imfi-flywheel__hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(200px, 38%, 280px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+    padding: 24px;
+    background: radial-gradient(ellipse at 50% 36%, rgba(30, 23, 14, 0.94), rgba(10, 9, 8, 0.97));
+    border: 1px solid rgba(191, 154, 74, 0.55);
+    box-shadow: 0 0 36px rgba(191, 154, 74, 0.15), inset 0 0 34px rgba(191, 154, 74, 0.07);
+  }
+  .imfi-flywheel__hub-kicker {
+    font-family: var(--im-font-sans);
+    font-weight: 600;
+    font-size: 0.56rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--im-gilt-500);
+  }
+  .imfi-flywheel__hub-name {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+    line-height: 1.04;
+    color: var(--im-filament);
+    text-shadow: var(--im-neon-text-soft);
+  }
+  .imfi-flywheel__hub-sub {
+    font-family: var(--im-font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.84rem, 1.15vw, 0.98rem);
+    color: var(--im-ivory-400);
+  }
+  .imfi-flywheel__node {
+    position: absolute;
+    top: var(--fy);
+    left: var(--fx);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+    background: rgba(13, 11, 9, 0.92);
+    border: 1px solid var(--im-border-faint);
+    padding: 14px 18px;
+    min-width: 118px;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .imfi-flywheel__node:hover { border-color: rgba(203, 167, 94, 0.6); box-shadow: 0 12px 34px rgba(0, 0, 0, 0.45), var(--im-glow-gilt-sm); }
+  .imfi-flywheel__no {
+    font-family: var(--im-font-mono, ui-monospace, monospace);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    color: var(--im-gilt-600);
+  }
+  .imfi-flywheel__name {
+    font-family: var(--im-font-sans);
+    font-weight: 600;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.5;
+    color: var(--im-ivory-100);
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) {
+    .imfi-flywheel { aspect-ratio: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 52px; }
+    .imfi-flywheel__ring { display: none; }
+    .imfi-flywheel__hub { position: static; transform: none; width: 100%; aspect-ratio: auto; border-radius: 0; grid-column: 1 / -1; padding: 28px 18px; }
+    .imfi-flywheel__node { position: static; transform: none; min-width: 0; padding: 14px 10px; }
+    .imfi-flywheel__name { white-space: normal; }
+    .imfi-flywheel__name br { display: none; }
+  }
+
+  /* ---- The Economics: the one-show model, carried from the main site ---- */
+  .imfi-econ {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
+    gap: 2px;
+    max-width: 1100px;
+    margin: 52px auto 0;
+  }
+  .imfi-econ__panel {
+    background: var(--im-noir-850);
+    border: 1px solid var(--im-border-faint);
+    padding: 2.6rem;
+    text-align: left;
+  }
+  .imfi-econ__panel--returns { background: var(--im-accent-tint); border-color: var(--im-border); }
+  .imfi-econ__label {
+    font-family: var(--im-font-sans);
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--im-ivory-400);
+    margin-bottom: 14px;
+  }
+  .imfi-econ__label--gilt { color: var(--im-gilt-500); }
+  .imfi-econ__row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    padding: 15px 0;
+    border-top: 1px solid var(--im-border-faint);
+  }
+  .imfi-econ__no {
+    font-family: var(--im-font-mono, ui-monospace, monospace);
+    font-size: 0.7rem;
+    font-weight: 700;
+    font-variant-numeric: lining-nums tabular-nums;
+    color: var(--im-gilt-500);
+  }
+  .imfi-econ__line { font-family: var(--im-font-serif); font-size: 1.15rem; color: var(--im-ivory-200); }
+  .imfi-num-strong { font-weight: 700; font-variant-numeric: lining-nums tabular-nums; color: var(--im-ivory-100); }
+  .imfi-econ__big {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: 1.85rem;
+    line-height: 1.1;
+    min-width: 120px;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0.012em;
+    color: var(--im-gilt-500);
+    text-shadow: 0 0 30px rgba(196, 148, 60, 0.18);
+  }
+  .imfi-econ__desc { font-family: var(--im-font-sans); font-size: 0.85rem; color: var(--im-ivory-400); line-height: 1.4; }
+  @media (max-width: 640px) {
+    .imfi-econ__panel { padding: 1.8rem 1.4rem; }
+    .imfi-econ__big { min-width: 96px; font-size: 1.6rem; }
+  }
+
+  /* ---- The Raise: TopCo / asset-vehicle structure ---- */
+  .imfi-struct { position: relative; z-index: 2; max-width: 1100px; margin: 56px auto 0; }
+  .imfi-struct__topco {
+    position: relative;
+    max-width: 470px;
+    margin: 0 auto;
+    padding: 30px 30px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    background: linear-gradient(180deg, rgba(30, 23, 14, 0.9), rgba(12, 10, 8, 0.95));
+    border: 1px solid rgba(191, 154, 74, 0.6);
+    box-shadow: 0 0 34px rgba(191, 154, 74, 0.14), var(--im-shadow-lg);
+  }
+  .imfi-struct__kicker {
+    font-family: var(--im-font-sans);
+    font-weight: 600;
+    font-size: 0.56rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--im-gilt-500);
+  }
+  .imfi-struct__name {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.05;
+    color: var(--im-filament);
+    text-shadow: var(--im-neon-text-soft);
+  }
+  .imfi-struct__role { font-family: var(--im-font-serif); font-size: 0.98rem; line-height: 1.55; color: var(--im-ivory-400); margin: 0; }
+  .imfi-struct__chip {
+    font-family: var(--im-font-sans);
+    font-weight: 600;
+    font-size: 0.56rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--im-gilt-400);
+    border: 1px solid rgba(191, 154, 74, 0.42);
+    padding: 5px 10px;
+    margin-top: 4px;
+  }
+  .imfi-struct__stem { width: 1px; height: 34px; margin: 0 auto; background: linear-gradient(180deg, rgba(191, 154, 74, 0.7), rgba(191, 154, 74, 0.32)); }
+  .imfi-struct__rail { height: 1px; margin: 0 11%; background: linear-gradient(90deg, transparent, rgba(191, 154, 74, 0.45) 10%, rgba(191, 154, 74, 0.45) 90%, transparent); }
+  .imfi-struct__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(225px, 100%), 1fr));
+    gap: 14px;
+  }
+  .imfi-struct__co {
+    position: relative;
+    margin-top: 26px;
+    padding: 26px 22px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    background: var(--im-noir-850);
+    border: 1px solid var(--im-border-faint);
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .imfi-struct__co::before {
+    content: '';
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    width: 1px;
+    height: 26px;
+    background: rgba(191, 154, 74, 0.4);
+  }
+  .imfi-struct__co:hover { border-color: rgba(203, 167, 94, 0.55); box-shadow: var(--im-glow-gilt-sm); }
+  .imfi-struct__co--next { border-style: dashed; background: rgba(13, 11, 9, 0.55); }
+  .imfi-struct__co--next .imfi-struct__co-name { color: var(--im-ivory-400); }
+  .imfi-struct__co-name { font-family: var(--im-font-display); font-weight: 700; font-size: 1.3rem; color: var(--im-ivory-100); }
+  .imfi-struct__co-role { font-family: var(--im-font-serif); font-size: 0.95rem; line-height: 1.55; color: var(--im-ivory-400); margin: 0; flex: 1; }
+  @media (max-width: 720px) {
+    .imfi-struct__stem, .imfi-struct__rail { display: none; }
+    .imfi-struct__row { margin-top: 14px; gap: 12px; }
+    .imfi-struct__co { margin-top: 0; }
+    .imfi-struct__co::before { display: none; }
+  }
+
+  /* ---- The triptych ending (ported from /platform) ---- */
+  .plat-triptych {
+    --plat-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+  }
+  .plat-panel {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    text-decoration: none;
+    outline: none;
+    border-left: 1px solid rgba(191, 154, 74, 0.22);
+    transition: flex-grow 0.85s var(--plat-ease);
+  }
+  .plat-panel:first-child { border-left: 0; }
+  .plat-panel__img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.48) saturate(0.92);
+    transform: scale(1.02);
+    transition: filter 0.9s var(--plat-ease), transform 1.3s var(--plat-ease);
+  }
+  .plat-panel__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(10,9,8,0.42) 0%, rgba(10,9,8,0.18) 45%, rgba(6,6,6,0.88) 100%);
+    transition: opacity 0.9s var(--plat-ease);
+  }
+  .plat-panel__stack {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px clamp(48px, 9vh, 96px);
+    width: 100%;
+    text-align: center;
+  }
+  .plat-panel__label {
+    font-family: var(--im-font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3.2vw, 3.1rem);
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--im-ivory-100);
+    text-shadow: 0 2px 24px rgba(0,0,0,0.65);
+    white-space: nowrap;
+    transition: letter-spacing 0.85s var(--plat-ease), color 0.6s var(--plat-ease), text-shadow 0.6s var(--plat-ease);
+  }
+  .plat-panel__rule {
+    width: 34px;
+    height: 1px;
+    background: var(--im-gilt-500);
+    opacity: 0.55;
+    transition: width 0.85s var(--plat-ease), opacity 0.6s var(--plat-ease);
+  }
+  .plat-panel__sub {
+    font-family: var(--im-font-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+    color: var(--im-ivory-200);
+    margin: 0;
+    max-width: 34ch;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.7s var(--plat-ease), transform 0.7s var(--plat-ease);
+  }
+  .plat-panel__enter {
+    font-family: var(--im-font-sans);
+    font-weight: 600;
+    font-size: 0.6rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--im-gilt-400);
+    border: 1px solid rgba(191, 154, 74, 0.5);
+    padding: 9px 18px;
+    margin-top: 6px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.7s var(--plat-ease) 0.08s, transform 0.7s var(--plat-ease) 0.08s, background 0.35s ease, color 0.35s ease;
+  }
+  .plat-panel.is-active { flex-grow: 2.3; }
+  .plat-panel.is-active .plat-panel__img { filter: brightness(0.78) saturate(1.05); transform: scale(1.07); }
+  .plat-panel.is-active .plat-panel__shade { opacity: 0.85; }
+  .plat-panel.is-active .plat-panel__label { letter-spacing: 0.22em; color: var(--im-gilt-100); text-shadow: 0 0 6px rgba(255,251,242,0.55), 0 0 26px rgba(234,217,168,0.4), 0 2px 24px rgba(0,0,0,0.65); }
+  .plat-panel.is-active .plat-panel__rule { width: 72px; opacity: 1; }
+  .plat-panel.is-active .plat-panel__sub,
+  .plat-panel.is-active .plat-panel__enter { opacity: 1; transform: translateY(0); }
+  .plat-panel.is-active .plat-panel__enter:hover { background: var(--im-gilt-500); color: #0A0908; }
+  html:not(.js) .plat-panel:hover { flex-grow: 2.3; }
+  html:not(.js) .plat-panel:hover .plat-panel__sub,
+  html:not(.js) .plat-panel:hover .plat-panel__enter { opacity: 1; transform: translateY(0); }
+  .plat-panel:focus-visible { box-shadow: inset 0 0 0 2px rgba(203, 167, 94, 0.8); }
+  html.js .plat-panel { opacity: 0; transform: translateY(26px); }
+  html.js .plat-panel.is-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.9s var(--plat-ease), transform 0.9s var(--plat-ease), flex-grow 0.85s var(--plat-ease);
+  }
+  @media (max-width: 820px) {
+    .plat-triptych { flex-direction: column; }
+    .plat-panel__img { filter: brightness(0.62) saturate(0.96); }
+    .plat-panel { border-left: 0; border-top: 1px solid rgba(191, 154, 74, 0.22); }
+    .plat-panel:first-child { border-top: 0; }
+    .plat-panel__stack { padding-bottom: clamp(26px, 5vh, 48px); }
+    .plat-panel__label { font-size: clamp(1.6rem, 8vw, 2.4rem); }
+    .plat-panel.is-active { flex-grow: 2.1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plat-panel, .plat-panel__img, .plat-panel__label, .plat-panel__rule, .plat-panel__sub, .plat-panel__enter { transition: none !important; }
+    html.js .plat-panel { opacity: 1; transform: none; }
+    .imfi-flywheel__spin { animation: none; }
   }
 </style>
 </head>
@@ -1007,8 +1226,31 @@
 
 <!-- ============ SCORE (fights page only) ============ -->
 <audio id="imfi-score" src="/assets/fights/rumble-score.mp3" loop preload="auto"></audio>
+<a id="imfi-pdf-button" href="/assets/downloads/impossible-fights-desktop.pdf" download>Download PDF</a>
 <button id="imfi-score-toggle" type="button" aria-pressed="false" aria-label="Toggle the score" title="Score">Score · Off</button>
 <style>
+  #imfi-pdf-button {
+    position: fixed; top: 20px; right: 20px; z-index: 9000;
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 36px; padding: 0 15px; cursor: pointer;
+    border: 1px solid rgba(191,154,74,0.42); background: rgba(10,9,8,0.62);
+    color: var(--im-ivory-200, #E7DFD2); text-decoration: none;
+    font-family: var(--im-font-sans, 'Google Sans Flex', ui-sans-serif, system-ui, sans-serif);
+    font-weight: 600; font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase;
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+    transition: color .25s ease, border-color .25s ease, background-color .25s ease, box-shadow .25s ease, transform .18s ease;
+  }
+  #imfi-pdf-button:hover,
+  #imfi-pdf-button:focus-visible {
+    color: var(--im-gilt-100, #F3E8CC);
+    border-color: rgba(203,167,94,0.76);
+    background: rgba(20,16,11,0.74);
+    box-shadow: 0 0 18px rgba(191,154,74,0.16);
+    outline: none;
+  }
+  #imfi-pdf-button:active { transform: scale(0.96); }
+  @media (max-width: 640px) { #imfi-pdf-button { top: 14px; right: 14px; } }
   #imfi-score-toggle {
     position: fixed; right: 20px; bottom: 20px; z-index: 9000;
     display: inline-flex; align-items: center; justify-content: center;
@@ -1042,7 +1284,7 @@
       <span class="im-neon imfi-wordmark__1">Impossible</span>
       <span class="im-lumen imfi-wordmark__2">Fights</span>
     </h1>
-    <p class="imfi-tagline" data-hero-reveal="1" style="--hero-delay:240ms;">The arguments of a century, settled live.</p>
+    <p class="imfi-tagline" data-hero-reveal="1" style="--hero-delay:240ms;">Every generation argues about the fights that could never happen.</p>
   </div>
 
   <div class="imfi-hero-markers" data-hero-reveal="1" style="--hero-delay:660ms;">
@@ -1052,36 +1294,12 @@
   </div>
 </section>
 
-<!-- ============ 02 · THE THESIS ============ -->
-<section id="thesis" class="imfi-section">
-  <video class="imfi-thesis-video" autoplay muted loop playsinline preload="metadata" poster="/assets/posters/abba-voyage-stage-still.jpg" aria-hidden="true"><source src="/Downloads/abba-voyage-bg-compressed.mp4" type="video/mp4"></video>
-  <div class="imfi-thesis-overlay" aria-hidden="true"></div>
-  <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 002</span><span class="im-marker__text">The Thesis</span></span>
-    <h2 class="imfi-h2" style="max-width:780px;">The proof is already on stage.</h2>
-  </div>
-  <div data-reveal="1" style="position:relative; z-index:2;">
-    <p class="imfi-body">In East London, a purpose-built arena has sold out for years. Four legends appear onstage in their prime, as avatars, performing live night after night. The audience knows exactly what it is watching. It buys tickets anyway. Then it comes back.</p>
-  </div>
-  <div class="imfi-stats" data-reveal="1">
-    <div class="imfi-stat"><span class="imfi-stat__value">$500M+</span><span class="imfi-stat__label">Total revenue since 2022</span></div>
-    <div class="imfi-stat"><span class="imfi-stat__value">$175M</span><span class="imfi-stat__label">Initial build investment</span></div>
-    <div class="imfi-stat"><span class="imfi-stat__value">$135M</span><span class="imfi-stat__label">Annual revenue</span></div>
-  </div>
-  <div class="imfi-glass" data-reveal="1">
-    <p>ABBA Voyage proved people will buy tickets to see legends return as avatars. Impossible Fights does that for combat sports.</p>
-  </div>
-  <div data-reveal="1" style="position:relative; z-index:2; margin-top:48px;">
-    <p class="imfi-body">And combat holds something music never had. Every gym, every bar, every comment section already argues these matchups &mdash; who wins, prime against prime, era against era. ABBA answered a longing. A fight settles a bet. This audience has been warming up for a hundred years.</p>
-  </div>
-</section>
-
-<!-- ============ 03 · THE FORMAT ============ -->
+<!-- ============ 02 · THE FORMAT ============ -->
 <section id="format" class="imfi-section">
   <img class="imfi-section-bg" src="/assets/fights/bg-format.webp" width="1344" height="896" loading="lazy" decoding="async" alt="" aria-hidden="true">
   <div class="imfi-section-bg-overlay" aria-hidden="true"></div>
   <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 003</span><span class="im-marker__text">The Format</span></span>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 002</span><span class="im-marker__text">The Format</span></span>
     <h2 class="imfi-h2" style="max-width:780px;">An arena event. Not a film.</h2>
     <p class="imfi-deck" style="max-width:820px;">No one in the building knows how it ends.</p>
   </div>
@@ -1091,10 +1309,10 @@
   </div>
 </section>
 
-<!-- ============ 04 · THE LAUNCH SLATE ============ -->
+<!-- ============ 03 · THE LAUNCH SLATE ============ -->
 <section id="slate" class="imfi-section">
   <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Launch Slate</span></span>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 003</span><span class="im-marker__text">The Launch Slate</span></span>
     <h2 class="imfi-h2">The first three fight nights.</h2>
     <p class="imfi-deck" style="max-width:820px;">Bouts one, two, and three, produced as full arena events.</p>
   </div>
@@ -1151,77 +1369,109 @@
   </div>
 </section>
 
-<!-- ============ 06 · THE HOME ============ -->
-<section id="tko" class="imfi-section">
-  <img class="imfi-section-bg" src="/assets/fights/bg-tko.webp" width="1344" height="896" loading="lazy" decoding="async" alt="" aria-hidden="true">
-  <div class="imfi-section-bg-overlay" aria-hidden="true"></div>
-  <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 005</span><span class="im-marker__text">The Home</span></span>
-    <h2 class="imfi-h2" style="max-width:940px;">Every generation has argued about fights that could never happen.</h2>
-    <p class="imfi-deck" style="max-width:820px;">TKO can finally sell tickets to them.</p>
-  </div>
-  <div data-reveal="1" style="position:relative; z-index:2;">
-    <p class="imfi-body">TKO put UFC and WWE under one roof. Most of this card built its legend inside that world &mdash; the champions, the giants, the loudest men of their eras. The promotions, the fighters, the arenas, the broadcast machine: one company already owns the supply chain of fight night.</p>
-    <p class="imfi-body">Impossible Fights was built for that home. One partner. One rights ecosystem. A century of arguments the company is uniquely positioned to settle.</p>
-  </div>
-</section>
-
-<!-- ============ 07 · THE AUTHORIZATION ============ -->
-<section id="authorization" class="imfi-section">
-  <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Authorization</span></span>
-    <h2 class="imfi-h2">Every name, authorized.</h2>
-    <p class="imfi-deck" style="max-width:820px;">The living license directly. The departed, through their estates.</p>
-    <p class="imfi-body" style="max-width:720px;">No fighter enters this ring without an agreement in place. Fully licensed estates for the departed. Talent participation for the living &mdash; every fighter, every family, a partner in the night that carries the name. Asked once. Honored always.</p>
-  </div>
-</section>
-
-<!-- ============ 08 · THE MODEL ============ -->
+<!-- ============ 04 · THE MODEL ============ -->
 <section id="model" class="imfi-section">
   <div class="imfi-section-head" data-reveal="1">
-    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 007</span><span class="im-marker__text">The Model</span></span>
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 004</span><span class="im-marker__text">The Model</span></span>
     <h2 class="imfi-h2">Every fight night pays seven ways.</h2>
     <p class="imfi-deck" style="max-width:820px;">Fight-night economics on the Voyage engine.</p>
   </div>
-  <div class="imfi-grid imfi-grid--model imfi-grid--revenue" data-reveal-group="1">
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 01</div>
-      <div class="imfi-model-card__title">Tickets</div>
-      <p class="imfi-model-card__body">An arena of seats sold on an argument no screen can settle.</p>
+  <div class="imfi-flywheel" data-reveal="1" role="img" aria-label="Flywheel diagram: Impossible Fights at the center, feeding seven revenue streams — tickets, VIP, sponsorship, merchandise, media, touring and residency, and collectibles — and each night funds the next.">
+    <svg class="imfi-flywheel__ring" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <g class="imfi-flywheel__spin">
+        <circle cx="50" cy="50" r="43"></circle>
+        <path d="M 48.9 5.6 L 52.2 7 L 48.9 8.4" transform="rotate(25.7 50 50)"></path>
+        <path d="M 48.9 5.6 L 52.2 7 L 48.9 8.4" transform="rotate(128.6 50 50)"></path>
+        <path d="M 48.9 5.6 L 52.2 7 L 48.9 8.4" transform="rotate(231.4 50 50)"></path>
+      </g>
+    </svg>
+    <div class="imfi-flywheel__hub">
+      <span class="imfi-flywheel__hub-kicker">The Flywheel</span>
+      <span class="imfi-flywheel__hub-name">Impossible<br>Fights</span>
+      <span class="imfi-flywheel__hub-sub">Each night funds the next.</span>
     </div>
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 02</div>
-      <div class="imfi-model-card__title">VIP</div>
-      <p class="imfi-model-card__body">Ringside, suites, the floor before the first bell. The closest seats to a fight no one alive has seen.</p>
-    </div>
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 03</div>
-      <div class="imfi-model-card__title">Sponsorship</div>
-      <p class="imfi-model-card__body">The canvas, the corners, the card, the broadcast. Full fight-night inventory, brand-safe by design.</p>
-    </div>
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 04</div>
-      <div class="imfi-model-card__title">Merchandise</div>
-      <p class="imfi-model-card__body">Walkout merch for both corners. Fight posters for bouts history never printed.</p>
-    </div>
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 05</div>
-      <div class="imfi-model-card__title">Media</div>
-      <p class="imfi-model-card__body">Broadcast, documentary, and archive rights to fights a century asked for.</p>
-    </div>
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 06</div>
-      <div class="imfi-model-card__title">Touring &amp; Residency</div>
-      <p class="imfi-model-card__body">A permanent room where fight fans travel. A touring production where they don&rsquo;t. The format does both.</p>
-    </div>
-    <div class="imfi-model-card">
-      <div class="imfi-model-card__no">No. 07</div>
-      <div class="imfi-model-card__title">Collectibles</div>
-      <p class="imfi-model-card__body">The gloves, the trunks, the poster &mdash; numbered to the night and to the ending that played.</p>
-    </div>
+    <div class="imfi-flywheel__node" style="--fx:50%; --fy:7%;"><span class="imfi-flywheel__no">01</span><span class="imfi-flywheel__name">Tickets</span></div>
+    <div class="imfi-flywheel__node" style="--fx:83.6%; --fy:23.2%;"><span class="imfi-flywheel__no">02</span><span class="imfi-flywheel__name">VIP</span></div>
+    <div class="imfi-flywheel__node" style="--fx:91.9%; --fy:59.6%;"><span class="imfi-flywheel__no">03</span><span class="imfi-flywheel__name">Sponsorship</span></div>
+    <div class="imfi-flywheel__node" style="--fx:68.7%; --fy:88.7%;"><span class="imfi-flywheel__no">04</span><span class="imfi-flywheel__name">Merchandise</span></div>
+    <div class="imfi-flywheel__node" style="--fx:31.3%; --fy:88.7%;"><span class="imfi-flywheel__no">05</span><span class="imfi-flywheel__name">Media</span></div>
+    <div class="imfi-flywheel__node" style="--fx:8.1%; --fy:59.6%;"><span class="imfi-flywheel__no">06</span><span class="imfi-flywheel__name">Touring &amp;<br>Residency</span></div>
+    <div class="imfi-flywheel__node" style="--fx:16.4%; --fy:23.2%;"><span class="imfi-flywheel__no">07</span><span class="imfi-flywheel__name">Collectibles</span></div>
   </div>
   <div data-reveal="1" style="position:relative; z-index:2;">
     <p class="imfi-body" style="margin-top:48px;">The first room opens in one of four cities: Las Vegas, London, Riyadh, or New York. Each already stages the biggest nights in combat sports. The choice is being made now, and the format is built to travel to the other three.</p>
+  </div>
+</section>
+
+<!-- ============ 05 · THE ECONOMICS ============ -->
+<section id="economics" class="imfi-section">
+  <div class="imfi-section-head" data-reveal="1">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 005</span><span class="im-marker__text">The Economics</span></span>
+    <h2 class="imfi-h2">Fight-night pricing. Film economics.</h2>
+    <p class="imfi-deck" style="max-width:860px;">The one-show model has a total capitalization of approximately $375M, structured 50% equity / 50% debt.</p>
+  </div>
+  <div class="imfi-econ" data-reveal-group="1">
+    <div class="imfi-econ__panel">
+      <div class="imfi-econ__label">Operating Assumptions</div>
+      <div class="imfi-econ__row"><span class="imfi-econ__no">01</span><span class="imfi-econ__line"><span class="imfi-num-strong">3,000</span>-seat purpose-built venue</span></div>
+      <div class="imfi-econ__row"><span class="imfi-econ__no">02</span><span class="imfi-econ__line">One fight format. <span class="imfi-num-strong">9</span> shows per week, <span class="imfi-num-strong">50</span> weeks per year</span></div>
+      <div class="imfi-econ__row"><span class="imfi-econ__no">03</span><span class="imfi-econ__line"><span class="imfi-num-strong">$125</span> average ticket price</span></div>
+      <div class="imfi-econ__row"><span class="imfi-econ__no">04</span><span class="imfi-econ__line"><span class="imfi-num-strong">80%</span> modeled occupancy</span></div>
+    </div>
+    <div class="imfi-econ__panel imfi-econ__panel--returns">
+      <div class="imfi-econ__label imfi-econ__label--gilt">Projected Returns</div>
+      <div class="imfi-econ__row"><span class="imfi-econ__big">$135M</span><span class="imfi-econ__desc">Year 1 ticket revenue</span></div>
+      <div class="imfi-econ__row"><span class="imfi-econ__big">45%</span><span class="imfi-econ__desc">Cash-on-cash return, Year 1</span></div>
+      <div class="imfi-econ__row"><span class="imfi-econ__big">$445M</span><span class="imfi-econ__desc">Total 5-year distributable cash flow</span></div>
+      <div class="imfi-econ__row"><span class="imfi-econ__big">~37%</span><span class="imfi-econ__desc">Capital IRR on operating cash flows</span></div>
+    </div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2;">
+    <p class="imfi-body" style="margin-top:44px; font-style:italic;">All figures are based on one show and exclude sponsorship, advertising, and signage revenue entirely. Cost estimates are intentionally conservative.</p>
+  </div>
+</section>
+
+<!-- ============ 06 · THE RAISE ============ -->
+<section id="raise" class="imfi-section">
+  <div class="imfi-section-head" data-reveal="1">
+    <span class="im-marker im-marker--lumen"><span class="im-marker__idx">NO. 006</span><span class="im-marker__text">The Raise</span></span>
+    <h2 class="imfi-h2" style="max-width:900px;">One platform on top. Hard assets underneath.</h2>
+    <p class="imfi-deck" style="max-width:860px;">TopCo owns the vision. The hard assets live in asset-specific vehicles &mdash; and each investor type gets the right risk and return.</p>
+  </div>
+  <div class="imfi-struct" data-reveal="1" role="img" aria-label="Capital structure diagram: Impossible Moments TopCo sits on top as the platform that owns the vision and originates and governs every deal. Beneath it, the hard assets live in asset-specific vehicles — Arena Co holds the venue and land, Rights Co holds the licenses, a dedicated SPV holds each show — with room for the vehicles that come next.">
+    <div class="imfi-struct__topco">
+      <span class="imfi-struct__kicker">TopCo</span>
+      <span class="imfi-struct__name">Impossible Moments</span>
+      <p class="imfi-struct__role">The platform. It owns the vision, originates every deal, and governs the system.</p>
+      <span class="imfi-struct__chip">Platform equity &middot; the compounding position</span>
+    </div>
+    <div class="imfi-struct__stem" aria-hidden="true"></div>
+    <div class="imfi-struct__rail" aria-hidden="true"></div>
+    <div class="imfi-struct__row">
+      <div class="imfi-struct__co">
+        <span class="imfi-struct__co-name">Arena Co</span>
+        <p class="imfi-struct__co-role">The venue and the land. A hard real-estate asset at the center of the Strip.</p>
+        <span class="imfi-struct__chip">Real-asset yield &middot; core equity &amp; debt</span>
+      </div>
+      <div class="imfi-struct__co">
+        <span class="imfi-struct__co-name">Rights Co</span>
+        <p class="imfi-struct__co-role">The licenses. Exclusive NIL and estate rights, secured once and staged night after night.</p>
+        <span class="imfi-struct__chip">IP royalties &middot; long-duration cash flow</span>
+      </div>
+      <div class="imfi-struct__co">
+        <span class="imfi-struct__co-name">Show SPVs</span>
+        <p class="imfi-struct__co-role">One vehicle per production. Impossible Fights is the first.</p>
+        <span class="imfi-struct__chip">Per-show upside &middot; film-style returns</span>
+      </div>
+      <div class="imfi-struct__co imfi-struct__co--next">
+        <span class="imfi-struct__co-name">What&rsquo;s Next</span>
+        <p class="imfi-struct__co-role">Films. Moments. Every new vehicle the platform originates.</p>
+        <span class="imfi-struct__chip">Optionality &middot; priced deal by deal</span>
+      </div>
+    </div>
+  </div>
+  <div data-reveal="1" style="position:relative; z-index:2;">
+    <p class="imfi-body" style="margin-top:48px;">TopCo is the engine. Every vehicle beneath it is a deal the platform originated and governs &mdash; so real-estate capital can hold the arena, rights capital can hold the library, and event capital can back a single night.</p>
   </div>
 </section>
 
@@ -1237,22 +1487,86 @@
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
-<footer class="imfi-footer">
-  <span class="imfi-footer-logo">
-    <span class="imfi-footer-logo__1">Impossible</span>
-    <span class="imfi-footer-logo__2">Fights</span>
-  </span>
-  <p class="imfi-footer-tagline">The arguments of a century, settled live.</p>
-  <div class="imfi-footer-divider" aria-hidden="true"></div>
-  <div class="imfi-footer-meta">
-    <span>An Impossible Moments Company</span>
-    <span>Confidential &mdash; Private Materials</span>
-    <span>Est. 2026</span>
-  </div>
-</footer>
+<!-- ============ THE TRIPTYCH ============ -->
+<section class="plat-triptych" aria-label="Choose an Impossible experience">
+
+  <a class="plat-panel" href="/" aria-label="Impossible Moments — Concerts">
+    <img class="plat-panel__img" src="/assets/britney-snake.webp" alt="" aria-hidden="true" loading="lazy">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Concerts</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The past, made present.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+  <a class="plat-panel" href="/films" aria-label="Impossible Films">
+    <img class="plat-panel__img" src="/assets/films/sinatra-noir.jpg" alt="" aria-hidden="true" loading="lazy" style="object-position:center 22%;">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Films</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The legends, returned to the screen.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+  <a class="plat-panel" href="/fights" aria-label="Impossible Fights">
+    <img class="plat-panel__img" src="/assets/fights/bout-ali-tyson.webp" alt="" aria-hidden="true" loading="lazy" style="object-position:center 30%;">
+    <div class="plat-panel__shade" aria-hidden="true"></div>
+    <span class="plat-panel__stack">
+      <span class="plat-panel__label">Fights</span>
+      <span class="plat-panel__rule" aria-hidden="true"></span>
+      <span class="plat-panel__sub">The arguments of a century, settled live.</span>
+      <span class="plat-panel__enter">Enter</span>
+    </span>
+  </a>
+
+</section>
 
 </main>
+
+<script>
+  (function () {
+    /* ---- Closing triptych: hover expand, touch two-tap, scroll-in stagger ---- */
+    var triptych = document.querySelector('.plat-triptych');
+    if (!triptych) return;
+    var panels = Array.prototype.slice.call(triptych.querySelectorAll('.plat-panel'));
+    var touchMode = window.matchMedia('(hover: none)').matches;
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    function setActive(target) {
+      panels.forEach(function (p) { p.classList.toggle('is-active', p === target); });
+    }
+    panels.forEach(function (panel) {
+      panel.addEventListener('mouseenter', function () { if (!touchMode) setActive(panel); });
+      panel.addEventListener('focus', function () { setActive(panel); });
+      panel.addEventListener('click', function (e) {
+        if (touchMode && !panel.classList.contains('is-active')) {
+          e.preventDefault();
+          setActive(panel);
+        }
+      });
+    });
+    triptych.addEventListener('mouseleave', function () { if (!touchMode) setActive(null); });
+    function stagger() {
+      panels.forEach(function (p, i) {
+        setTimeout(function () { p.classList.add('is-in'); }, 140 + i * 150);
+      });
+    }
+    if (reduce || !('IntersectionObserver' in window)) {
+      panels.forEach(function (p) { p.classList.add('is-in'); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { stagger(); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(triptych);
+    }
+  })();
+</script>
 
 <script>
   (function () {
